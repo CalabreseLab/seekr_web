@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SEEKR</title>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    <!--<script type="text/javascript" src="../static/jquery-3.2.1.js"></script>-->
+    <!--<script type="text/javascript" src="../static/main.js"></script>-->
+
+    <!--<link rel="stylesheet" type="text/css" href="../static/main.css">-->
+
+</head>
+<body  >
+
+<div class="menu">
+    <div class="row">
+        <div class="single_column container">
+
+            <div class="nav_left">
+                <a href="/"></a>
+                <!--<img class="nav_img" src="../static/UNC.jpg"/>-->
+                <img class="nav_img" src="{{ url_for('static', filename='UNC.jpg') }}">
+            </div>
+
+            <div class="nav_right">
+            <a class="fill_div" href="/faq"></a>
+                <h2>About</h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<form action="/jobs" method="post" enctype="multipart/form-data">
+    <div class="main">
+
+        <div class="row tab-1" id="tab-container">
+
+            <div class="column">
+                <h1>User Set</h1>
+            </div>
+
+            <div class="column">
+                <h1>Comparison Set</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div id="input_set" class="column container">
+
+                <div class="row">
+                    <button type="button" class="info">&#8942;</button>
+                </div>
+
+                <div class="row">
+                    <div class="dropzone workzone">
+
+                        <input type="file" name="user_set_files" id="user_set_files">
+
+                        <h2>Drag and Drop Files Here or Click to Upload</h2>
+
+                        <!--<img src="../static/dragndrop.svg">-->
+                        <img src="{{ url_for('static', filename='dragndrop.svg') }}">
+
+                        <h2 id="user_file_text"></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div id="saved_tab" class="tab">
+                <h2>Saved Sets</h2>
+            </div>
+
+            <div id="upload_tab" class="tab tab2">
+
+                <h2>Upload</h2>
+            </div>
+
+            <div id="comparison_set" class="column container tabbed">
+
+                <div class="row">
+                    <button type="button" class="info">&#8942;</button>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="workzone_tabbed">
+                        <div class="row">
+                            <h2>Select Comparison Set</h2>
+                        </div>
+                        <select name="comparison_set_reference" id="comparison_set_reference">
+                            <option value="gencode_human_set" selected="selected">All Human (Gencode)</option>
+                            <option value="gencode_mouse_set">All Mouse (Gencode)</option>
+                            <option value="user_set">User Set</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="single_column_small">
+                <h1>SEEKR Settings</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="single_column_small container">
+
+                <div class="row">
+                    <button type="button" class="info">&#8942;</button>
+                </div>
+
+                <div class="row">
+
+                    <div class="column">
+                        <h2>Select Normalization Set</h2>
+                    </div>
+
+                    <div class="column">
+                        <select name="normal_set" id="normal_set">
+                            <option value="gencode_human_set" selected="selected">All Human (Gencode)</option>
+                            <option value="gencode_mouse_set">All Mouse (Gencode)</option>
+                            <option value="user_set">User Set</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="column">
+                        <h2>Select Kmer Length</h2>
+                    </div>
+
+                    <div class="column">
+                        <select name="kmer_length">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div id="submit" class="container single_column_small">
+
+                <input type="submit" value="Submit">
+
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</form>
+
+</body>
+</html>

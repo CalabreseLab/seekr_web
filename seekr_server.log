@@ -1,0 +1,311 @@
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 26, in run_seekr_algorithm
+    normalization_path = get_precomputed_normalization_path(parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 141, in get_precomputed_normalization_path
+    raise SeekrServerError('Fasta file <' + fasta_file + '> not found for kmer_length=' +  str(parameters['kmer_length']) )
+SeekrServerError.SeekrServerError: Fasta file <gencode.v27.lncRNA_transcripts.fa> not found for kmer_length=1
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 103, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 103, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 103, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 103, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 103, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 26, in run_seekr_algorithm
+    normalization_path = get_precomputed_normalization_path(parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 141, in get_precomputed_normalization_path
+    raise SeekrServerError('Fasta file <' + fasta_file + '> not found for kmer_length=' +  str(parameters['kmer_length']) )
+SeekrServerError.SeekrServerError: Fasta file <gencode.v27.lncRNA_transcripts.fa> not found for kmer_length=7
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 131, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 62, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+user_set_files uploaded True
+Error in /jobs
+Traceback (most recent call last):
+  File "/Users/davidwc/workspace/skr/seekrServer.py", line 133, in processUpload
+    countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+  File "/Users/davidwc/workspace/skr/seekrLauncher.py", line 105, in run_seekr_algorithm
+    label=True, silent=True, binary=False, mean=mean, std=std)
+  File "/Users/davidwc/workspace/skr/kmer_counts.py", line 93, in __init__
+    self.seqs = self.reader.get_seqs()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 74, in get_seqs
+    clean_data = self.get_lines()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 69, in get_lines
+    self._read_data()
+  File "/Users/davidwc/workspace/skr/fasta_reader.py", line 48, in _read_data
+    raise IOError('Fasta file is empty')
+OSError: Fasta file is empty
+Running the algorithm took 1.273 seconds
+Running the algorithm took 0.179 seconds
+Running the algorithm took 0.042 seconds
+Running the algorithm took 0.321 seconds
+Zipping file of length 43591 took 0.059 seconds
+Running the algorithm took 0.112 seconds
+Zipping file of length 43591 took 0.010 seconds
+Running the algorithm took 0.117 seconds
+Zipping file of length 43591 took 0.008 seconds
