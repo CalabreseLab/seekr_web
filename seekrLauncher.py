@@ -145,7 +145,6 @@ def run_seekr_algorithm(parameters):
     return counts_text, pearsons_file_in_memory
 
 
-
 def get_precomputed_normalization_path(parameters):
     normal_set = parameters['normal_set']
 
@@ -186,6 +185,7 @@ def _unnormalized_frequency_to_normalized(unnormalized_frequency_path, mean, std
     normalized_frequency /= std
     return normalized_frequency
 
-def get_datafrom_from_counter(counter):
-    df = pandas.DataFrame(data=counter.counts, index=counter.names, columns=counter.kmers)
+def get_data_for_pearsons(counter, comparison_counter):
+    similarity = pearson(counter.counts, comparison_counter.counts)
+    df = pandas.DataFrame(data=similarity, index=counter.names, columns=comparison_counter.names)
     return df
