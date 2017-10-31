@@ -20,6 +20,7 @@ from precompute_sequence_sets import get_file_path_for
 from precompute_sequence_sets import get_precomputed_fasta_sets
 from seekr_launch_utils import compute_normalization_and_frequency
 from pearson import pearson
+import pandas
 
 
 def run_seekr_algorithm(parameters):
@@ -184,3 +185,7 @@ def _unnormalized_frequency_to_normalized(unnormalized_frequency_path, mean, std
     normalized_frequency -= mean
     normalized_frequency /= std
     return normalized_frequency
+
+def get_datafrom_from_counter(counter):
+    df = pandas.DataFrame(data=counter.counts, index=counter.names, columns=counter.kmers)
+    return df
