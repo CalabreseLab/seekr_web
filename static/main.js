@@ -3,10 +3,12 @@ var dragndropHTML = '<div class="row">' +
 					'</div>' +
 					'<div class="row">' +
 						'<div class="dropzone workzone_tabbed">' +
-							'<input type="file" name="comparison_set_files" id="comparison_set_files">' +
-							'<h2>Drag and Drop Files Here or Click to Upload</h2>' +
-							'<img src="../static/dragndrop.svg">' +
-							'<h2 id="comparison_file_text"></h2>' +
+						    '<form id="comparison_set_form method="post" enctype="multipart/form-data">' +
+							    '<input type="file" name="comparison_set_files" id="comparison_set_files">' +
+							    '<h2>Drag and Drop Files Here or Click to Upload</h2>' +
+							    '<img src="../static/dragndrop.svg">' +
+							    '<h2 id="comparison_file_text"></h2>' +
+					        '</form>' +
 						'</div>' +
 					'</div>';
 
@@ -26,6 +28,9 @@ var tableHTML = '<div class="row">' +
                     '</div>' +
                 '</div>';
 
+var user_set_id;
+var comparison_set_id;
+
 $(document).ready(function() {
 
 
@@ -37,6 +42,8 @@ $(document).ready(function() {
 
         fileName = fileName.replace("C:\\fakepath\\", "");
 
+        uploadFile(0)
+
         $('#user_file_text').text(fileName);
     });
 
@@ -47,6 +54,8 @@ $(document).ready(function() {
         var fileName = $(this).val();
 
         fileName = fileName.replace("C:\\fakepath\\", "");
+
+        uploadFile(1);
 
         $('#comparison_file_text').text(fileName);
 
@@ -117,4 +126,32 @@ var tabSelect = function (x) {
         $("#comparison_set").empty();
         $("#comparison_set").append(dragndropHTML);
     }
+}
+
+
+var uploadFile = function (x) {
+
+        $.ajax({
+            type: 'POST',
+            url: '/files/fasta',
+            data: new FormData($('form')[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+
+                if (x == 0) {
+                    user_set_id = data
+                }
+
+                else if (x == 1) {
+                    comparison_set_id = data
+                }
+            }
+        });
+}
+
+
+var runSEEKR = function() {
+
 }

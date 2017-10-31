@@ -37,7 +37,7 @@
 </div>
 
 
-<form action="/jobs" method="post" enctype="multipart/form-data">
+
     <div class="main">
 
         <div class="row tab-1" id="tab-container">
@@ -62,14 +62,18 @@
                 <div class="row">
                     <div class="dropzone workzone">
 
-                        <input type="file" name="user_set_files" id="user_set_files">
+                        <form id="user_set_form" method="post" enctype="multipart/form-data">
 
-                        <h2>Drag and Drop Files Here or Click to Upload</h2>
+                            <input type="file" name="file" id="user_set_files">
 
-                        <!--<img src="../static/dragndrop.svg">-->
-                        <img src="{{ url_for('static', filename='dragndrop.svg') }}">
+                            <h2>Drag and Drop Files Here or Click to Upload</h2>
 
-                        <h2 id="user_file_text"></h2>
+                            <!--<img src="../static/dragndrop.svg">-->
+                            <img src="{{ url_for('static', filename='dragndrop.svg') }}">
+
+                            <h2 id="user_file_text"></h2>
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -172,7 +176,7 @@
     </div>
     </div>
     </div>
-</form>
+
 
 </body>
 </html>
