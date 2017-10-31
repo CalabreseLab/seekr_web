@@ -33,6 +33,33 @@ var comparison_set_id;
 
 $(document).ready(function() {
 
+    $('#submit').on('click', function(e) {
+
+        var normal_set = $('#normal_set').val();
+        var kmer_length = $('#kmer_length').val();
+        var comparison_id = $('#comparison_set_reference')
+
+        if (user_set_id) {
+            var user_id = user_set_id;
+            comparison_id = (comparison_set_id)? comparison_set_id : comparison_id;
+
+
+            params = {
+            'normal_set' : normal_set,
+            'kmer_length' : kmer_length,
+            'comparison_id' : user_id,
+            'user_id' : comparison_id
+            }
+
+            runSEEKR(params)
+        }
+
+        else {
+            alert("Please upload a fasta file for User Set to run SEEKR.")
+        }
+
+    });
+
 
     $('#user_set_files').change(function (e) {
         e.preventDefault();
@@ -69,6 +96,7 @@ $(document).ready(function() {
     	e.stopPropagation();
 
     	tabSelect(1);
+    	comparison_set_id = null;
     });
 
     $('#upload_tab').on('click', function(e) {
@@ -141,17 +169,30 @@ var uploadFile = function (x) {
             success: function(data) {
 
                 if (x == 0) {
-                    user_set_id = data
+                    user_set_id = data['file-id']
                 }
 
                 else if (x == 1) {
-                    comparison_set_id = data
+                    comparison_set_id = data['file-id']
                 }
+
+                console.log(user_set_id)
+                console.log(comparison_set_id)
             }
         });
 }
 
 
-var runSEEKR = function() {
+var runSEEKR = function(params) {
+
+    console.log(params);
+
+    $.ajax({
+        type: 'POST',
+        url: '/_jobs',
+        data: JSON.stringify(params),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
 
 }
