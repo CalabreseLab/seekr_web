@@ -28,8 +28,8 @@ var tableHTML = '<div class="row">' +
                     '</div>' +
                 '</div>';
 
-var user_set_id;
-var comparison_set_id;
+var user_id;
+var comparison_id;
 
 $(document).ready(function() {
 
@@ -37,18 +37,18 @@ $(document).ready(function() {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
-        var comparison_id = $('#comparison_set_reference')
+        var comparison_set_id = $('#comparison_set_reference')
 
-        if (user_set_id) {
-            var user_id = user_set_id;
-            comparison_id = (comparison_set_id)? comparison_set_id : comparison_id;
+        if (user_id) {
+            var user_set_id = user_set_id;
+            comparison_set_id = (comparison_id)? comparison_id : comparison_set_id;
 
 
             params = {
             'normal_set' : normal_set,
             'kmer_length' : kmer_length,
-            'comparison_id' : user_id,
-            'user_id' : comparison_id
+            'comparison_set_id' : user_id,
+            'user_set_id' : comparison_id
             }
 
             runSEEKR(params)
