@@ -1,6 +1,18 @@
 import os
 import mod_wsgi.server
 
+"""
+app.py is the file that Apache's mod_wsgi is looking for to setup the environment for the WSGI server.
+It specifies the entry point seekrServer.py for the WSGI framework to find the Flask application which
+should be named "application". See https://www.python.org/dev/peps/pep-0333/ for the WSGI standard
+
+Notes
+-----
+Most of the default timeouts were increased to accommodate long requests 
+
+
+"""
+
 mod_wsgi.server.start(
   '--log-to-terminal',
   '--port', '8080',

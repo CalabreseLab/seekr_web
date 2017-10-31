@@ -22,6 +22,11 @@ from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
 
+"""
+seekrServer.py contains the Web Services the application provides using the Flask framework.
+
+"""
+
 # create app instance
 application = Flask(__name__)
 application.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
