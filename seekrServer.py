@@ -22,6 +22,7 @@ import skr_config
 from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
+from seekrLauncher import _run_seekr_algorithm
 
 import session_helper
 
@@ -116,7 +117,7 @@ def return_file(file_contents, pearsons):
 @application.route('/jobs', methods=['POST'])
 def legacy_process_upload():
     try:
-        if session.get('logged_in') != True:
+        if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
 
         if 'user_set_files' not in request.files:
@@ -162,6 +163,9 @@ def legacy_process_upload():
 @application.route('/_jobs', methods=['POST'])
 def process_jobs():
     try:
+        if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
+            return redirect('/login')
+
         if 'user_set_files' not in request.files:
             application.logger.debug('Error, no file')
             # TODO error case
@@ -188,10 +192,11 @@ def process_jobs():
             parameters['normal_set'] = request.form['normal_set']
 
         t1 = time.perf_counter()
-        countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+        counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
-        return return_file(countsText, pearsons)
+        #return return_file(countsText, pearsons)
+        return '<!DOCTYPE html>\,\n<html lang="en"><head><meta charset="UTF-8"><title>Results Page</title></head><body  ></body></html>'
 
     except SeekrServerError as ex:
         application.logger.exception('Error in /jobs')
@@ -220,7 +225,7 @@ def create_fasta():
     file_identifier = session_helper.generate_file_identifier()
     session_helper.create_file(file, session, file_identifier, extension='fasta')
 
-    json_dict = {'file-id': file_identifier}
+    json_dict = {'file_id': file_identifier}
 
     return jsonify(json_dict)
 
