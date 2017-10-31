@@ -38,7 +38,7 @@ class TestHTTPRequests(TestHTTPBase):
 
             url = urllib.parse.urljoin(URLBASE, 'jobs')
             t1 = time.perf_counter()
-            response = requests.post(url, data=request_data,  headers={'Content-Type': request_data.content_type}, cookies=self.cookies)
+            response = self.session.post(url, data=request_data,  headers={'Content-Type': request_data.content_type})
             t2 = time.perf_counter()
             response_length = len(response.content)
             request_content_len = request_data.len
@@ -64,7 +64,7 @@ class TestHTTPRequests(TestHTTPBase):
 
             url = urllib.parse.urljoin(URLBASE, 'jobs')
             t1 = time.perf_counter()
-            response = requests.post(url, data=request_data,  headers={'Content-Type': request_data.content_type}, cookies=self.cookies)
+            response = self.session.post(url, data=request_data,  headers={'Content-Type': request_data.content_type})
             t2 = time.perf_counter()
             response_length = len(response.content)
             request_content_len = request_data.len
@@ -90,7 +90,7 @@ class TestHTTPRequests(TestHTTPBase):
 
                 url = urllib.parse.urljoin(URLBASE, 'jobs')
                 t1 = time.perf_counter()
-                response = requests.post(url, data=request_data,  headers={'Content-Type': request_data.content_type}, cookies=self.cookies)
+                response = self.session.post(url, data=request_data,  headers={'Content-Type': request_data.content_type})
                 t2 = time.perf_counter()
                 response_length = len(response.content)
                 request_content_len = request_data.len
@@ -117,8 +117,7 @@ class TestHTTPRequests(TestHTTPBase):
 
                 url = urllib.parse.urljoin(URLBASE, 'jobs')
                 t1 = time.perf_counter()
-                response = requests.post(url, data=request_data, headers={'Content-Type': request_data.content_type},
-                                         cookies=self.cookies)
+                response = self.session.post(url, data=request_data, headers={'Content-Type': request_data.content_type})
                 t2 = time.perf_counter()
                 response_length = len(response.content)
                 request_content_len = request_data.len

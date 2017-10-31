@@ -14,7 +14,7 @@ from test_common import TestHTTPBase
 class TestHTTPRequests(TestHTTPBase):
 
     def test_get(self):
-        response = requests.get(URLBASE, cookies=self.cookies)
+        response = self.session.get(URLBASE)
         self.assertEqual(response.status_code , 200)
 
     def test_jobs(self):
@@ -29,7 +29,7 @@ class TestHTTPRequests(TestHTTPBase):
         urlbase = PROTOCOL + '://' + IP + ':' + str(PORT)
 
         url = urllib.parse.urljoin(URLBASE, 'jobs')
-        response = requests.post(url, data=request_data,  headers={'Content-Type': request_data.content_type}, cookies=self.cookies)
+        response = self.session.post(url, data=request_data,  headers={'Content-Type': request_data.content_type})
         self.assertEqual(response.status_code, 200)
         file.close()
 
@@ -47,7 +47,7 @@ class TestHTTPRequests(TestHTTPBase):
         urlbase = PROTOCOL + '://' + IP + ':' + str(PORT)
 
         url = urllib.parse.urljoin(URLBASE, 'jobs')
-        response = requests.post(url, data=request_data,  headers={'Content-Type': request_data.content_type}, cookies=self.cookies)
+        response = self.session.post(url, data=request_data,  headers={'Content-Type': request_data.content_type})
         self.assertEqual(response.status_code, 200)
         file.close()
         second_file.close()

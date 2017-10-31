@@ -16,11 +16,14 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import session
+from flask import jsonify
 
 import skr_config
 from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
+
+import session_helper
 
 """
 seekrServer.py contains the Web Services the application provides using the Flask framework.
@@ -46,7 +49,8 @@ def admin():
 @application.route('/login',methods=['POST','GET'])
 def login():
     if skr_config.LOGIN_ENABLED is False:
-        session['logged_in'] = True
+        session_helper.init_user_login(session)
+        return redirect('/home')
 
     if request.method == 'GET':
         if session.get('logged_in')==True:
@@ -57,7 +61,7 @@ def login():
                 or request.form['password'] == 'qidi' and request.form['username'] == 'skr' \
                 or request.form['password'] == 'david' and request.form['username'] == 'skr' \
                 or request.form['password'] == 'chris' and request.form['username'] == 'skr':
-            session['logged_in'] = True
+            session_helper.init_user_login(session)
             return redirect('/home')
         else:
             return redirect('/login')
@@ -108,9 +112,55 @@ def return_file(file_contents, pearsons):
     return (zipped_bytes, headers)
 
 
-# routing function for processing upload actions
+# legacy function for processing upload actions
 @application.route('/jobs', methods=['POST'])
-def processUpload():
+def legacy_process_upload():
+    try:
+        if session.get('logged_in') != True:
+            return redirect('/login')
+
+        if 'user_set_files' not in request.files:
+            application.logger.debug('Error, no file')
+            # TODO error case
+
+        user_set_files = request.files['user_set_files']
+
+        # TODO provide reasonable defaults
+        parameters = dict()
+        parameters['kmer_length'] = int(request.form['kmer_length'])
+        parameters['user_set_files'] = user_set_files
+        if 'comparison_set_files' in request.files:
+            parameters['comparison_set_files'] = request.files['comparison_set_files']
+
+        parameters['kmer_length'] = int(request.form['kmer_length'])
+        parameters['normal_set'] = request.form['normal_set']
+
+        if 'gencode_human_set' in request.form:
+            parameters['comparison_set'] = 'gencode_human_set'
+        if 'gencode_mouse_set' in request.form:
+            parameters['comparison_set'] = 'gencode_mouse_set'
+        if 'user_set' in request.form:
+            parameters['comparison_set'] = 'user_set'
+        if 'normal_set' in request.form:
+            parameters['normal_set'] = request.form['normal_set']
+
+        t1 = time.perf_counter()
+        countsText, pearsons = run_seekr_algorithm(parameters=parameters)
+        t2 = time.perf_counter()
+        application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
+        return return_file(countsText, pearsons)
+
+    except SeekrServerError as ex:
+        application.logger.exception('Error in /jobs')
+        return render_template('error.html', text=str(ex))
+
+    except Exception as e:
+        application.logger.exception('Error in /jobs')
+        return render_template('error.html', text=str(e))
+
+# routing function for processing upload actions
+@application.route('/_jobs', methods=['POST'])
+def process_jobs():
     try:
         if 'user_set_files' not in request.files:
             application.logger.debug('Error, no file')
@@ -150,6 +200,30 @@ def processUpload():
     except Exception as e:
         application.logger.exception('Error in /jobs')
         return render_template('error.html', text=str(e))
+
+
+@application.route('/files/fasta', methods=['POST'])
+def create_fasta():
+    """
+    Post to upload a new fasta file
+    This file will be given a unique identifier
+
+    """
+    assert request.method == 'POST'
+
+    if 'file' not in request.files:
+        application.logger.debug('Error, no file')
+        # TODO error case
+
+    file = request.files['file']
+
+    file_identifier = session_helper.generate_file_identifier()
+    session_helper.create_file(file, session, file_identifier, extension='fasta')
+
+    json_dict = {'file-id': file_identifier}
+
+    return jsonify(json_dict)
+
 
 # home page
 @application.route('/init_gencode',methods=['GET'])
