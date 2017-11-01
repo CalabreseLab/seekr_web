@@ -37,18 +37,18 @@ $(document).ready(function() {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
-        var comparison_set_id = $('#comparison_set_reference')
+        var comparison_set_id = $('#comparison_set_reference').val()
 
         if (user_id) {
-            var user_set_id = user_set_id;
+            var user_set_id = user_id;
             comparison_set_id = (comparison_id)? comparison_id : comparison_set_id;
 
 
             params = {
             'normal_set' : normal_set,
             'kmer_length' : kmer_length,
-            'comparison_set_id' : user_id,
-            'user_set_id' : comparison_id
+            'comparison_set_id' : comparison_set_id,
+            'user_set_id' : user_set_id
             }
 
             runSEEKR(params)
@@ -169,15 +169,15 @@ var uploadFile = function (x) {
             success: function(data) {
 
                 if (x == 0) {
-                    user_set_id = data['file-id']
+                    user_id = data['file-id']
                 }
 
                 else if (x == 1) {
-                    comparison_set_id = data['file-id']
+                    comparison_id = data['file-id']
                 }
 
-                console.log(user_set_id)
-                console.log(comparison_set_id)
+                console.log(user_id)
+                console.log(comparison_id)
             }
         });
 }
@@ -187,7 +187,7 @@ var runSEEKR = function(params) {
 
     console.log(params);
 
-    $.ajax({
+    $.post({
         type: 'POST',
         url: '/_jobs',
         data: JSON.stringify(params),
