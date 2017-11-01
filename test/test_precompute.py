@@ -15,7 +15,7 @@ class test_precompute(unittest.TestCase):
     def test_precompute(self):
         for k in range(1,8):
             with open('M5_XKA.fa', mode='r') as infasta:
-                (mean, std, unnormalized_frequency) = compute_normalization_and_frequency(infasta,k, False)
+                (mean, std, unnormalized_frequency, names) = compute_normalization_and_frequency(infasta,k, False)
                 print('For k=', k, 'length is', len(mean))
                 assert len(mean) == 4**k
 
@@ -23,7 +23,7 @@ class test_precompute(unittest.TestCase):
         k=1
         file_name = get_unzipped_file_name(skr_config.GENCODE_HUMAN)
         with open('../cache/' + file_name, mode='r') as infasta:
-            (mean, std, unnormalized_frequency) = compute_normalization_and_frequency(infasta, k, False)
+            (mean, std, unnormalized_frequency, names) = compute_normalization_and_frequency(infasta, k, False)
             print('For k=', k, 'length is', len(mean))
             assert len(mean) == 4**k
 
