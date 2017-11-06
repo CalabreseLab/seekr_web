@@ -166,21 +166,24 @@ def process_jobs():
         if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
 
-        if 'user_set_files' not in request.files:
+        if 'user_set_files' not in request.form:
             application.logger.debug('Error, no file')
             # TODO error case
 
-        user_set_files = request.files['user_set_files']
+        user_set_files = request.form['user_set_files']
 
         # TODO provide reasonable defaults
         parameters = dict()
         parameters['kmer_length'] = int(request.form['kmer_length'])
         parameters['user_set_files'] = user_set_files
-        if 'comparison_set_files' in request.files:
-            parameters['comparison_set_files'] = request.files['comparison_set_files']
+        if 'comparison_set_files' in request.form:
+            parameters['comparison_set_files'] = request.form['comparison_set_files']
 
         parameters['kmer_length'] = int(request.form['kmer_length'])
         parameters['normal_set'] = request.form['normal_set']
+        parameters['directory_id'] = session_helper.get_directory_id(session)
+        if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
+            raise SeekrServerError('User directory not found for this session')
 
         if 'gencode_human_set' in request.form:
             parameters['comparison_set'] = 'gencode_human_set'
