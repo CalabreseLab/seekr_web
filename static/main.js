@@ -37,16 +37,17 @@ $(document).ready(function() {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
-        var comparison_set_id = $('#comparison_set_reference').val()
+        var comparison_set = $('#comparison_set_reference').val();
 
         if (user_id) {
             var user_set_id = user_id;
-            comparison_set_id = (comparison_id)? comparison_id : comparison_set_id;
+            var comparison_set_id = comparison_id;
 
 
             params = {
             'normal_set' : normal_set,
             'kmer_length' : kmer_length,
+            'comparison_set': comparison_set,
             'comparison_set_id' : comparison_set_id,
             'user_set_id' : user_set_id
             }
@@ -169,15 +170,12 @@ var uploadFile = function (x) {
             success: function(data) {
 
                 if (x == 0) {
-                    user_id = data['file-id']
+                    user_id = data['file_id']
                 }
 
                 else if (x == 1) {
-                    comparison_id = data['file-id']
+                    comparison_id = data['file_id']
                 }
-
-                console.log(user_id)
-                console.log(comparison_id)
             }
         });
 }
@@ -187,12 +185,17 @@ var runSEEKR = function(params) {
 
     console.log(params);
 
-    $.post({
+
+    $.ajax({
         type: 'POST',
         url: '/_jobs',
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        success: function(result) {
+            console.log(result);
+        }
+
     });
 
 }

@@ -192,7 +192,7 @@ def _run_seekr_algorithm(parameters):
     normal_set = parameters['normal_set']
     if normal_set is None:
         raise SeekrServerError('No normalization set Provided')
-    comparison_set = None
+    comparison_set = 'gencode_human_set'
     if 'comparison_set' in parameters:
         comparison_set = parameters['comparison_set']
     if 'comparison_set_files' in parameters:
@@ -230,6 +230,10 @@ def _run_seekr_algorithm(parameters):
             raise SeekrServerError('Normalization for Comparision Set File is not valid')
 
     elif comparison_set is not None and len(comparison_set) > 0 and comparison_set != 'user_set':
+
+        comparison_set = 'gencode_human_set'
+        parameters['kmer_length'] = 1
+
         unnormalized_frequency_path, names_path = get_precomputed_frequency_path(comparison_set, parameters['kmer_length'])
         assert unnormalized_frequency_path is not None and names_path is not None
 

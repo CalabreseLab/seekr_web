@@ -166,37 +166,45 @@ def process_jobs():
         if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
 
-        if 'user_set_files' not in request.files:
-            application.logger.debug('Error, no file')
-            # TODO error case
-
-        user_set_files = request.files['user_set_files']
-
         # TODO provide reasonable defaults
+        json_parameters = request.get_json()
+
+        user_set_check = False
+        comparison_set_check = False
+
+        if 'user_set_id' in json_parameters:
+            user_set_files = session_helper.get_file(session, json_parameters['user_set_id'], extension='fasta')
+            user_set_check = True
+
+        if 'comparison_set_id' in json_parameters:
+            comparison_set_files = session_helper.get_file(session, json_parameters['user_set_id'], extension='fasta')
+            comparison_set_check = True
+
         parameters = dict()
-        parameters['kmer_length'] = int(request.form['kmer_length'])
-        parameters['user_set_files'] = user_set_files
-        if 'comparison_set_files' in request.files:
-            parameters['comparison_set_files'] = request.files['comparison_set_files']
+        if (user_set_check):
+            parameters['user_set_files'] = user_set_files
 
-        parameters['kmer_length'] = int(request.form['kmer_length'])
-        parameters['normal_set'] = request.form['normal_set']
+        if (comparison_set_check):
+            parameters['comparison_set_files'] = comparison_set_files
 
-        if 'gencode_human_set' in request.form:
-            parameters['comparison_set'] = 'gencode_human_set'
-        if 'gencode_mouse_set' in request.form:
-            parameters['comparison_set'] = 'gencode_mouse_set'
-        if 'user_set' in request.form:
-            parameters['comparison_set'] = 'user_set'
-        if 'normal_set' in request.form:
-            parameters['normal_set'] = request.form['normal_set']
+        if 'comparison_set' in json_parameters:
+            parameters['comparison_set'] = str(json_parameters['comparison_set'])
+
+        if 'kmer_length' in json_parameters:
+             parameters['kmer_length'] = int(json_parameters['kmer_length'])
+
+        if 'normal_set' in json_parameters:
+            parameters['normal_set'] = str(json_parameters['normal_set'])
+
+
 
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
-        #return return_file(countsText, pearsons)
-        return '<!DOCTYPE html>\,\n<html lang="en"><head><meta charset="UTF-8"><title>Results Page</title></head><body  ></body></html>'
+
+        return jsonify(parameters)
+
 
     except SeekrServerError as ex:
         application.logger.exception('Error in /jobs')
