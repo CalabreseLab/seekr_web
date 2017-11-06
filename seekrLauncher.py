@@ -23,6 +23,7 @@ from seekr_launch_utils import get_names_from_counter
 from pearson import pearson
 import pandas
 import pickle
+from session_helper import get_file_for_directory_id
 
 def run_seekr_algorithm(parameters):
     """
@@ -198,28 +199,28 @@ def _run_seekr_algorithm(parameters):
     if 'comparison_set_files' in parameters:
         if normal_set == skr_config.SETTING_USER_SET:
             (mean, std, counts, names) = compute_normalization_and_frequency(
-                infasta=TextIOWrapper(parameters['user_set_files']), kmer_length=parameters['kmer_length'], outfile=outfile)
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['comparison_set_files']), outfile=None,
+                infasta=_load_user_set_file(parameters), kmer_length=parameters['kmer_length'], outfile=outfile)
+            counter = kmer_counts.BasicCounter(infasta=_load_comparison_set_file(parameters), outfile=None,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             comparison_counts = counter.make_count_file()
             comparison_names = get_names_from_counter(counter)
         elif normal_set == skr_config.SETTING_COMPARISION_SET:
             (mean, std, comparison_counts, comparison_names) = compute_normalization_and_frequency(
-                infasta=TextIOWrapper(parameters['comparison_set_files']), kmer_length=parameters['kmer_length'])
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['user_set_files']), outfile=outfile,
+                infasta=_load_comparison_set_file(parameters), kmer_length=parameters['kmer_length'])
+            counter = kmer_counts.BasicCounter(infasta=_load_user_set_file(parameters), outfile=outfile,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             counts = counter.make_count_file()
             names = get_names_from_counter(counter)
 
         elif mean_std_loaded:
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['user_set_files']), outfile=outfile,
+            counter = kmer_counts.BasicCounter(infasta=_load_user_set_file(parameters), outfile=outfile,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             counts = counter.make_count_file()
 
-            comparision_counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['comparison_set_files']), outfile=None,
+            comparision_counter = kmer_counts.BasicCounter(infasta=_load_comparison_set_file(parameters), outfile=None,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             comparison_counts = comparision_counter.make_count_file()
@@ -239,8 +240,8 @@ def _run_seekr_algorithm(parameters):
 
         if normal_set == skr_config.SETTING_USER_SET:
             (mean, std, counts, names) = compute_normalization_and_frequency(
-                infasta=TextIOWrapper(parameters['user_set_files']), kmer_length=parameters['kmer_length'], outfile=outfile)
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['comparison_set_files']), outfile=None,
+                infasta=_load_user_set_file(parameters), kmer_length=parameters['kmer_length'], outfile=outfile)
+            counter = kmer_counts.BasicCounter(infasta=_load_comparison_set_file(parameters), outfile=None,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             comparison_counts = _unnormalized_frequency_to_normalized(unnormalized_frequency_path, mean, std)
@@ -249,7 +250,7 @@ def _run_seekr_algorithm(parameters):
             raise SeekrServerError('')
 
         elif mean_std_loaded:
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['user_set_files']), outfile=outfile,
+            counter = kmer_counts.BasicCounter(infasta=_load_user_set_file(parameters), outfile=outfile,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             counts = counter.make_count_file()
@@ -263,12 +264,12 @@ def _run_seekr_algorithm(parameters):
 
     else:
         if mean_std_loaded:
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['user_set_files']), outfile=outfile,
+            counter = kmer_counts.BasicCounter(infasta=_load_user_set_file(parameters), outfile=outfile,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
             counts = counter.make_count_file()
         elif normal_set == skr_config.SETTING_USER_SET:
-            counter = kmer_counts.BasicCounter(infasta=TextIOWrapper(parameters['user_set_files']), outfile=outfile, k=parameters['kmer_length'],
+            counter = kmer_counts.BasicCounter(infasta=_load_user_set_file(parameters), outfile=outfile, k=parameters['kmer_length'],
                                            label=True, silent=True, binary=False)
             counts = counter.make_count_file()
         else:
@@ -328,3 +329,12 @@ def load_names_from_path(names_path):
     with open(names_path, 'rb') as names_file:
         names = pickle.load(names_file)
     return names
+
+def _load_user_set_file(parameters):
+    file = get_file_for_directory_id(parameters['directory_id'], parameters['user_set_files'], extension='fasta')
+    return TextIOWrapper(file)
+
+def _load_comparison_set_file(parameters):
+    file = get_file_for_directory_id(parameters['directory_id'], parameters['comparison_set_files'], extension='fasta')
+    return TextIOWrapper(file)
+

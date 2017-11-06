@@ -48,6 +48,12 @@ def get_file(session, file_identifier, extension=''):
 
     return contents
 
+def get_file_for_directory_id(directory_id, file_identifier, extension=''):
+    mock_session = {'directory_id':directory_id}
+    return get_file(mock_session, file_identifier, extension)
+
+def get_directory_id(session):
+    return session['directory_id']
 
 def generate_file_identifier():
     return str(uuid.uuid4())
