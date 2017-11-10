@@ -23,6 +23,7 @@ from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
 from seekrLauncher import _run_seekr_algorithm
+import visuals
 
 import session_helper
 
@@ -169,23 +170,14 @@ def process_jobs():
         # TODO provide reasonable defaults
         json_parameters = request.get_json()
 
-        user_set_check = False
-        comparison_set_check = False
-
-        if 'user_set_id' in json_parameters:
-            user_set_files = session_helper.get_file(session, json_parameters['user_set_id'], extension='fasta')
-            user_set_check = True
-
-        if 'comparison_set_id' in json_parameters:
-            comparison_set_files = session_helper.get_file(session, json_parameters['user_set_id'], extension='fasta')
-            comparison_set_check = True
 
         parameters = dict()
-        if (user_set_check):
-            parameters['user_set_files'] = user_set_files
 
-        if (comparison_set_check):
-            parameters['comparison_set_files'] = comparison_set_files
+        if ('user_set_id' in json_parameters):
+            parameters['user_set_files'] = json_parameters['user_set_id']
+
+        if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None):
+            parameters['comparison_set_files'] = json_parameters['comparison_set_id']
 
         if 'comparison_set' in json_parameters:
             parameters['comparison_set'] = str(json_parameters['comparison_set'])
@@ -196,19 +188,20 @@ def process_jobs():
         if 'normal_set' in json_parameters:
             parameters['normal_set'] = str(json_parameters['normal_set'])
 
+        parameters['directory_id'] = session_helper.get_directory_id(session)
 
+        if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
+            raise SeekrServerError('User directory not found for this session')
 
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        return jsonify(parameters)
+        visuals.heatmap(comparison_counts)
+        visuals.cluster(counts)
 
-
-    except SeekrServerError as ex:
-        application.logger.exception('Error in /jobs')
-        return render_template('error.html', text=str(ex))
+        return jsonify(True)
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
@@ -246,6 +239,17 @@ def init_gencode():
     t2 = time.perf_counter()
     application.logger.debug('Initializing the cache took %.3f seconds' % (t2-t1))
     return redirect('/home')
+
+@application.route('/heatmap', methods=['GET'])
+def heatmap():
+
+    return render_template('heatmap.html')
+
+
+@application.route('/cluster', methods=['GET'])
+def cluster():
+    return render_template('cluster.html')
+
 
 if __name__ == '__main__':
     application.run()

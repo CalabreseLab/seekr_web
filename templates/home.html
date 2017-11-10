@@ -5,9 +5,14 @@
     <title>SEEKR</title>
 
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-ui.css') }}" >
 
     <!--<script type="text/javascript" src="../static/jquery-3.2.1.js"></script>-->
     <!--<script type="text/javascript" src="../static/main.js"></script>-->
@@ -37,8 +42,14 @@
 </div>
 
 
+<div id="main-tabs">
 
-    <div class="main">
+    <ul class="row">
+		<li class="tab"><a href="#main">Main</a></li>
+		<li class="tab tab2"><a href="#visual">Visual</a></li>
+	</ul>
+
+    <div id="main" class="main">
 
         <div class="row tab-1" id="tab-container">
 
@@ -174,8 +185,15 @@
             </div>
         </div>
     </div>
+
+
+    <div id="visual" class="main">
+
     </div>
-    </div>
+</div>
+
+
+
 
 
 </body>

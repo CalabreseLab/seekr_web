@@ -31,17 +31,20 @@ var tableHTML = '<div class="row">' +
 var user_id;
 var comparison_id;
 
+$('#main-tabs').tabs();
+
 $(document).ready(function() {
 
     $('#submit').on('click', function(e) {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
-        var comparison_set = $('#comparison_set_reference').val();
+        var comparison_set_input = $('#comparison_set_reference').val();
 
         if (user_id) {
             var user_set_id = user_id;
-            var comparison_set_id = comparison_id;
+            var comparison_set_id = comparison_id
+            var comparison_set = (comparison_set_input) ? comparison_set_input : '';
 
 
             params = {
@@ -97,7 +100,7 @@ $(document).ready(function() {
     	e.stopPropagation();
 
     	tabSelect(1);
-    	comparison_set_id = null;
+    	comparison_id = null;
     });
 
     $('#upload_tab').on('click', function(e) {
@@ -191,9 +194,15 @@ var runSEEKR = function(params) {
         url: '/_jobs',
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        dataType: "html",
         success: function(result) {
-            console.log(result);
+
+            window.open('/heatmap')
+            window.open('/cluster')
+
+            location.reload(true);
+
+            $('visual').html(data);
         }
 
     });

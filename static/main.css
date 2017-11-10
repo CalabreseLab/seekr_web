@@ -256,6 +256,10 @@ tr:nth-child(even) {
     top: 0;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .tab {	
 	float: left; 
 	width: 15%;

@@ -7,7 +7,7 @@ Created on Mon Sep 18 23:48:48 2017
 
 import os
 from io import BytesIO
-from io import TextIOWrapper
+from io import StringIO
 
 import numpy as np
 
@@ -193,7 +193,7 @@ def _run_seekr_algorithm(parameters):
     normal_set = parameters['normal_set']
     if normal_set is None:
         raise SeekrServerError('No normalization set Provided')
-    comparison_set = 'gencode_human_set'
+    comparison_set = None
     if 'comparison_set' in parameters:
         comparison_set = parameters['comparison_set']
     if 'comparison_set_files' in parameters:
@@ -231,9 +231,6 @@ def _run_seekr_algorithm(parameters):
             raise SeekrServerError('Normalization for Comparision Set File is not valid')
 
     elif comparison_set is not None and len(comparison_set) > 0 and comparison_set != 'user_set':
-
-        comparison_set = 'gencode_human_set'
-        parameters['kmer_length'] = 1
 
         unnormalized_frequency_path, names_path = get_precomputed_frequency_path(comparison_set, parameters['kmer_length'])
         assert unnormalized_frequency_path is not None and names_path is not None
@@ -332,9 +329,9 @@ def load_names_from_path(names_path):
 
 def _load_user_set_file(parameters):
     file = get_file_for_directory_id(parameters['directory_id'], parameters['user_set_files'], extension='fasta')
-    return TextIOWrapper(file)
+    return StringIO(file)
 
 def _load_comparison_set_file(parameters):
     file = get_file_for_directory_id(parameters['directory_id'], parameters['comparison_set_files'], extension='fasta')
-    return TextIOWrapper(file)
+    return StringIO(file)
 
