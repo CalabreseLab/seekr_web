@@ -4,6 +4,13 @@ import numpy as np
 
 # col_index : the column index for which we want to sort
 # matrix is the input numpy array
+# pearson_names is the previous row names before click event, such as [AA, CG, TC, AG] for
+#              AA   0.1    0.1
+#              CG   0.3    0.8
+#              TC   0.2    0.5
+#              AG  -0.1   -0.4
+# 
+
 def reorder_column( matrix, pearson_names, col_index):
     # sort the target column
     size = len(matrix[0])
