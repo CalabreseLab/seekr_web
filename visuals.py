@@ -21,48 +21,25 @@ from bokeh.embed import components
 from bokeh.resources import INLINE
 
 
-def display_event(div, attributes=[], style='float:left;clear:left;font_size=0.5pt'):
-    "Build a suitable CustomJS to display the current event in the div model."
-    return CustomJS(args=dict(div=div), code="""
-        var attrs = %s; var args = [];
-        for (var i=0; i<attrs.length; i++ ) {
-            args.push(attrs[i] + '=' + Number(cb_obj[attrs[i]]).toFixed(2));
-        }
-        var line = "<span style=%r><b>" + cb_obj.event_name + "</b>(" + args.join(", ") + ")</span>\\n";
-        var text = div.text.concat(line);
-        var lines = text.split("\\n")
-        if ( lines.length > 35 ) { lines.shift(); }
-        div.text = lines.join("\\n");
-    """ % (attributes, style))
 
+# x is horizontal-layout label, y is vertical-layout label
+# filename is the target html name we will generate
+# matrix is the input numpy array
 
-def on_Button_Click():
-    print("clicked")
+def heatmap(filename, x_names, y_names, matrix):
 
+    columns = x_names
 
+    df = pd.DataFrame(matrix, columns = columns)
 
-def heatmap(np_matrix):
-
-    # np_matrix = np.load('pearsons.npy')
-
-    columns = [str(i) for i in range(np_matrix.shape[1])]
-
-    df = pd.DataFrame(np_matrix, columns = columns)
-    # print (df)
-
-    df['seq1'] = range(0, len(df))
+    df['seq1'] = y_names
     df['seq1'] = df['seq1'].astype(str)
     df = df.set_index('seq1')
     df.columns.name = 'seq2'
 
-    # print(df)
-    # print()
-
     df = pd.DataFrame(df.stack(), columns=['p_val']).reset_index()
 
-    rowIndex = [str(i) for i in range(np_matrix.shape[0])]
-
-    columnIndex = [str(i) for i in range(np_matrix.shape[1])]
+    rowIndex = [str(i) for i in range(matrix.shape[0])]
 
     colors = ['#084594', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef', '#deebf7', '#f7fbff']
     colors = colors[::-1]
@@ -71,17 +48,17 @@ def heatmap(np_matrix):
 
     source = ColumnDataSource(df)
 
-    TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
+    TOOLS = "tap,hover,save,pan,box_zoom,reset,wheel_zoom"
 
     p = figure(title="Pearson".format(rowIndex[0], rowIndex[-1]),
-               x_range=rowIndex, y_range=list(reversed(columnIndex)),
+               x_range= x_names, y_range=list(reversed(y_names)),
                x_axis_location="above", plot_width=900, plot_height=400,
                tools=TOOLS, toolbar_location='below')
 
     p.grid.grid_line_color = None
     p.axis.axis_line_color = None
     p.axis.major_tick_line_color = None
-    p.axis.major_label_text_font_size = "5pt"
+    p.axis.major_label_text_font_size = "15pt"
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
 
@@ -102,44 +79,39 @@ def heatmap(np_matrix):
         ('pearson correlation', '@p_val'),
     ]
 
-    js_resources = INLINE.render_js()
-    css_resources = INLINE.render_css()
-
-
-    #######################  new code
 
     div = Div(width=1000)
 
     button = Button(label="Button")
-    button.on_click(on_Button_Click)
 
     layout = column(button, row(p, div))
 
-    p.js_on_event(events.LODStart, display_event(div))  # Start of LOD display
-    p.js_on_event(events.LODEnd, display_event(div))
+    #######################  new code
 
-    point_attributes = ['x', 'y', 'sx', 'sy']  # Point events
-    wheel_attributes = point_attributes + ['delta']  # Mouse wheel event
-    point_events = [events.Tap, events.DoubleTap, events.Press,
-                    events.MouseMove, events.MouseEnter, events.MouseLeave,
-                    events.PanStart, events.PanEnd, events.PinchStart, events.PinchEnd]
+    callback = CustomJS(args=dict(source=source), code=
+        """
+             var column_index = cb_obj.x ;
+             console.log("Tap event occured at x-position: " + cb_obj.x + " " + cb_obj.y);
 
-    for event in point_events:
-        p.js_on_event(event, display_event(div, attributes=point_attributes))
+        """)
 
-    p.js_on_event(events.MouseWheel, display_event(div, attributes=wheel_attributes))
+    p.js_on_event(events.Tap, callback)
 
-    # # curdoc().add_root(layout)
-    #
     # #######################  new code
-    #
+
     # script, div = components(layout)
     #
     # return js_resources, css_resources, script, div
 
-    output_file("templates/heatmap.html")
+    filename = "templates/" + filename
+    output_file(filename)
 
     save(p)
+    show(layout)
+
+    ######### end of heatmap() function
+
+
 
 def cluster(np_matrix):
 
