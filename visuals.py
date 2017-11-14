@@ -24,7 +24,7 @@ from bokeh.resources import CDN
 # filename is the target html name we will generate
 # matrix is the input numpy array
 
-def heatmap(x_names, y_names, matrix):
+def heatmap(matrix, x_names, y_names):
     columns = x_names
     index = y_names
 

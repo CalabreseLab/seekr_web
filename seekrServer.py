@@ -205,7 +205,7 @@ def process_jobs():
 
         pearsons = pearson(counts, comparison_counts)
 
-        heatmap_file = visuals.heatmap(comparison_names, names, pearsons)
+        heatmap_file = visuals.heatmap(pearsons, names, comparison_names)
 
 
         heatmap_id = session_helper.generate_file_identifier()
