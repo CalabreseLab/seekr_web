@@ -76,3 +76,4 @@ def init_user_login(session):
     _create_user_directory(session['directory_id'])
 
     session['logged_in'] = True
+
