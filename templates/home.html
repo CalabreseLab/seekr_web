@@ -116,10 +116,16 @@
                 <div id="upload_file" class="row">
                     <div class="dropzone workzone_tabbed">
                         <form id="comparison_set_form" method="post" enctype="multipart/form-data">
-                            <input type="file" name="comparison_set_files" id="comparison_set_files">
+
+                            <input type="file" name="file" id="comparison_set_files">
+
                             <h2>Drag and Drop Files Here or Click to Upload</h2>
-                            <img src="../static/dragndrop.svg">
+
+                            <!--<img src="../static/dragndrop.svg">-->
+                            <img src="{{ url_for('static', filename='dragndrop.svg') }}">
+
                             <h2 id="comparison_file_text"></h2>
+
                         </form>
                     </div>
                 </div>

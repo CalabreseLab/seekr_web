@@ -33,14 +33,14 @@ def heatmap(matrix, x_names, y_names):
     new_x_names = []
     new_y_names = []
     for s in x_names:
-        if len(s) > 5:
-            new_x_names.append(s[:5])
+        if len(s) > 20:
+            new_x_names.append(s[:20])
         else:
             new_x_names.append(s)
             
     for s in y_names:
-        if len(s) > 5:
-            new_y_names.append(s[:5])
+        if len(s) > 20:
+            new_y_names.append(s[:20])
         else:
             new_y_names.append(s)
     
@@ -57,7 +57,6 @@ def heatmap(matrix, x_names, y_names):
     print(df)
 
     df['seq1'] = x_names
-    df['seq1'] = df['seq1'].astype(str)
     df = df.set_index('seq1')
     df.columns.name = 'seq2'
 
@@ -135,7 +134,7 @@ def heatmap(matrix, x_names, y_names):
 
 
 def kmermap(np_matrix, name2, k):
-    import itertools
+
     x = ['A', 'G', 'T', 'C']
     name1 = [p for p in itertools.product(x, repeat=k)]
     count = 0
@@ -213,6 +212,9 @@ def kmermap(np_matrix, name2, k):
     p.axis.major_label_text_font_size = "5pt"
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
+
+    p.xaxis.visible = False
+    p.yaxis.visible = False
 
     p.rect(x="seq2", y="seq1", width=1, height=1,
            source=source,

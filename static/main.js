@@ -6,20 +6,28 @@ $(document).ready(function() {
     $("#main-tabs").tabs();
     $("#comparison_set").tabs();
 
-    console.log(document.cookie)
-
     $('#submit').on('click', function(e) {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
-        var comparison_set_input = $('#comparison_set_reference').val();
 
+        var current_tab = $("#comparison_set .ui-tabs-panel:visible").attr("id");
+
+        var comparison_set_input;
+
+        if (current_tab == 'select_file') {
+            var comparison_set_input = $('#comparison_set_reference').val();
+        }
 
         if (getCookie('user_id')) {
             var user_set_id = getCookie('user_id');
-            var comparison_set_id = getCookie('comparison_id')
+            var comparison_set_id = (comparison_set_input) ? '': getCookie('comparison_id')
             var comparison_set = (comparison_set_input) ? comparison_set_input : '';
 
+            if (comparison_set == 'user_set') {
+                comparison_set = '';
+                comparison_set_id = getCookie('user_id');
+            }
 
             params = {
             'normal_set' : normal_set,
@@ -117,24 +125,39 @@ var getCookie = function (cname) {
 
 var uploadFile = function (x) {
 
+    if (x == 0) {
+
+
         $.ajax({
             type: 'POST',
             url: '/files/fasta',
-            data: new FormData($('form')[0]),
+            data: new FormData($('#user_set_form')[0]),
             cache: false,
             contentType: false,
             processData: false,
             success: function(data) {
 
-                if (x == 0) {
                     document.cookie = 'user_id=' + data['file_id'];
-                }
 
-                else if (x == 1) {
-                    document.cookie = 'comparison_id='  + data['file_id']
-                }
             }
         });
+    }
+
+    else if (x == 1) {
+            $.ajax({
+            type: 'POST',
+            url: '/files/fasta',
+            data: new FormData($('#comparison_set_form')[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+
+                    document.cookie = 'comparison_id=' + data['file_id'];
+
+            }
+        });
+    }
 }
 
 
@@ -152,8 +175,6 @@ var runSEEKR = function(params) {
         success: function(data) {
 
             console.log(data);
-
-
         }
 
     });
