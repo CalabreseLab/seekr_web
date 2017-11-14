@@ -9,16 +9,14 @@ from bokeh.models import (
     PrintfTickFormatter,
     ColorBar,
 )
-from bokeh.plotting import figure, output_file, show, curdoc
 
-from bokeh.io import show, output_file, save
-from bokeh.plotting import figure
+from bokeh.io import output_file, save, show
 from bokeh import events
 from bokeh.models import CustomJS, Div, Button
 from bokeh.layouts import column, row
 from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.resources import INLINE
+from bokeh.embed import components, file_html
+from bokeh.resources import CDN
 
 
 
@@ -26,12 +24,12 @@ from bokeh.resources import INLINE
 # filename is the target html name we will generate
 # matrix is the input numpy array
 
-def heatmap(filename, x_names, y_names, matrix):
-
+def heatmap(x_names, y_names, matrix):
     columns = x_names
+    index = y_names
 
-    df = pd.DataFrame(matrix, columns = columns)
-    
+    df = pd.DataFrame(matrix, columns=columns, index=index)
+
     df['seq1'] = y_names
     df['seq1'] = df['seq1'].astype(str)
     df = df.set_index('seq1')
@@ -51,7 +49,7 @@ def heatmap(filename, x_names, y_names, matrix):
     TOOLS = "tap,hover,save,pan,box_zoom,reset,wheel_zoom"
 
     p = figure(title="Pearson".format(rowIndex[0], rowIndex[-1]),
-               x_range= x_names, y_range=list(reversed(y_names)),
+               x_range=x_names, y_range=list(reversed(y_names)),
                x_axis_location="above", plot_width=900, plot_height=400,
                tools=TOOLS, toolbar_location='below')
 
@@ -88,11 +86,11 @@ def heatmap(filename, x_names, y_names, matrix):
     #######################  new code
 
     callback = CustomJS(args=dict(source=source), code=
-        """
-             var column_index = cb_obj.x ;
-             console.log("Tap event occured at x-position: " + cb_obj.x + " " + cb_obj.y);
+    """
+         var column_index = cb_obj.x ;
+         console.log("Tap event occured at x-position: " + cb_obj.x + " " + cb_obj.y);
 
-        """)
+    """)
 
     p.js_on_event(events.Tap, callback)
 
@@ -102,11 +100,10 @@ def heatmap(filename, x_names, y_names, matrix):
     #
     # return js_resources, css_resources, script, div
 
-    filename = "templates/" + filename
-    output_file(filename)
+    #show(p)
+    return file_html(p, CDN)
 
-    save(p)
-    show(layout)
+
 
 ###############     end of heatmap() function
 

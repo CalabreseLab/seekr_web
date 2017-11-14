@@ -8,6 +8,7 @@ session_helper.py
 import os
 import pathlib
 import uuid
+import io
 
 USER_FILE_DIR_ROOT = 'user'
 
@@ -38,7 +39,13 @@ def _get_user_file_path(session, file_identifier, extension=''):
 
 def create_file(file, session, file_identifier, extension=''):
     file_path = _get_user_file_path(session, file_identifier, extension)
-    file.save(file_path)
+
+    if isinstance(file, str):
+        with open(file_path, 'w') as save_file:
+            save_file.write(file)
+    else:
+        file.save(file_path)
+
 
 
 def get_file(session, file_identifier, extension=''):

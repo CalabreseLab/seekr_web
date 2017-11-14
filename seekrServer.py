@@ -9,6 +9,7 @@ import os
 import time
 import zipfile
 from io import BytesIO
+from io import StringIO
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask
@@ -178,7 +179,8 @@ def process_jobs():
         if ('user_set_id' in json_parameters):
             parameters['user_set_files'] = json_parameters['user_set_id']
 
-        if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None):
+        if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and json_parameters['comparison_set_id'] != ''):
+
             parameters['comparison_set_files'] = json_parameters['comparison_set_id']
 
         if 'comparison_set' in json_parameters:
@@ -196,13 +198,27 @@ def process_jobs():
             raise SeekrServerError('User directory not found for this session')
 
 
-
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        return jsonify(parameters);
+        pearsons = pearson(counts, comparison_counts)
+
+        heatmap_file = visuals.heatmap(comparison_names, names, pearsons)
+
+
+        heatmap_id = session_helper.generate_file_identifier()
+
+        session_helper.create_file(heatmap_file, session, heatmap_id, extension='html')
+
+
+        # kmermap_file = ''
+        #
+        # kmermap_id = session_helper.generate_file_identifier()
+        # session_helper.create_file(kmermap_file, session, kmermap_id, extension='html')
+
+        return jsonify({'heatmap_id': heatmap_id})
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
