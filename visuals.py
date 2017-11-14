@@ -178,8 +178,6 @@ def kmermap(np_matrix, k, sequence_names):
     df['z_score'] = z_npm
     df['scale'] = scale_npm
 
-    print(df)
-    print(df.c_val)
 
     rowIndex = y
     columnIndex = sequence_names
