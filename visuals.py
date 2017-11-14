@@ -85,6 +85,7 @@ def heatmap(matrix, x_names, y_names):
     p.axis.major_label_text_font_size = "5pt"
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
+    
     p.xaxis.visible = False
     p.yaxis.visible = False
 
