@@ -31,7 +31,7 @@ def heatmap(filename, x_names, y_names, matrix):
     columns = x_names
 
     df = pd.DataFrame(matrix, columns = columns)
-
+    
     df['seq1'] = y_names
     df['seq1'] = df['seq1'].astype(str)
     df = df.set_index('seq1')
@@ -79,7 +79,6 @@ def heatmap(filename, x_names, y_names, matrix):
         ('pearson correlation', '@p_val'),
     ]
 
-
     div = Div(width=1000)
 
     button = Button(label="Button")
@@ -109,7 +108,7 @@ def heatmap(filename, x_names, y_names, matrix):
     save(p)
     show(layout)
 
-    ######### end of heatmap() function
+###############     end of heatmap() function
 
 
 
