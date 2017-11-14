@@ -27,8 +27,8 @@ from bokeh.resources import CDN
 # filename is the target html name we will generate
 # matrix is the input numpy array
 
-
 def heatmap(matrix, x_names, y_names):
+
     # control the length of each name label
     new_x_names = []
     new_y_names = []
@@ -37,18 +37,17 @@ def heatmap(matrix, x_names, y_names):
             new_x_names.append(s[:20])
         else:
             new_x_names.append(s)
-            
+
     for s in y_names:
         if len(s) > 20:
             new_y_names.append(s[:20])
         else:
             new_y_names.append(s)
-    
+
     # assign the new name lists
     x_names = new_x_names
     y_names = new_y_names
-    
-    ################# new code above
+
     columns = y_names
     index = x_names
 
@@ -82,9 +81,12 @@ def heatmap(matrix, x_names, y_names):
     p.grid.grid_line_color = None
     p.axis.axis_line_color = None
     p.axis.major_tick_line_color = None
-    p.axis.major_label_text_font_size = "15pt"
+    p.axis.major_label_text_font_size = "5pt"
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
+    
+    p.xaxis.visible = False
+    p.yaxis.visible = False
 
     p.rect(x="seq1", y="seq2", width=1, height=1,
            source=source,
@@ -128,8 +130,6 @@ def heatmap(matrix, x_names, y_names):
 
     show(p)
     return file_html(p, CDN)
-
-###############     end of heatmap() function
 
 
 
@@ -185,9 +185,6 @@ def kmermap(np_matrix, name2, k):
 
     print(df)
     print(df.c_val)
-    #     df = df.transpose()
-    #     print(df)
-    #     print(df.pval)
 
     rowIndex = name1
     columnIndex = name2
