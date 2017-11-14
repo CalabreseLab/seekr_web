@@ -27,13 +27,16 @@ from bokeh.resources import CDN
 # filename is the target html name we will generate
 # matrix is the input numpy array
 
+
 def heatmap(matrix, x_names, y_names):
-    columns = x_names
-    index = y_names
+    columns = y_names
+    index = x_names
 
     df = pd.DataFrame(matrix, columns=columns, index=index)
 
-    df['seq1'] = y_names
+    print(df)
+
+    df['seq1'] = x_names
     df['seq1'] = df['seq1'].astype(str)
     df = df.set_index('seq1')
     df.columns.name = 'seq2'
@@ -47,6 +50,7 @@ def heatmap(matrix, x_names, y_names):
 
     mapper = LinearColorMapper(palette=colors, low=df.p_val.min(), high=df.p_val.max())
 
+    # df = df.transpose()
     source = ColumnDataSource(df)
 
     TOOLS = "tap,hover,save,pan,box_zoom,reset,wheel_zoom"
@@ -103,11 +107,9 @@ def heatmap(matrix, x_names, y_names):
     #
     # return js_resources, css_resources, script, div
 
-    #show(p)
+    # show(p)
     return file_html(p, CDN)
-
-
-
+    
 ###############     end of heatmap() function
 
 
