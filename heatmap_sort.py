@@ -11,21 +11,26 @@ import numpy as np
 #              AG  -0.1   -0.4
 # 
 
-def reorder_column( matrix, pearson_names, col_index):
+
+
+def reorder_column(matrix, user_names, pearson_names, col_index):
     # sort the target column
-    size = len(matrix[0])
+    # size: number of rows in the matrix
+    size =  matrix.shape[0]
     tmp = []
     name_dict = {}
     index_dict = {}
     for i in range(size):
         tmp.append(matrix[i][col_index])
-        name_dict[matrix[i][col_index]] = pearson_names[i]
+        name_dict[matrix[i][col_index]] = user_names[i]
         index_dict[matrix[i][col_index]] = i
 
     tmp.sort(reverse=True)
+    print("tmp")
+    print(tmp)
 
     # create temporary matrix to store the new sorted matrix
-    sorted_matrix = [[0 for i in range(size)] for j in range(size)]
+    sorted_matrix = [[0 for i in range(matrix.shape[1])] for j in range(size)]
 
     # fill the new sorted column
     for i in range(size):
@@ -35,7 +40,7 @@ def reorder_column( matrix, pearson_names, col_index):
     for i in range(size):
         oldRowIndex = index_dict[tmp[i]]
         j = 0
-        while j < size:
+        while j < matrix.shape[1]:
             if j == col_index:
                 j += 1
                 continue
@@ -43,16 +48,26 @@ def reorder_column( matrix, pearson_names, col_index):
             j+=1
 
     col_names= []
+
     for i in range(size):
         col_names.append(name_dict[tmp[i]])
 
     # convert new matrix to numpy format
     nparray = np.asarray(sorted_matrix, dtype=np.float32)
 
+    print("new np array")
+    print(nparray)
+
+    print("pearson names")
+    print(pearson_names)
+    print("col names")
+    print(col_names)
+
     # generate the new heatmap
-    heatmap("heatmap2.html", pearson_names, col_names, nparray)
+    heatmap(nparray, col_names, pearson_names)
 
 
-
-# matrix = np.load('x.npy')
-# reorder_column(matrix, ['russel','paul','james', "bob"], 3)
+# matrix = np.load('test.npy')
+# print(matrix)
+# print(matrix.shape)
+# reorder_column(matrix,   ['e', 'f', 'g'],['a', 'b', 'c', 'd'], 2)
