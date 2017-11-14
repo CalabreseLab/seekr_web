@@ -23,7 +23,9 @@ from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
 from seekrLauncher import _run_seekr_algorithm
+from pearson import pearson
 import visuals
+
 
 import session_helper
 
@@ -193,15 +195,14 @@ def process_jobs():
         if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
             raise SeekrServerError('User directory not found for this session')
 
+
+
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        visuals.heatmap(comparison_counts)
-        visuals.cluster(counts)
-
-        return jsonify(True)
+        return jsonify(parameters);
 
     except Exception as e:
         application.logger.exception('Error in /jobs')

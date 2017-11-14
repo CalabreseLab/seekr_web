@@ -12,7 +12,6 @@
 
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-ui.css') }}" >
 
     <!--<script type="text/javascript" src="../static/jquery-3.2.1.js"></script>-->
     <!--<script type="text/javascript" src="../static/main.js"></script>-->
@@ -32,26 +31,29 @@
                 <img class="nav_img" src="{{ url_for('static', filename='UNC.jpg') }}">
             </div>
 
-            <div class="nav_right">
-            <a class="fill_div" href="/faq"></a>
-                <h2>About</h2>
-            </div>
-
         </div>
     </div>
 </div>
 
 
-<div id="main-tabs">
+<div id="main-tabs" class="row">
 
-    <ul class="row">
-		<li class="tab"><a href="#main">Main</a></li>
-		<li class="tab tab2"><a href="#visual">Visual</a></li>
+    <ul class="single_column container">
+
+
+		    <li class="tab nav_left"><a href="#main"><h2>Run Seekr</h2></a></li>
+
+		    <li class="tab tab2 nav_center"><a href="#visual"><h2>Results</h2></a></li>
+
+            <li class="tab tab3 nav_right"><a href="#help"><h2>Help</h2></a></li>
+
+
 	</ul>
 
     <div id="main" class="main">
 
-        <div class="row tab-1" id="tab-container">
+
+        <div class="row">
 
             <div class="column">
                 <h1>User Set</h1>
@@ -65,10 +67,6 @@
         <div class="row">
 
             <div id="input_set" class="column container">
-
-                <div class="row">
-                    <button type="button" class="info">&#8942;</button>
-                </div>
 
                 <div class="row">
                     <div class="dropzone workzone">
@@ -89,24 +87,21 @@
                 </div>
             </div>
 
-            <div id="saved_tab" class="tab">
-                <h2>Saved Sets</h2>
-            </div>
 
-            <div id="upload_tab" class="tab tab2">
-
-                <h2>Upload</h2>
-            </div>
-
-            <div id="comparison_set" class="column container tabbed">
+            <div id="comparison_set" class="column container">
 
                 <div class="row">
-                    <button type="button" class="info">&#8942;</button>
+                     <ul>
+		                <li class="tab select_left"><a href="#select_file"><h2>Select Set</h2></a></li>
+
+		                <li class="tab tab2 select_right"><a href="#upload_file"><h2>Upload Set</h2></a></li>
+
+                     </ul>
                 </div>
 
 
 
-                <div class="row">
+                <div id="select_file"class="row">
                     <div class="workzone_tabbed">
                         <div class="row">
                             <h2>Select Comparison Set</h2>
@@ -117,6 +112,17 @@
                             <option value="user_set">User Set</option>
                         </select>
                     </div>
+                </div>
+
+                <div id="upload_file" class="row">
+						<div class="dropzone workzone_tabbed">
+						    <form id="comparison_set_form" method="post" enctype="multipart/form-data">
+							    <input type="file" name="comparison_set_files" id="comparison_set_files">
+							    <h2>Drag and Drop Files Here or Click to Upload</h2>
+							    <img src="../static/dragndrop.svg">
+							    <h2 id="comparison_file_text"></h2>
+					        </form>
+                        </div>
                 </div>
             </div>
         </div>
@@ -132,10 +138,6 @@
         <div class="row">
 
             <div class="single_column_small container">
-
-                <div class="row">
-                    <button type="button" class="info">&#8942;</button>
-                </div>
 
                 <div class="row">
 
@@ -178,7 +180,7 @@
 
 
         <div class="row">
-            <div class="container single_column_small">
+            <div class="container single_column_small button">
 
                 <input id="submit" type="submit" value="Submit">
 
@@ -189,6 +191,29 @@
 
     <div id="visual" class="main">
 
+    </div>
+
+    <div id="help" class="main">
+
+        <div class="row">
+
+            <div class="single_column">
+                <h1>User Manual</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="single_column container">
+                <h2 class="link">Step 1: </h2>
+                <p>Upload the fasta file you are interesting in analyzing using SEEKR</p><br>
+                <a class="link" href="/static/sample_fasta.fa">Click here to download a sample Fasta file to run SEEKR with</a><br>
+                <h2 class="link">Step 2: </h2><p>Choose the set of sequences to compare your file to by either selecting on of the saved options or choosing to upload another file</p><br>
+                <h2 class="link">Step 3: </h2><p>Choose your normalization set</p><br>
+                <h2 class="link">Step 4: </h2><p>Choose your Kmer count (warning Kmers larger than 5 may not run when using the saved Gencode sets, due to resource limitations on the server)</p><br>
+                <h2 class="link">Step 5: </h2><p>Press the submit button and select where you would like the result files to be saved</p><br>
+            </div>
+        </div>
     </div>
 </div>
 
