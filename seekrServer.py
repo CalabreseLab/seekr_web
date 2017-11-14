@@ -205,17 +205,21 @@ def process_jobs():
 
         pearsons = pearson(counts, comparison_counts)
 
-        #heatmap_file = visuals.heatmap(comparison_names, names, pearsons)
+        #heatmap_file = visuals.heatmap(pearsons, names, comparison_names)
 
         #heatmap_id = session_helper.generate_file_identifier()
 
-        kmermap_file = visuals.kmermap(counts, parameters['kmer_length'], names)
+        #session_helper.create_file(heatmap_file, session, heatmap_id, extension='html')
+
+        application.logger.debug(pearsons)
+
+        kmermap_file = visuals.kmermap(counts, names, parameters['kmer_length'])
 
         kmermap_id = session_helper.generate_file_identifier();
 
         session_helper.create_file(kmermap_file, session, kmermap_id, extension='html')
 
-        return jsonify({'kmermap_id': kmermap_id})
+        return jsonify({'heatmap_id': kmermap_id})
 
     except Exception as e:
         application.logger.exception('Error in /jobs')

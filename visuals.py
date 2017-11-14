@@ -107,21 +107,24 @@ def heatmap(matrix, x_names, y_names):
     #
     # return js_resources, css_resources, script, div
 
-    # show(p)
+    show(p)
     return file_html(p, CDN)
-    
+
 ###############     end of heatmap() function
 
 
 
-def kmermap(np_matrix, k, sequence_names):
+def kmermap(np_matrix, name2, k):
+    import itertools
     x = ['A', 'G', 'T', 'C']
-    y = [p for p in itertools.product(x, repeat=k)]
+    name1 = [p for p in itertools.product(x, repeat=k)]
     count = 0
-    for i in y:
-        y[count] = ''.join(i)
+    for i in name1:
+        name1[count] = ''.join(i)
         count = count + 1
 
+    # result = np.load('pearsons.npy')
+    #     print(result)
     norm_npm = np_matrix
     flat_npm = norm_npm.flatten()
     scale_npm = norm_npm.flatten()
@@ -139,11 +142,11 @@ def kmermap(np_matrix, k, sequence_names):
         count = count + 1
     print(z_npm)
 
-    df = pd.DataFrame(np_matrix, index=y, columns=sequence_names)
+    df = pd.DataFrame(np_matrix, index=name2, columns=name1)
     print('111')
     print(df)
 
-    df['seq1'] = y
+    df['seq1'] = name2
     print('222')
     print(df)
     df['seq1'] = df['seq1'].astype(str)
@@ -167,8 +170,8 @@ def kmermap(np_matrix, k, sequence_names):
     #     print(df)
     #     print(df.pval)
 
-    rowIndex = y
-    columnIndex = sequence_names
+    rowIndex = name1
+    columnIndex = name2
 
     colors = ['#ffff33 ', '#ffff00 ', '#cccc00 ', '#999900 ', '#000000 ', '#000066 ', '#0000cc ']
     colors = colors[::-1]
@@ -191,7 +194,7 @@ def kmermap(np_matrix, k, sequence_names):
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
 
-    p.rect(x="seq1", y="seq2", width=1, height=1,
+    p.rect(x="seq2", y="seq1", width=1, height=1,
            source=source,
            fill_color={'field': 'z_score', 'transform': mapper},
            line_color=None)
