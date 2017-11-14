@@ -1,5 +1,8 @@
 import pandas as pd
+import itertools
+import numpy as np
 from math import pi
+from scipy import stats
 
 from bokeh.models import (
     ColumnDataSource,
@@ -109,41 +112,74 @@ def heatmap(matrix, x_names, y_names):
 
 
 
-def cluster(np_matrix):
+def kmermap(np_matrix, k, sequence_names):
+    x = ['A', 'G', 'T', 'C']
+    y = [p for p in itertools.product(x, repeat=k)]
+    count = 0
+    for i in y:
+        y[count] = ''.join(i)
+        count = count + 1
 
-    columns = [str(i) for i in range(np_matrix.shape[1])]
+    norm_npm = np_matrix
+    flat_npm = norm_npm.flatten()
+    scale_npm = norm_npm.flatten()
+    mean = np.mean(scale_npm)
+    z_npm = stats.zscore(flat_npm)
+    print(z_npm)
+    count = 0
+    for i in z_npm:
+        if i >= 2:
+            z_npm[count] = 3
+            scale_npm[count] = mean
+        elif i < -1:
+            i = -1
+            scale_npm[count] = mean
+        count = count + 1
+    print(z_npm)
 
-    df = pd.DataFrame(np_matrix, columns=columns)
-    # print (df)
-
-    df['seq1'] = range(0, len(df))
-    df['seq1'] = df['seq1'].astype(str)
-    df = df.set_index('seq1')
-    df.columns.name = 'seq2'
-
-    df = pd.DataFrame(df.stack(), columns=['p_val']).reset_index()
+    df = pd.DataFrame(np_matrix, index=y, columns=sequence_names)
+    print('111')
     print(df)
-    print(df.p_val)
+
+    df['seq1'] = y
+    print('222')
+    print(df)
+    df['seq1'] = df['seq1'].astype(str)
+    print('333')
+    print(df)
+    df = df.set_index('seq1')
+    print('444')
+    print(df)
+    df.columns.name = 'seq2'
+    print('555')
+    print(df)
+    # print()
+
+    df = pd.DataFrame(df.stack(), columns=['c_val']).reset_index()
+    df['z_score'] = z_npm
+    df['scale'] = scale_npm
+
+    print(df)
+    print(df.c_val)
     #     df = df.transpose()
     #     print(df)
     #     print(df.pval)
 
-    rowIndex = [str(i) for i in range(np_matrix.shape[0])]
+    rowIndex = y
+    columnIndex = sequence_names
 
-    columnIndex = [str(i) for i in range(np_matrix.shape[1])]
-
-    colors = ['#00ccff', '#0066ff', '#333399', '#000066', '#666633', '#cccc00', '#ffff00']
+    colors = ['#ffff33 ', '#ffff00 ', '#cccc00 ', '#999900 ', '#000000 ', '#000066 ', '#0000cc ']
     colors = colors[::-1]
 
-    mapper = LinearColorMapper(palette=colors, low=df.p_val.min() / 10, high=df.p_val.max() / 10)
-
+    mapper = LinearColorMapper(palette=colors, low=df.z_score.min(), high=df.z_score.max())
+    mapper2 = LinearColorMapper(palette=colors, low=df.scale.min(), high=df.scale.max())
     source = ColumnDataSource(df)
 
     TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
 
-    p = figure(title="Pearson".format(rowIndex[0], rowIndex[-1]),
+    p = figure(title="Counts".format(rowIndex[0], rowIndex[-1]),
                x_range=rowIndex, y_range=list(reversed(columnIndex)),
-               x_axis_location="above", plot_width=900, plot_height=400,
+               x_axis_location="above", plot_width=500, plot_height=500,
                tools=TOOLS, toolbar_location='below')
 
     p.grid.grid_line_color = None
@@ -155,21 +191,21 @@ def cluster(np_matrix):
 
     p.rect(x="seq1", y="seq2", width=1, height=1,
            source=source,
-           fill_color={'field': 'p_val', 'transform': mapper},
+           fill_color={'field': 'z_score', 'transform': mapper},
            line_color=None)
 
-    color_bar = ColorBar(color_mapper=mapper, major_label_text_font_size="5pt",
+    color_bar = ColorBar(color_mapper=mapper2, major_label_text_font_size="5pt",
                          ticker=BasicTicker(desired_num_ticks=len(colors)),
-                         formatter=PrintfTickFormatter(format="%d%%"),
+                         formatter=PrintfTickFormatter(format="%d"),
                          label_standoff=6, border_line_color=None, location=(0, 0))
 
     p.add_layout(color_bar, 'right')
 
     p.select_one(HoverTool).tooltips = [
-        ('index', '@seq1 @seq2'),
-        ('rate', '@p_val%'),
+        ('sequence x kmer', '@seq1 @seq2'),
+        ('count', '@c_val'),
     ]
 
-    output_file("templates/cluster.html")
-    save(p)
+    show(p)
+    return file_html(p, CDN)
 
