@@ -189,7 +189,7 @@ def kmermap(np_matrix, name2, k):
     rowIndex = name1
     columnIndex = name2
 
-    colors = ['#ffff33 ', '#ffff00 ', '#cccc00 ', '#999900 ', '#000000 ', '#000066 ', '#0000cc ']
+    colors = ['#ffff33', '#ffff00', '#cccc00', '#999900', '#000000', '#000066', '#0000cc']
     colors = colors[::-1]
 
     mapper = LinearColorMapper(palette=colors, low=df.z_score.min(), high=df.z_score.max())
