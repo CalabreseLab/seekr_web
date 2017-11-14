@@ -29,6 +29,26 @@ from bokeh.resources import CDN
 
 
 def heatmap(matrix, x_names, y_names):
+    # control the length of each name label
+    new_x_names = []
+    new_y_names = []
+    for s in x_names:
+        if len(s) > 5:
+            new_x_names.append(s[:5])
+        else:
+            new_x_names.append(s)
+            
+    for s in y_names:
+        if len(s) > 5:
+            new_y_names.append(s[:5])
+        else:
+            new_y_names.append(s)
+    
+    # assign the new name lists
+    x_names = new_x_names
+    y_names = new_y_names
+    
+    ################# new code above
     columns = y_names
     index = x_names
 
