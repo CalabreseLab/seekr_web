@@ -180,9 +180,6 @@ def kmermap(np_matrix, k, sequence_names):
 
     print(df)
     print(df.c_val)
-    #     df = df.transpose()
-    #     print(df)
-    #     print(df.pval)
 
     rowIndex = y
     columnIndex = sequence_names
