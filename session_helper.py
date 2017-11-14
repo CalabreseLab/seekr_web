@@ -39,7 +39,7 @@ def _get_user_file_path(session, file_identifier, extension=''):
 
 def create_file(file, session, file_identifier, extension=''):
     file_path = _get_user_file_path(session, file_identifier, extension)
-    if isinstance(file, io.StringIO):
+    if isinstance(file, str):
         with open(file_path, 'w') as save_file:
             save_file.write(file)
     else:
