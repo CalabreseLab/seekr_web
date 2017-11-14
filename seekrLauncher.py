@@ -319,7 +319,7 @@ def _unnormalized_frequency_to_normalized(unnormalized_frequency_path, mean, std
 
 def get_data_for_pearsons(counts, comparison_counts, col1_names, col2_names):
     similarity = pearson(counts, comparison_counts)
-    df = pandas.DataFrame(data=similarity, index=col1_names, columns=col1_names)
+    df = pandas.DataFrame(data=similarity, index=col1_names, columns=col2_names)
     return df
 
 def load_names_from_path(names_path):
