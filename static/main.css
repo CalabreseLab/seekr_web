@@ -266,10 +266,6 @@ text-align: center;
     background-color: #F0F0F0;
 }
 
-.workzone_tabbed:hover {
-    background-color: #F0F0F0;
-}
-
 .dropzone {
     border-style: dashed;
     border-color: black;

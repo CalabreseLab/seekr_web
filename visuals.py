@@ -128,12 +128,21 @@ def heatmap(matrix, x_names, y_names):
     #
     # return js_resources, css_resources, script, div
 
-    show(p)
-    return file_html(p, CDN)
+    #show(p)
+    return components(p, CDN)
 
 
 
 def kmermap(np_matrix, name2, k):
+
+    new_names = []
+    for s in name2:
+        if len(s) > 20:
+            new_names.append(s[:20])
+        else:
+            new_names.append(s)
+
+    name2 = new_names
 
     x = ['A', 'G', 'T', 'C']
     name1 = [p for p in itertools.product(x, repeat=k)]
@@ -230,6 +239,6 @@ def kmermap(np_matrix, name2, k):
         ('count', '@c_val'),
     ]
 
-    show(p)
-    return file_html(p, CDN)
+    #show(p)
+    return components(p, CDN)
 

@@ -15,6 +15,7 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask
 from flask import redirect
 from flask import render_template
+from flask import render_template_string
 from flask import request
 from flask import session
 from flask import jsonify
@@ -205,10 +206,21 @@ def process_jobs():
 
         pearsons = pearson(counts, comparison_counts)
 
-        heatmap_file = visuals.heatmap(pearsons, names, comparison_names)
-        kmermap_file = visuals.kmermap(counts, names, parameters['kmer_length'])
+        # heatmap_file = visuals.heatmap(pearsons, names, comparison_names)
+        # heatmap_id = session_helper.generate_file_identifier()
+        #
+        # session_helper.create_file(heatmap_file, session, heatmap_id, extension='html')
+        #
+        # kmermap_file = visuals.kmermap(counts, names, parameters['kmer_length'])
+        # kmermap_id = session_helper.generate_file_identifier()
+        #
+        # session_helper.create_file(kmermap_file, session, kmermap_id, extension='html')
 
-        return jsonify({'heatmap_id': True})
+        heat_script, heat_div = visuals.heatmap(pearsons, names, comparison_names)
+        kmer_script, kmer_div = visuals.kmermap(counts, names, parameters['kmer_length'])
+
+
+        return render_template('visual.html', heat_div=heat_div, heat_script=heat_script, kmer_script=kmer_script, kmer_div=kmer_div)
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
@@ -246,16 +258,6 @@ def init_gencode():
     t2 = time.perf_counter()
     application.logger.debug('Initializing the cache took %.3f seconds' % (t2-t1))
     return redirect('/home')
-
-@application.route('/heatmap', methods=['GET'])
-def heatmap():
-
-    return render_template('heatmap.html')
-
-
-@application.route('/cluster', methods=['GET'])
-def cluster():
-    return render_template('cluster.html')
 
 
 if __name__ == '__main__':

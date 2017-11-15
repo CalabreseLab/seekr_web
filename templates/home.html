@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SEEKR</title>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
@@ -10,7 +11,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 
-
+    <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     <!--<script type="text/javascript" src="../static/jquery-3.2.1.js"></script>-->
@@ -190,34 +191,22 @@
                 <input id="submit" type="submit" value="Submit">
 
             </div>
+
+            <div class="single_column_small">
+                <p id="loading">processing...</p>
+            </div>
         </div>
     </div>
 
 
     <div id="visual" class="main">
 
-        <div class="row">
-            <div class="column_wide_left">
-                <h1>User Set</h1>
+
+        <div id='visual_hook'class="row">
+            <div class="single_column">
+                <p>Please run SEEKR to produce a visualization</p>
             </div>
 
-            <div class="column_wide_right">
-                <h1>Comparison Set</h1>
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div id="heatmap" class="container column_wide_left">
-
-
-            </div>
-
-            <div id="kmermap" class="container column_wide_right">
-
-
-            </div>
         </div>
 
     </div>
@@ -239,7 +228,8 @@
             <div class="single_column container">
                 <h2 class="link">Step 1: </h2>
                 <p>Upload the fasta file you are interesting in analyzing using SEEKR</p><br>
-                <a class="link" href="/static/sample_fasta.fa">Click here to download a sample Fasta file to run SEEKR with</a><br>
+                <a class="link" href="/static/sample_fasta_2.fa">Click here to download a sample Fasta file of 2 sequences to run SEEKR with</a><br>
+                <a class="link" href="/static/sample_fasta_15.fa">Click here to download a sample Fasta file of 15 sequences to run SEEKR with</a><br>
                 <h2 class="link">Step 2: </h2><p>Choose the set of sequences to compare your file to by either selecting on of the saved options or choosing to upload another file</p><br>
                 <h2 class="link">Step 3: </h2><p>Choose your normalization set</p><br>
                 <h2 class="link">Step 4: </h2><p>Choose your Kmer count (warning Kmers larger than 5 may not run when using the saved Gencode sets, due to resource limitations on the server)</p><br>

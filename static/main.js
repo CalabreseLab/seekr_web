@@ -1,10 +1,21 @@
-
+$.ajaxSetup({
+    beforeSend:function(){
+        // show gif here, eg:
+        $("#loading").show();
+    },
+    complete:function(){
+        // hide gif here, eg:
+        $("#loading").hide();
+    }
+});
 
 
 $(document).ready(function() {
 
     $("#main-tabs").tabs();
     $("#comparison_set").tabs();
+
+    $('#loading').hide();
 
     $('#submit').on('click', function(e) {
 
@@ -171,12 +182,14 @@ var runSEEKR = function(params) {
         url: '/_jobs',
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        dataType: "html",
         success: function(data) {
 
-            console.log(data);
+            $('#visual_hook').html(data);
+
+            $("#main-tabs").tabs({ active: 1 });
         }
 
     });
-
 }
+
