@@ -24,6 +24,7 @@ from pearson import pearson
 import pandas
 import pickle
 from session_helper import get_file_for_directory_id
+from io import TextIOWrapper
 
 def run_seekr_algorithm(parameters):
     """
@@ -274,7 +275,7 @@ def _run_seekr_algorithm(parameters):
 
         names = get_names_from_counter(counter)
 
-    return counts, names, comparison_counts, comparison_names
+    return counts, names, comparison_counts, comparison_names, counter
 
 def get_precomputed_normalization_path(parameters):
     normal_set = parameters['normal_set']
@@ -335,3 +336,22 @@ def _load_comparison_set_file(parameters):
     file = get_file_for_directory_id(parameters['directory_id'], parameters['comparison_set_files'], extension='fasta')
     return StringIO(file)
 
+
+def fixup_counts(counts, counter):
+    """
+    Set all values where std=0 or NaN to zero.
+    """
+    warnings = list()
+    assert counter.std is not None
+
+    zero_indexes = np.where(counter.std == 0)
+    if zero_indexes[0].size > 0:
+        counts[:, zero_indexes] = 0
+        warnings.append('Warning: Normalization contains k-mers with 0 standard deviation')
+
+    nan_indexes = np.where(np.isnan(counter.std))
+    if nan_indexes[0].size > 0:
+        counts[:, nan_indexes] = 0
+        warnings.append('Warning: Normalization contains k-mers with NaN standard deviation')
+
+    return warnings
