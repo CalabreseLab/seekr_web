@@ -186,7 +186,6 @@ def kmermap(np_matrix, name2, k):
     df.columns.name = 'seq2'
     print('555')
     print(df)
-    # print()
 
     df = pd.DataFrame(df.stack(), columns=['c_val']).reset_index()
     df['z_score'] = z_npm
