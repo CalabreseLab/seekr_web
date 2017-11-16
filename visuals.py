@@ -132,33 +132,33 @@ def heatmap(matrix, x_names, y_names):
     return components(p, CDN)
 
 
-
-def kmermap(np_matrix, name2, k):
+# the kmermap is drawed based on three matrixes: the original matrix,
+# the matrix without outlier, the matrix in z score format
+# the original matrix is used for hover value, the matrix without outlier is used for color scale bar,
+# the z score matrix is used for actual heatmap
+def kmermap(np_matrix, sequence_name, kmer_counts):
 
     new_names = []
-    for s in name2:
+    for s in sequence_name:
         if len(s) > 20:
             new_names.append(s[:20])
         else:
             new_names.append(s)
 
-    name2 = new_names
+    sequence_name = new_names
 
     x = ['A', 'G', 'T', 'C']
-    name1 = [p for p in itertools.product(x, repeat=k)]
+    kmer = [p for p in itertools.product(x, repeat=kmer_counts)]
     count = 0
-    for i in name1:
-        name1[count] = ''.join(i)
+    for i in kmer:
+        kmer[count] = ''.join(i)
         count = count + 1
-
-    # result = np.load('pearsons.npy')
-    #     print(result)
     norm_npm = np_matrix
     flat_npm = norm_npm.flatten()
     scale_npm = norm_npm.flatten()
     mean = np.mean(scale_npm)
     z_npm = stats.zscore(flat_npm)
-    print(z_npm)
+
     count = 0
     for i in z_npm:
         if i >= 2:
@@ -168,40 +168,24 @@ def kmermap(np_matrix, name2, k):
             i = -1
             scale_npm[count] = mean
         count = count + 1
-    print(z_npm)
 
-    df = pd.DataFrame(np_matrix, index=name2, columns=name1)
-    print('111')
-    print(df)
-
-    df['seq1'] = name2
-    print('222')
-    print(df)
+    df = pd.DataFrame(np_matrix, index=sequence_name, columns=kmer)
+    df['seq1'] = sequence_name
     df['seq1'] = df['seq1'].astype(str)
-    print('333')
-    print(df)
     df = df.set_index('seq1')
-    print('444')
-    print(df)
     df.columns.name = 'seq2'
-    print('555')
-    print(df)
-
     df = pd.DataFrame(df.stack(), columns=['c_val']).reset_index()
     df['z_score'] = z_npm
     df['scale'] = scale_npm
 
-    print(df)
-    print(df.c_val)
-
-    rowIndex = name1
-    columnIndex = name2
+    rowIndex = kmer
+    columnIndex = sequence_name
 
     colors = ['#ffff33', '#ffff00', '#cccc00', '#999900', '#000000', '#000066', '#0000cc']
     colors = colors[::-1]
 
-    mapper = LinearColorMapper(palette=colors, low=df.z_score.min(), high=df.z_score.max())
-    mapper2 = LinearColorMapper(palette=colors, low=df.scale.min(), high=df.scale.max())
+    color_mapper = LinearColorMapper(palette=colors, low=df.z_score.min(), high=df.z_score.max())
+    scale_mapper = LinearColorMapper(palette=colors, low=df.scale.min(), high=df.scale.max())
     source = ColumnDataSource(df)
 
     TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
@@ -217,16 +201,15 @@ def kmermap(np_matrix, name2, k):
     p.axis.major_label_text_font_size = "5pt"
     p.axis.major_label_standoff = 0
     p.xaxis.major_label_orientation = pi / 3
-
     p.xaxis.visible = False
     p.yaxis.visible = False
 
     p.rect(x="seq2", y="seq1", width=1, height=1,
            source=source,
-           fill_color={'field': 'z_score', 'transform': mapper},
+           fill_color={'field': 'z_score', 'transform': color_mapper},
            line_color=None)
 
-    color_bar = ColorBar(color_mapper=mapper2, major_label_text_font_size="5pt",
+    color_bar = ColorBar(color_mapper=scale_mapper, major_label_text_font_size="5pt",
                          ticker=BasicTicker(desired_num_ticks=len(colors)),
                          formatter=PrintfTickFormatter(format="%d"),
                          label_standoff=6, border_line_color=None, location=(0, 0))
@@ -238,6 +221,5 @@ def kmermap(np_matrix, name2, k):
         ('count', '@c_val'),
     ]
 
-    #show(p)
     return components(p, CDN)
 
