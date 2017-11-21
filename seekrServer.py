@@ -220,7 +220,11 @@ def process_jobs():
         ordering_int_list = ordering.astype(int).tolist()
         ordered_names = [names[i] for i in ordering_int_list]
 
-        #we can cluster comparison set as well
+        comparison_Z = cluster_vis.cluster_kmers(comparison_counts)
+        comparison_ordering = cluster_vis.get_ordering(comparison_Z)
+        comparison_ordered_counts = comparison_counts[comparison_ordering, :]
+        comparison_ordering_int_list = comparison_ordering.astype(int).tolist()
+        comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
 
         pearsons = pearson(counts, comparison_counts)
 
