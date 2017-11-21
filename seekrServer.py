@@ -28,6 +28,7 @@ from seekrLauncher import _run_seekr_algorithm
 from seekrLauncher import fixup_counts
 from pearson import pearson
 import visuals
+import cluster_vis
 
 
 import session_helper
@@ -211,6 +212,15 @@ def process_jobs():
             comparison_names = names
         else:
             fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
+
+        #reorder according to hierarchical cluster example
+        Z = cluster_vis.cluster_kmers(counts)
+        ordering = cluster_vis.get_ordering(Z)
+        ordered_counts = counts[ordering,:]
+        ordering_int_list = ordering.astype(int).tolist()
+        ordered_names = [names[i] for i in ordering_int_list]
+
+        #we can cluster comparison set as well
 
         pearsons = pearson(counts, comparison_counts)
 
