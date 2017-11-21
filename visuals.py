@@ -27,35 +27,33 @@ from bokeh.resources import CDN
 # filename is the target html name we will generate
 # matrix is the input numpy array
 
-def heatmap(matrix, x_names, y_names):
+def heatmap(matrix, user_names, comparison_names):
 
     # control the length of each name label
-    new_x_names = []
-    new_y_names = []
-    for s in x_names:
+    new_user_names = []
+    new_comparison_names = []
+    for s in user_names:
         if len(s) > 20:
-            new_x_names.append(s[:20])
+            new_user_names.append(s[:20])
         else:
-            new_x_names.append(s)
+            new_user_names.append(s)
 
-    for s in y_names:
+    for s in comparison_names:
         if len(s) > 20:
-            new_y_names.append(s[:20])
+            new_comparison_names.append(s[:20])
         else:
-            new_y_names.append(s)
+            new_comparison_names.append(s)
 
     # assign the new name lists
-    x_names = new_x_names
-    y_names = new_y_names
+    user_names = new_user_names
+    comparison_names = new_comparison_names
 
-    columns = y_names
-    index = x_names
+    columns = comparison_names
+    index = user_names
 
     df = pd.DataFrame(matrix, columns=columns, index=index)
 
-    print(df)
-
-    df['seq1'] = x_names
+    df['seq1'] = user_names
     df = df.set_index('seq1')
     df.columns.name = 'seq2'
 
@@ -74,7 +72,7 @@ def heatmap(matrix, x_names, y_names):
     TOOLS = "tap,hover,save,pan,box_zoom,reset,wheel_zoom"
 
     p = figure(title="Pearson".format(rowIndex[0], rowIndex[-1]),
-               x_range=x_names, y_range=list(reversed(y_names)),
+               x_range=user_names, y_range=list(reversed(comparison_names)),
                x_axis_location="above", plot_width=900, plot_height=400,
                tools=TOOLS, toolbar_location='below')
 
@@ -133,16 +131,16 @@ def heatmap(matrix, x_names, y_names):
 
 
 
-def kmermap(np_matrix, name2, k):
+def kmermap(kmer_counts_matrix, user_names, k):
 
     new_names = []
-    for s in name2:
+    for s in user_names:
         if len(s) > 20:
             new_names.append(s[:20])
         else:
             new_names.append(s)
 
-    name2 = new_names
+    user_names = new_names
 
     x = ['A', 'G', 'T', 'C']
     name1 = [p for p in itertools.product(x, repeat=k)]
@@ -153,7 +151,7 @@ def kmermap(np_matrix, name2, k):
 
     # result = np.load('pearsons.npy')
     #     print(result)
-    norm_npm = np_matrix
+    norm_npm = kmer_counts_matrix
     flat_npm = norm_npm.flatten()
     scale_npm = norm_npm.flatten()
     mean = np.mean(scale_npm)
@@ -170,11 +168,11 @@ def kmermap(np_matrix, name2, k):
         count = count + 1
     print(z_npm)
 
-    df = pd.DataFrame(np_matrix, index=name2, columns=name1)
+    df = pd.DataFrame(kmer_counts_matrix, index=user_names, columns=name1)
     print('111')
     print(df)
 
-    df['seq1'] = name2
+    df['seq1'] = user_names
     print('222')
     print(df)
     df['seq1'] = df['seq1'].astype(str)
@@ -196,7 +194,7 @@ def kmermap(np_matrix, name2, k):
     print(df.c_val)
 
     rowIndex = name1
-    columnIndex = name2
+    columnIndex = user_names
 
     colors = ['#ffff33', '#ffff00', '#cccc00', '#999900', '#000000', '#000066', '#0000cc']
     colors = colors[::-1]

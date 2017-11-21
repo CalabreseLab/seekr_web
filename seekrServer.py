@@ -200,24 +200,24 @@ def process_jobs():
 
 
         t1 = time.perf_counter()
-        counts, names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
+        user_counts, user_names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        pearsons = pearson(counts, comparison_counts)
+        pearsons = pearson(user_counts, comparison_counts)
 
-        # heatmap_file = visuals.heatmap(pearsons, names, comparison_names)
+        # heatmap_file = visuals.heatmap(pearsons, user_names, comparison_names)
         # heatmap_id = session_helper.generate_file_identifier()
         #
         # session_helper.create_file(heatmap_file, session, heatmap_id, extension='html')
         #
-        # kmermap_file = visuals.kmermap(counts, names, parameters['kmer_length'])
+        # kmermap_file = visuals.kmermap(user_set_counts, user_names, parameters['kmer_length'])
         # kmermap_id = session_helper.generate_file_identifier()
         #
         # session_helper.create_file(kmermap_file, session, kmermap_id, extension='html')
 
-        heat_script, heat_div = visuals.heatmap(pearsons, names, comparison_names)
-        kmer_script, kmer_div = visuals.kmermap(counts, names, parameters['kmer_length'])
+        heat_script, heat_div = visuals.heatmap(pearsons, user_names, comparison_names)
+        kmer_script, kmer_div = visuals.kmermap(user_counts, user_names, parameters['kmer_length'])
 
 
         return render_template('visual.html', heat_div=heat_div, heat_script=heat_script, kmer_script=kmer_script, kmer_div=kmer_div)
