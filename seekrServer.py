@@ -25,6 +25,7 @@ from SeekrServerError import SeekrServerError
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
 from seekrLauncher import _run_seekr_algorithm
+from seekrLauncher import fixup_counts
 from pearson import pearson
 import visuals
 
@@ -200,11 +201,18 @@ def process_jobs():
 
 
         t1 = time.perf_counter()
-        user_counts, user_names, comparison_counts, comparison_names = _run_seekr_algorithm(parameters=parameters)
+        counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        pearsons = pearson(user_counts, comparison_counts)
+        fixup_counts_warnings = fixup_counts(counts, counter)
+        if comparison_counts is None:
+            comparison_counts = counts
+            comparison_names = names
+        else:
+            fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
+
+        pearsons = pearson(counts, comparison_counts)
 
         # heatmap_file = visuals.heatmap(pearsons, user_names, comparison_names)
         # heatmap_id = session_helper.generate_file_identifier()
