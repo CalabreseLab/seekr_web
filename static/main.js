@@ -14,6 +14,7 @@ $(document).ready(function() {
 
     $("#main-tabs").tabs();
     $("#comparison_set").tabs();
+    $("#visual").tabs();
 
     $('#loading').hide();
 
@@ -185,9 +186,22 @@ var runSEEKR = function(params) {
         dataType: "html",
         success: function(data) {
 
-            $('#visual_hook').html(data);
+           kmer_matrix = data['kmer_matrix'];
 
-            $("#main-tabs").tabs({ active: 1 });
+           kmerMap(kmer_matrix);
+
+           data = [];
+
+
+           for i in kmer_matrix:
+
+                data[i] = {
+
+                    value: kmer_matrix[i][2]
+
+                }
+
+
         }
 
     });

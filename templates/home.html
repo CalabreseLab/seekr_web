@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>SEEKR</title>
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
-
-    <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     <!--<script type="text/javascript" src="../static/jquery-3.2.1.js"></script>-->
@@ -24,30 +21,25 @@
 
 <div id="main-tabs" class="row">
 
-<div class="menu">
-    <div class="row">
-        <div class="single_column container">
+    <div class="menu">
+        <div class="row">
+            <div class="single_column container">
 
-            <div class="nav_left">
-                <a href="/"></a>
-                <!--<img class="nav_img" src="../static/UNC.jpg"/>-->
-                <img class="nav_img" src="{{ url_for('static', filename='UNC.jpg') }}">
+                <div class="nav_left">
+                    <a href="/"></a>
+                    <!--<img class="nav_img" src="../static/UNC.jpg"/>-->
+                    <img class="nav_img" src="{{ url_for('static', filename='UNC.jpg') }}">
+                </div>
+
+                <ul class="row">
+                    <li class="tab nav_left"><a href="#main"><h2>Run Seekr</h2></a></li>
+                    <li class="tab tab2 nav_center"><a href="#visual"><h2>Results</h2></a></li>
+                    <li class="tab tab3 nav_right"><a href="#help"><h2>Help</h2></a></li>
+                </ul>
+
             </div>
-            <ul class="row">
-
-
-        <li class="tab nav_left"><a href="#main"><h2>Run Seekr</h2></a></li>
-
-        <li class="tab tab2 nav_center"><a href="#visual"><h2>Results</h2></a></li>
-
-        <li class="tab tab3 nav_right"><a href="#help"><h2>Help</h2></a></li>
-
-
-    </ul>
-
         </div>
     </div>
-</div>
 
 
     <div id="main" class="main">
@@ -134,7 +126,7 @@
         </div>
 
 
-        <div class="row">
+        <div class="row break">
 
             <div class="single_column_small">
                 <h1>SEEKR Settings</h1>
@@ -183,8 +175,6 @@
             </div>
         </div>
 
-
-
         <div class="row">
             <div class="container single_column_small button">
 
@@ -199,19 +189,34 @@
     </div>
 
 
-    <div id="visual" class="main">
+    <div id="visual" class="row">
 
+            <div class="row">
+                <div class="single_column container">
 
-        <div id='visual_hook'class="row">
-            <div class="single_column">
-                <p>Please run SEEKR to produce a visualization</p>
+                    <ul class="row">
+                        <li class="tab nav_left"><a href="#pearson"><h2>Pearson Correlations</h2></a></li>
+                        <li class="tab tab2 nav_center"><a href="#kmer"><h2>Kmer Profiles</h2></a></li>
+                        <li class="tab tab3 nav_right"><a href="#download"><h2>Downloads</h2></a></li>
+                    </ul>
+
+                </div>
             </div>
 
+
+        <div id="pearson" class="row">
+            <p>Please run Seekr to produce this visual</p>
+        </div>
+
+        <div id="kmer" class="row">
+            <p>Please run Seekr to produce this visual</p>
+        </div>
+
+        <div id="download" class="row">
+            <p>Please run Seekr to produce files to download</p>
         </div>
 
     </div>
-
-
 
 
     <div id="help" class="main">

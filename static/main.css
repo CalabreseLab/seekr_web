@@ -194,6 +194,10 @@ text-align: center;
 
 }
 
+.break {
+    margin-top: 2%;
+}
+
 
 .column {
     width: 38%;
@@ -220,7 +224,7 @@ text-align: center;
 .container {
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     background-color: #FFFFFF;
-    margin-bottom: 2%;
+    margin-bottom: 1px;
 }
 
 .info {
@@ -262,7 +266,7 @@ text-align: center;
     min-height: 190px;
 }
 
-.workzone:hover {
+.dropzone:hover {
     background-color: #F0F0F0;
 }
 
