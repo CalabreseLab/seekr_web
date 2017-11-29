@@ -7,6 +7,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
@@ -195,9 +196,9 @@
                 <div class="single_column container">
 
                     <ul class="row">
-                        <li class="tab nav_left"><a href="#pearson"><h2>Pearson Correlations</h2></a></li>
-                        <li class="tab tab2 nav_center"><a href="#kmer"><h2>Kmer Profiles</h2></a></li>
-                        <li class="tab tab3 nav_right"><a href="#download"><h2>Downloads</h2></a></li>
+                        <li class="tab select_left"><a href="#pearson"><h2>Pearson Correlations</h2></a></li>
+                        <li class="tab tab2 select_right"><a href="#kmer"><h2>Kmer Profiles</h2></a></li>
+                        <!--<li class="tab tab3 select_right"><a href="#download"><h2>Downloads</h2></a></li>-->
                     </ul>
 
                 </div>
@@ -205,15 +206,14 @@
 
 
         <div id="pearson" class="row">
-            <p>Please run Seekr to produce this visual</p>
+            <input id="pearson_reset" type="button" value="Reset Clustering" class="single_column_small container">
+
+            <div id="pearson_chart" style='overflow:auto; width:100%; height:800px;'></div>
         </div>
 
         <div id="kmer" class="row">
-            <p>Please run Seekr to produce this visual</p>
-        </div>
 
-        <div id="download" class="row">
-            <p>Please run Seekr to produce files to download</p>
+            <div id="kmer_chart" style='overflow:auto; width:100%; height:800px;'></div>
         </div>
 
     </div>
@@ -245,7 +245,7 @@
 </div>
 
 
-
+<script type="text/javascript" src="{{ url_for('static', filename='visual.js') }}"></script>
 
 
 </body>

@@ -12,6 +12,9 @@ from io import BytesIO
 from io import StringIO
 from logging.handlers import RotatingFileHandler
 
+import itertools
+
+import numpy as np
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -19,6 +22,7 @@ from flask import render_template_string
 from flask import request
 from flask import session
 from flask import jsonify
+from scipy.stats import stats
 
 import skr_config
 from SeekrServerError import SeekrServerError
@@ -27,7 +31,6 @@ from seekrLauncher import run_seekr_algorithm
 from seekrLauncher import _run_seekr_algorithm
 from seekrLauncher import fixup_counts
 from pearson import pearson
-import visuals
 import cluster_vis
 
 
@@ -228,25 +231,61 @@ def process_jobs():
 
         pearsons = pearson(counts, comparison_counts)
 
-        # heatmap_file = visuals.heatmap(pearsons, user_names, comparison_names)
-        # heatmap_id = session_helper.generate_file_identifier()
-        #
-        # session_helper.create_file(heatmap_file, session, heatmap_id, extension='html')
-        #
-        # kmermap_file = visuals.kmermap(user_set_counts, user_names, parameters['kmer_length'])
-        # kmermap_id = session_helper.generate_file_identifier()
-        #
-        # session_helper.create_file(kmermap_file, session, kmermap_id, extension='html')
+        new_names = []
+        for s in names:
+            if len(s) > 5:
+                new_names.append(s[:5])
+            else:
+                new_names.append(s)
 
-        heat_script, heat_div = visuals.heatmap(pearsons, user_names, comparison_names)
-        kmer_script, kmer_div = visuals.kmermap(user_counts, user_names, parameters['kmer_length'])
+        names = new_names
+
+        new_names = []
+        for s in comparison_names:
+            if len(s) > 5:
+                new_names.append(s[:5])
+            else:
+                new_names.append(s)
+
+        comparison_names = new_names
+
+        x = ['A', 'G', 'T', 'C']
+        kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
+
+        count = 0
+        for i in kmer:
+            kmer[count] = ''.join(i)
+            count = count + 1
+
+        norm_npm = counts
+        flat_npm = norm_npm.flatten()
+        scale_npm = norm_npm.flatten()
+        mean = np.mean(scale_npm)
+        z_npm = stats.zscore(flat_npm)
+        count = 0
+        for i in z_npm:
+            if i >= 2:
+                scale_npm[count] = mean
+            elif i < -1:
+                scale_npm[count] = mean
+            count = count + 1
+        clean_counts = np.reshape(scale_npm, np.shape(norm_npm))
+
+        pearsons = str(pearsons.tolist())
+        counts = str(counts.tolist())
+        clean_counts = str(clean_counts.tolist())
 
 
-        return render_template('visual.html', heat_div=heat_div, heat_script=heat_script, kmer_script=kmer_script, kmer_div=kmer_div)
+
+
+        return jsonify({'user_names': names, 'comparison_names': comparison_names,
+                        'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
+                        'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
+                        'comparison_cluster': comparison_ordering_int_list})
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
-        return render_template('error.html', text=str(e))
+        return jsonify({'error': "erorrrrrr"})
 
 
 @application.route('/files/fasta', methods=['POST'])

@@ -184,26 +184,67 @@ var runSEEKR = function(params) {
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
         dataType: "html",
-        success: function(data) {
+        success: function(input) {
 
-           kmer_matrix = data['kmer_matrix'];
+            var data = JSON.parse(input);
 
-           kmerMap(kmer_matrix);
+            var comparison_names = data.comparison_names;
+            var user_names = data.user_names;
+            var kmer_bins = data.kmer_bins;
 
-           data = [];
+            var user_cluster = data.user_cluster;
+            var comparison_cluster = data.comparison_cluster;
 
+            for(var i = 0; i < user_cluster.length; i++) {
+                user_cluster[i] = user_cluster[i] + 1;
+            }
 
-           for i in kmer_matrix:
+            for(var i = 0; i < comparison_cluster.length; i++) {
+                comparison_cluster[i] = comparison_cluster[i]  + 1;
+            }
 
-                data[i] = {
+            var kmer_cluster = [];
 
-                    value: kmer_matrix[i][2]
+            for (var i = 1; i <= kmer_bins.length; i++) {
+                kmer_cluster.push(i);
+            }
 
-                }
+            var pearson_matrix = data.pearson_matrix;
+            var kmer_matrix = data.kmer_matrix;
+            var kmer_matrix_clean = data.kmer_matrix_clean;
 
+            pearson_matrix = parseMatrix(pearson_matrix);
+            kmer_matrix = parseMatrix(kmer_matrix);
+            kmer_matrix_clean = parseMatrix(kmer_matrix_clean);
 
+//            console.log(pearson_matrix)
+//            console.log(kmer_matrix)
+//            console.log(kmer_matrix_clean)
+
+            kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
+            pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
+
+            $('#main-tabs').tabs({ active: 1})
         }
 
     });
+}
+
+
+var parseMatrix = function (matrix) {
+
+    var output = matrix.replace('[', '');
+    output = output.split('],');
+
+    for (var i = 0; i < output.length; i++) {
+        output[i] = output[i].replace('[', '');
+        output[i] = output[i].split(',');
+
+        output[i] = output[i].map(function(item) {
+            return parseFloat(item, 10);
+        });
+    }
+
+    return output;
 }
 
