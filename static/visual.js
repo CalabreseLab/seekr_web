@@ -58,6 +58,7 @@ var sample_max = Math.max.apply(null, arr);
 var sample_min = Math.min.apply(null, arr);
 
 var margin = { top: 150, right: 10, bottom: 50, left: 100 },
+
     cellSize=35;
     col_number=colLabel.length;
     row_number=rowLabel.length;
