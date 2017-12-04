@@ -275,13 +275,18 @@ def process_jobs():
         counts = str(counts.tolist())
         clean_counts = str(clean_counts.tolist())
 
-
-
+        # flag for whether the sequence length is more than 200
+        # pass this information into JSON
+        length_flag = "F"
+        if len(names) > 200:
+            length_flag = "T"
 
         return jsonify({'user_names': names, 'comparison_names': comparison_names,
                         'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
                         'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-                        'comparison_cluster': comparison_ordering_int_list})
+                        'comparison_cluster': comparison_ordering_int_list,
+                        'length_flag' : length_flag
+        })
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
