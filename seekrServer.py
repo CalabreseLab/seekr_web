@@ -231,23 +231,6 @@ def process_jobs():
 
         pearsons = pearson(counts, comparison_counts)
 
-        new_names = []
-        for s in names:
-            if len(s) > 5:
-                new_names.append(s[:5])
-            else:
-                new_names.append(s)
-
-        names = new_names
-
-        new_names = []
-        for s in comparison_names:
-            if len(s) > 5:
-                new_names.append(s[:5])
-            else:
-                new_names.append(s)
-
-        comparison_names = new_names
 
         x = ['A', 'G', 'T', 'C']
         kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
@@ -276,12 +259,11 @@ def process_jobs():
         clean_counts = str(clean_counts.tolist())
 
 
-
-
         return jsonify({'user_names': names, 'comparison_names': comparison_names,
                         'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
                         'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-                        'comparison_cluster': comparison_ordering_int_list})
+                        'comparison_cluster': comparison_ordering_int_list,
+                        })
 
     except Exception as e:
         application.logger.exception('Error in /jobs')

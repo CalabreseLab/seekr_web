@@ -4,7 +4,6 @@ body {
     font-variant: normal;
     font-size: 12px;
     box-sizing: border-box;
-    /*background-image:url("unc_background.jpg");*/
     background-color: rgba(210, 235, 255, 0.2);
     background-size: cover;
 }
@@ -21,12 +20,23 @@ input {
 
 input, select {
     width: 100%;
-    background-color: white;
-    border-style: solid;
-    border-width: thin;
-    border-color: white;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+
+  border-color: #FAFAFA;
+  border-style: solid;
+  border-width: thick;
+}
+
+input:hover, select:hover {
+    background-color: rgb(225, 245, 255);
 }
 
 
@@ -51,7 +61,7 @@ h2 {
     font-weight: 500;
     line-height: 15px;
     line-height: 15px;
-    color: black;
+    color: #000000;
     top-margin: 10px;
     bottom-margin: 10px;
 }
@@ -65,7 +75,7 @@ p {
     font-weight: 500;
     line-height: 12px;
     line-height: 12px;
-    color: black;
+    color: #000000;
     margin-left: 20px;
 }
 
@@ -77,10 +87,6 @@ ul {
     padding: 0%;
     position: relative;
     overflow: hidden;
-    /*background-color: white;
-    border-top-style: solid;
-    border-top-width: thin;
-    border-top-color: #4b9bd2;*/
     box-shadow: 0px -5px 5px -5px rgba(0,0,0,0.25);
 
 }
@@ -93,21 +99,22 @@ li {
 }
 
 li:hover {
-    background-color: #F0F0F0;
+    background-color: rgb(225, 245, 255);
 }
 
 .button:hover {
-    background-color: #F0F0F0;
+    background-color: rgb(225, 245, 255);
 }
 
 .button:hover > input {
-    background-color: #F0F0F0;
-    border-color: #F0F0F0
+    background-color: rgb(225, 245, 255);
+    border-color: rgb(225, 245, 255);
 }
 
 
 a {
     outline: none;
+    text-decoration: none
 }
 
 a.link {
@@ -127,12 +134,14 @@ img {
 width: 50%;
 float: left;
 text-align: center;
+background-color: #FAFAFA;
 }
 
 .select_right {
 width: 50%;
 float: right;
 box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+background-color: #FAFAFA;
 text-align: center;
 }
 
@@ -157,6 +166,7 @@ text-align: center;
     float: left;
     width: 33%;
     text-align: center;
+    background-color: #FAFAFA;
 }
 
 .nav_center {
@@ -164,7 +174,7 @@ text-align: center;
     width: 34%;
     text-align: center;
     box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
-    background-color: #FFFFFF;
+    background-color: #FAFAFA;
 }
 
 .nav_right {
@@ -172,6 +182,21 @@ text-align: center;
     width: 33%;
     text-align: center;
     box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+    background-color: #FAFAFA;
+}
+
+.nav_img {
+    max-width: 100%;
+    max-height: 50px;
+    margin-top: 0%;
+    top: 0%;
+    left: 0%;
+}
+
+nav_menu {
+    float: left;
+    width: 33%;
+    text-align: center;
     background-color: #FFFFFF;
 }
 
@@ -230,7 +255,7 @@ text-align: center;
 .info {
     width: 20px;
     float: right;
-    background-color: #FFFFFF;
+    background-color: #FAFAFA;
     font-weight: bold;
     border-style: none;
     font-size: 13px;
@@ -242,7 +267,7 @@ text-align: center;
     border-style: solid;
     border-width: thin;
     border-color: #FFFFFF;
-    background-color: #FAFAFA;
+    background-color: #FFFFFF;
     width: 90%;
     margin-top: 5%;
     margin-bottom: 5%;
@@ -256,8 +281,6 @@ text-align: center;
 .workzone {
     border-style: solid;
     border-width: thin;
-    border-color: #FAFAFA;
-    background-color: #FAFAFA;
     width: 90%;
     margin-top: 5%;
     margin-bottom: 5%;
@@ -267,15 +290,16 @@ text-align: center;
 }
 
 .dropzone:hover {
-    background-color: #F0F0F0;
+    background-color: rgb(225, 245, 255);
 }
 
 .dropzone {
     border-style: dashed;
-    border-color: black;
+    border-color: #000000;
     text-align: center;
     overflow: hidden;
     position: relative;
+    background-color: #FAFAFA;
 }
 
 .dropzone [type=file] {
@@ -300,17 +324,101 @@ text-align: center;
     left: 0;
 }
 
-.nav_img {
-    max-width: 100%;
-    max-height: 50px;
-    margin-top: 0%;
-    top: 0%;
-    left: 0%;
+.ui-tabs-active {
+    background-color: #FFFFFF;
 }
 
-.ui-tabs-active {
-    background-color: #FAFAFA;
+svg *::selection {
+    background : transparent;
 }
+
+svg *::-moz-selection {
+    background:transparent;
+}
+
+svg *::-webkit-selection {
+    background:transparent;
+}
+
+.canvas {
+    margin-left: 5%;
+    margin-top 1%;
+    min-width: 86%;
+}
+
+.tool {
+    float: right;
+    background-color: #FFFFFF;
+    border-width: thick;
+    border-style: solid;
+    border-color: #FAFAFA;
+    margin: 0;
+    width: 15%;
+    font-weight: normal;
+    font-size: 7pt;
+    font-style: normal;
+
+}
+
+rect.selection {
+    stroke          : #333;
+    stroke-dasharray: 4px;
+    stroke-opacity  : 0.5;
+    fill            : transparent;
+}
+
+rect.cell-border {
+    stroke: #eee;
+    stroke-width:0.3px;
+}
+
+rect.cell-selected {
+    stroke: rgb(51,102,153);
+    stroke-width:0.5px;
+}
+
+rect.cell-hover {
+    stroke: #F00;
+    stroke-width:0.3px;
+}
+
+text.mono {
+    font-size: 7pt;
+    fill: #000000;
+}
+
+text.text-highlight {
+    fill: #4b9bd2;
+}
+
+text.text-hover {
+    fill: #c00;
+}
+.tooltip {
+    position: absolute;
+    min-width: 300px;
+    height: auto;
+    padding: 10px;
+    background-color: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.tooltip.hidden {
+    display: none;
+}
+
+.tooltip p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 20px;
+}
+
 
 
 

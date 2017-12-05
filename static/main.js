@@ -17,6 +17,7 @@ $(document).ready(function() {
     $("#visual").tabs();
 
     $('#loading').hide();
+    //$('#results_toggle').hide();
 
     $('#submit').on('click', function(e) {
 
@@ -174,10 +175,6 @@ var uploadFile = function (x) {
 
 
 var runSEEKR = function(params) {
-
-    console.log(params);
-
-
     $.ajax({
         type: 'POST',
         url: '/_jobs',
@@ -187,6 +184,11 @@ var runSEEKR = function(params) {
         success: function(input) {
 
             var data = JSON.parse(input);
+
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
 
             var comparison_names = data.comparison_names;
             var user_names = data.user_names;
@@ -217,14 +219,15 @@ var runSEEKR = function(params) {
             kmer_matrix = parseMatrix(kmer_matrix);
             kmer_matrix_clean = parseMatrix(kmer_matrix_clean);
 
-//            console.log(pearson_matrix)
-//            console.log(kmer_matrix)
-//            console.log(kmer_matrix_clean)
+            $('#kmer_chart').html('');
+            $('#pearson_chart').html('');
+
 
             kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
             pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
 
             $('#main-tabs').tabs({ active: 1})
+            $('#results_toggle').show();
         }
 
     });

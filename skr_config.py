@@ -12,3 +12,5 @@ GENCODE_MOUSE = SavedSet(CURR_GENCODE_MOUSE_FTP, 'gencode_mouse_set', 'All Mouse
 
 SETTING_USER_SET = 'user_set'
 SETTING_COMPARISION_SET = 'comparison_set'
+
+SEQUENCE_NAME_DISPLAY_LENGTH = 20
