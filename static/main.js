@@ -233,13 +233,13 @@ var runSEEKR = function(params) {
             if (data.length_flag == "T") {
                 alert("Error : Sequence is more than 200 -> Visualization will not be enabled");
             } else {
-                kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
                 pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
+                kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
+
 
             $('#main-tabs').tabs({ active: 1})
             $('#results_toggle').show();
             }
-
     }
 });
 }

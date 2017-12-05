@@ -18,9 +18,9 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     var colorBuckets = 21;
     var colors =['#3366cc','#0000cc', '#000066', '#000000', '#999900', '#cccc00', '#ffff00'];
 
-    data=[];
-    for(i=1; i<=col_number; i++){
-        for(j=1; j<=row_number;j++){
+    var data=[];
+    for(var i=1; i<=col_number; i++){
+        for(var j=1; j<=row_number;j++){
 
             var obj = {row: j, col: i, val:clean[j-1][i-1] , origin:original[j-1][i-1]};
             data.push(obj)
@@ -55,8 +55,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         .attr("class", function (d,i) { return "k_rowLabel mono r"+i;} )
         .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
         .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
-        .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);})
-    ;
+        .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);});
 
     var colLabels = svg.append("g")
         .selectAll(".colLabelg")
@@ -71,8 +70,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         .attr("class",  function (d,i) { return "k_colLabel mono c"+i;} )
         .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
         .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
-        .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);})
-    ;
+        .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);});
 
     var heatMap = svg.append("g").attr("class","g3")
         .selectAll(".cellg")
@@ -81,7 +79,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         .append("rect")
         .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
         .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
-        .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("class", function(d){return "cell cell-border k_cr"+(d.row-1)+" cc"+(d.col-1);})
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.val); })
@@ -134,26 +132,25 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         var t = svg.transition().duration(3000);
         var log2r=[];
         var sorted; // sorted is zero-based index
-        d3.selectAll(".c"+rORc+i)
+        d3.selectAll(".k_c"+rORc+i)
             .filter(function(ce){
                 log2r.push(ce.val);
-            })
-        ;
+            });
         if(rORc=="r"){ // sort log2ratio of a gene
-            sorted=d3.range(col_number).sort(function(a,b){ if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
-            console.log(sorted);
+            sorted=d3.range(col_number).sort(function(a,b){return log2r[b]-log2r[a];});
 
             t.selectAll(".cell")
                 .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; });
-            t.selectAll(".colLabel")
+            t.selectAll(".k_colLabel")
                 .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
         }else{ // sort log2ratio of a contrast
             sorted=d3.range(row_number).sort(function(a,b){if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
 
-            console.log(sorted);
+            console.log(sorted)
+
             t.selectAll(".cell")
                 .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; });
-            t.selectAll(".rowLabel")
+            t.selectAll(".k_rowLabel")
                 .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
         }
     }
@@ -169,10 +166,10 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
             .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
             .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
 
-        t.selectAll(".rowLabel")
+        t.selectAll(".k_rowLabel")
             .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; });
 
-        t.selectAll(".colLabel")
+        t.selectAll(".k_colLabel")
             .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; });
     }
 }
@@ -202,9 +199,9 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
             .domain([min, max])
             .range(colors);
 
-    data=[];
-        for(i=1; i<=col_number; i++){
-            for(j=1; j<=row_number;j++){
+    var data=[];
+        for(var i=1; i<=col_number; i++){
+            for(var j=1; j<=row_number;j++){
 
                 var obj = {row: j, col: i, value:matrix[j-1][i-1]}
                 data.push(obj)
@@ -231,7 +228,7 @@ var svg = d3.select("#pearson_chart").append("svg")
       .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
       .style("text-anchor", "end")
       .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
-      .attr("class", function (d,i) { return "rowLabel mono r"+i;} )
+      .attr("class", function (d,i) { return "p_rowLabel mono r"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
       .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);});
@@ -246,7 +243,7 @@ var svg = d3.select("#pearson_chart").append("svg")
       .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
       .style("text-anchor", "left")
       .attr("transform", "translate("+cellSize/2 + ",-6) rotate (-90)")
-      .attr("class",  function (d,i) { return "colLabel mono c"+i;} )
+      .attr("class",  function (d,i) { return "p_colLabel mono c"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
       .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);});
@@ -258,7 +255,7 @@ var svg = d3.select("#pearson_chart").append("svg")
         .append("rect")
         .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
         .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
-        .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("class", function(d){return "cell cell-border p_cr"+(d.row-1)+" cc"+(d.col-1);})
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.value); })
@@ -273,8 +270,8 @@ var svg = d3.select("#pearson_chart").append("svg")
         .on("mouseover", function(d){
                //highlight text
                d3.select(this).classed("cell-hover",true);
-               d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.row-1);});
-               d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.col-1);});
+               d3.selectAll(".p_rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.row-1);});
+               d3.selectAll(".p_colLabel").classed("text-highlight",function(c,ci){ return ci==(d.col-1);});
 
                //Update the tooltip position and value
                d3.select("#pearson_tooltip")
@@ -287,8 +284,8 @@ var svg = d3.select("#pearson_chart").append("svg")
         })
         .on("mouseout", function(){
                d3.select(this).classed("cell-hover",false);
-               d3.selectAll(".rowLabel").classed("text-highlight",false);
-               d3.selectAll(".colLabel").classed("text-highlight",false);
+               d3.selectAll(".p_rowLabel").classed("text-highlight",false);
+               d3.selectAll(".p_colLabel").classed("text-highlight",false);
                d3.select("#pearson_tooltip").classed("hidden", true);
         });
 
@@ -318,25 +315,23 @@ var svg = d3.select("#pearson_chart").append("svg")
        var t = svg.transition().duration(3000);
        var log2r=[];
        var sorted; // sorted is zero-based index
-       d3.selectAll(".c"+rORc+i)
+       d3.selectAll(".p_c"+rORc+i)
          .filter(function(ce){
             log2r.push(ce.value);
           })
        ;
        if(rORc=="r"){ // sort log2ratio of a gene
          sorted=d3.range(col_number).sort(function(a,b){ return log2r[b]-log2r[a];});
-
-         console.log(sorted)
          t.selectAll(".cell")
            .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; });
-         t.selectAll(".colLabel")
+         t.selectAll(".p_colLabel")
           .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
        }else{ // sort log2ratio of a contrast
          sorted=d3.range(row_number).sort(function(a,b){return log2r[b]-log2r[a];});
 
          t.selectAll(".cell")
            .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; });
-         t.selectAll(".rowLabel")
+         t.selectAll(".p_rowLabel")
           .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
        }
   }
