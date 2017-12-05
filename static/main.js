@@ -188,7 +188,7 @@ var uploadFile = function (x) {
 var runSEEKR = function(params) {
     $.ajax({
         type: 'POST',
-        url: '/_jobs',
+        url: '/jobs',
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
         dataType: "html",
