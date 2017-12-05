@@ -55,7 +55,7 @@ class TestAjaxHTTPRequests(TestHTTPBase):
         request_fields['normal_set'] = 'user_set'
         request_data = MultipartEncoder(request_fields)
 
-        url = urllib.parse.urljoin(URLBASE, '_jobs')
+        url = urllib.parse.urljoin(URLBASE, 'jobs')
         response = self.session.post(url, data=request_data, headers={'Content-Type': request_data.content_type})
         self.assertEqual(response.status_code, 200)
 
