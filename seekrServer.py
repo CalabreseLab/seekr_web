@@ -291,10 +291,21 @@ def create_fasta():
 
     file = request.files['file']
 
+    count = 0
+    for line in str(file):
+        if line.startswith("b'"):
+            print("start with b")
+            count+=1
+
+    file_more_than_200_sequences = count/2 > 200
+
     file_identifier = session_helper.generate_file_identifier()
     session_helper.create_file(file, session, file_identifier, extension='fasta')
 
-    json_dict = {'file_id': file_identifier}
+    json_dict = {
+        'file_id': file_identifier,
+        'file_more_than_200_sequences': file_more_than_200_sequences
+    }
 
     return jsonify(json_dict)
 

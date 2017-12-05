@@ -145,8 +145,6 @@ var getCookie = function (cname) {
 var uploadFile = function (x) {
 
     if (x == 0) {
-
-
         $.ajax({
             type: 'POST',
             url: '/files/fasta',
@@ -155,13 +153,16 @@ var uploadFile = function (x) {
             contentType: false,
             processData: false,
             success: function(data) {
-
                     document.cookie = 'user_id=' + data['file_id'];
-
+                    
+                    if (data['file_more_than_200_sequences'] == true) {
+                        alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                    } else {
+                        console.log("sequence less than 200");
+                    }
             }
         });
     }
-
     else if (x == 1) {
             $.ajax({
             type: 'POST',
@@ -171,9 +172,13 @@ var uploadFile = function (x) {
             contentType: false,
             processData: false,
             success: function(data) {
-
                     document.cookie = 'comparison_id=' + data['file_id'];
-
+                    
+                    if (data['file_more_than_200_sequences'] == true) {
+                        alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                    } else {
+                        console.log("sequence less than 200");
+                    }
             }
         });
     }
