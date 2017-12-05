@@ -79,7 +79,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         .append("rect")
         .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
         .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
-        .attr("class", function(d){return "cell cell-border k_cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("class", function(d){return "cell cell-border k_cr"+(d.row-1)+" k_cc"+(d.col-1);})
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.val); })
@@ -255,7 +255,7 @@ var svg = d3.select("#pearson_chart").append("svg")
         .append("rect")
         .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
         .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
-        .attr("class", function(d){return "cell cell-border p_cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("class", function(d){return "cell cell-border p_cr"+(d.row-1)+" p_cc"+(d.col-1);})
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.value); })
@@ -346,10 +346,10 @@ var svg = d3.select("#pearson_chart").append("svg")
       .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
       .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
 
-    t.selectAll(".rowLabel")
+    t.selectAll(".p_rowLabel")
       .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; });
 
-    t.selectAll(".colLabel")
+    t.selectAll(".p_colLabel")
       .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; });
 
 
