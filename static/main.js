@@ -238,9 +238,10 @@ var runSEEKR = function(params) {
 
             $('#main-tabs').tabs({ active: 1})
             $('#results_toggle').show();
-        }
+            }
 
-    });
+    }
+});
 }
 
 

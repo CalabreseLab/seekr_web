@@ -188,7 +188,7 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
     var height = cellSize*row_number; // - margin.top - margin.bottom,
     var legendElementWidth = cellSize*0.9;
     var colorBuckets = 21;
-    var colors =['#005824','#1A693B','#347B53','#4F8D6B','#699F83','#83B09B','#9EC2B3','#B8D4CB','#D2E6E3','#EDF8FB'];
+    var colors =['#003300','#154415','#2b552b','#406640','#557755','#6a886a','#809980','#95aa95','#aabbaa','#bfccbf'];
 
 
     var domain = matrix.reduce(function (p, c) {
