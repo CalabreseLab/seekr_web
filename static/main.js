@@ -23,6 +23,12 @@ $(document).ready(function() {
 
         var normal_set = $('#normal_set').val();
         var kmer_length = $('#kmer_length').val();
+        
+        // check the kmer-length, avoid overflow
+        if (kmer_length > 6) {
+            alert("Error : Please select a kmer length smaller than 7");
+            kmer_length = 6;
+        }
 
         var current_tab = $("#comparison_set .ui-tabs-panel:visible").attr("id");
 
@@ -222,9 +228,13 @@ var runSEEKR = function(params) {
             $('#kmer_chart').html('');
             $('#pearson_chart').html('');
 
-
-            kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
-            pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
+            // if the sequence length is more than 200
+            // we will not run the visualization D3 function
+            if (data.length_flag == "T") {
+                alert("Error : Sequence is more than 200 -> Visualization will not be enabled");
+            } else {
+                kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
+                pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
 
             $('#main-tabs').tabs({ active: 1})
             $('#results_toggle').show();
