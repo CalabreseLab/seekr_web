@@ -266,33 +266,35 @@ def create_fasta():
 
     return jsonify(json_dict)
 
-# routing function for processing upload actions
+# routing function for returning files for download
 @application.route('/files', methods=['GET'])
-def process_jobs():
-    try:
-        if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
-            return redirect('/login')
+def get_file():
 
-        # TODO provide reasonable defaults
-        json_parameters = request.get_json()
-
-        t1 = time.perf_counter()
-
-        t2 = time.perf_counter()
-        application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
-
-
-
-        return jsonify({'user_names': names, 'comparison_names': comparison_names,
-                        'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
-                        'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-                        'comparison_cluster': comparison_ordering_int_list,
-                        'length_flag' : length_flag
-        })
-
-    except Exception as e:
-        application.logger.exception('Error in /jobs')
-        return jsonify({'error': "erorrrrrr"})
+    # try:
+    #     if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
+    #         return redirect('/login')
+    #
+    #     # TODO provide reasonable defaults
+    #     json_parameters = request.get_json()
+    #
+    #     t1 = time.perf_counter()
+    #
+    #     t2 = time.perf_counter()
+    #     application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
+    #
+    #
+    #
+    #     return jsonify({'user_names': names, 'comparison_names': comparison_names,
+    #                     'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
+    #                     'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
+    #                     'comparison_cluster': comparison_ordering_int_list,
+    #                     'length_flag' : length_flag
+    #     })
+    #
+    # except Exception as e:
+    #     application.logger.exception('Error in /jobs')
+    #     return jsonify({'error': "erorrrrrr"})
+    return jsonify({'error': "erorrrrrr"})
 
 # home page
 @application.route('/init_gencode',methods=['GET'])
