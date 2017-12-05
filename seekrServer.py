@@ -276,6 +276,17 @@ def process_jobs():
         return jsonify({'error': "erorrrrrr"})
 
 
+def check_sequence_length(file, upper_bound):
+    count = 0
+    for line in str(file):
+        if line.startswith("b'"):
+            print("start with b")
+            count += 1
+
+    file_more_than_200_sequences = count / 2 > upper_bound
+    return file_more_than_200_sequences
+
+
 @application.route('/files/fasta', methods=['POST'])
 def create_fasta():
     """
@@ -291,13 +302,7 @@ def create_fasta():
 
     file = request.files['file']
 
-    count = 0
-    for line in str(file):
-        if line.startswith("b'"):
-            print("start with b")
-            count+=1
-
-    file_more_than_200_sequences = count/2 > 200
+    file_more_than_200_sequences = check_sequence_length(file, 200)
 
     file_identifier = session_helper.generate_file_identifier()
     session_helper.create_file(file, session, file_identifier, extension='fasta')
