@@ -144,7 +144,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
             t.selectAll(".k_colLabel")
                 .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
         }else{ // sort log2ratio of a contrast
-            sorted=d3.range(row_number).sort(function(a,b){if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
+            sorted=d3.range(row_number).sort(function(a,b){return log2r[b]-log2r[a];});
 
             console.log(sorted)
 
@@ -200,25 +200,26 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
             .range(colors);
 
     var data=[];
-        for(var i=1; i<=col_number; i++){
-            for(var j=1; j<=row_number;j++){
 
-                var obj = {row: j, col: i, value:matrix[j-1][i-1]}
-                data.push(obj)
+    for(var i=1; i<=col_number; i++){
+        for(var j=1; j<=row_number;j++){
 
-            }
+            var obj = {row: j, col: i, value:matrix[j-1][i-1]}
+            data.push(obj)
+
         }
+    }
 
 
-var svg = d3.select("#pearson_chart").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .attr("class", "container canvas")
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  var rowSortOrder=false;
-  var colSortOrder=false;
-  var rowLabels = svg.append("g")
+    var svg = d3.select("#pearson_chart").append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .attr("class", "container canvas")
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var rowSortOrder=false;
+    var colSortOrder=false;
+    var rowLabels = svg.append("g")
       .selectAll(".rowLabelg")
       .data(rowLabel)
       .enter()
@@ -233,7 +234,7 @@ var svg = d3.select("#pearson_chart").append("svg")
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
       .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);});
 
-  var colLabels = svg.append("g")
+    var colLabels = svg.append("g")
       .selectAll(".colLabelg")
       .data(colLabel)
       .enter()
@@ -248,7 +249,7 @@ var svg = d3.select("#pearson_chart").append("svg")
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
       .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);});
 
-  var heatMap = svg.append("g").attr("class","g3")
+    var heatMap = svg.append("g").attr("class","g3")
         .selectAll(".cellg")
         .data(data,function(d){return d.row+":"+d.col;})
         .enter()
@@ -278,7 +279,7 @@ var svg = d3.select("#pearson_chart").append("svg")
                  .style("left", (d3.event.pageX+10) + "px")
                  .style("top", (d3.event.pageY-10) + "px")
                  .select("#p_value")
-                 .text("sequences:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\ncorrelation:"+d.value+"\nrow-col-idx:"+d.col+","+d.row+"\ncell-xy "+this.x.baseVal.value+", "+this.y.baseVal.value);
+                 .text("sequences:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\npearson value:"+d.value+"\nrow, col:"+d.col+","+d.row);
                //Show the tooltip
                d3.select("#pearson_tooltip").classed("hidden", false);
         })

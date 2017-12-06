@@ -17,52 +17,14 @@ $(document).ready(function() {
     $("#visual").tabs();
 
     $('#loading').hide();
-    //$('#results_toggle').hide();
+    $('#results_toggle').hide();
+
+    var length_warning = 'Warning: This set contains too many sequences to visualize, and may take some time to compute.';
+    var kmer_warning = 'Warning: This kmer number is too large to visualize, and may take some time to compute.'
 
     $('#submit').on('click', function(e) {
 
-        var normal_set = $('#normal_set').val();
-        var kmer_length = $('#kmer_length').val();
-        
-        // check the kmer-length, avoid overflow
-        if (kmer_length > 6) {
-            alert("Error : Please select a kmer length smaller than 7");
-            kmer_length = 6;
-        }
-
-        var current_tab = $("#comparison_set .ui-tabs-panel:visible").attr("id");
-
-        var comparison_set_input;
-
-        if (current_tab == 'select_file') {
-            var comparison_set_input = $('#comparison_set_reference').val();
-        }
-
-        if (getCookie('user_id')) {
-            var user_set_id = getCookie('user_id');
-            var comparison_set_id = (comparison_set_input) ? '': getCookie('comparison_id')
-            var comparison_set = (comparison_set_input) ? comparison_set_input : '';
-
-            if (comparison_set == 'user_set') {
-                comparison_set = '';
-                comparison_set_id = getCookie('user_id');
-            }
-
-            params = {
-            'normal_set' : normal_set,
-            'kmer_length' : kmer_length,
-            'comparison_set': comparison_set,
-            'comparison_set_id' : comparison_set_id,
-            'user_set_id' : user_set_id
-            }
-
-            runSEEKR(params)
-        }
-
-        else {
-            alert("Please upload a fasta file for User Set to run SEEKR.")
-        }
-
+        runSEEKR(getParams());
     });
 
 
@@ -142,6 +104,47 @@ var getCookie = function (cname) {
     return '';
 }
 
+
+var getParams = function() {
+    var normal_set = $('#normal_set').val();
+    var kmer_length = $('#kmer_length').val();
+    var current_tab = $("#comparison_set .ui-tabs-panel:visible").attr("id");
+
+    var comparison_set_input;
+
+    if (current_tab == 'select_file') {
+        var comparison_set_input = $('#comparison_set_reference').val();
+    }
+
+    if (getCookie('user_id')) {
+        var user_set_id = getCookie('user_id');
+        var comparison_set_id = (comparison_set_input) ? '': getCookie('comparison_id')
+        var comparison_set = (comparison_set_input) ? comparison_set_input : '';
+
+        if (comparison_set == 'user_set') {
+            comparison_set = '';
+            comparison_set_id = getCookie('user_id');
+        }
+
+        params = {
+        'normal_set' : normal_set,
+        'kmer_length' : kmer_length,
+        'comparison_set': comparison_set,
+        'comparison_set_id' : comparison_set_id,
+        'user_set_id' : user_set_id
+        }
+
+        return params;
+    }
+
+    else {
+        alert("Please upload a fasta file for User Set to run SEEKR.")
+
+        return;
+    }
+
+}
+
 var uploadFile = function (x) {
 
     if (x == 0) {
@@ -197,9 +200,13 @@ var runSEEKR = function(params) {
             var data = JSON.parse(input);
 
             if (data.error) {
-                alert(data.error);
+                alert(data.error + '\n Please Exit this Dialogue and Reload the Page');
                 return;
             }
+
+            //This needs to be an actual check
+            //This needs to be an actual check
+
 
             var comparison_names = data.comparison_names;
             var user_names = data.user_names;
@@ -243,6 +250,7 @@ var runSEEKR = function(params) {
 
 
             $('#main-tabs').tabs({ active: 1})
+            $('#empty_message').hide();
             $('#results_toggle').show();
             }
     }

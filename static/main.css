@@ -9,12 +9,13 @@ body {
 }
 
 input {
-    min-height: 50px;
+    min-height: 30px;
     text-align: center;
     font-size: 12px;
     font-weight: bold;
     line-height: 15px;
     line-height: 15px;
+    border: none;
     outline: none;
 }
 
@@ -22,12 +23,11 @@ input, select {
     width: 100%;
     background-color: #FFFFFF;
     border-color: #FFFFFF;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 select {
-  -webkit-appearance: none;
   -webkit-border-radius: 0px;
 
   border-color: #FAFAFA;
@@ -68,6 +68,16 @@ h2 {
 
 h2.link {
     margin-left: 10px;
+}
+
+h3 {
+    font-size: 7pt;
+    font-weight: normal;
+    font-style: normal;
+    color: #000000;
+    top-margin: 10px;
+    bottom-margin: 10px;
+    margin-left: 3%
 }
 
 p {
@@ -149,14 +159,14 @@ img {
     width: 50%;
     float: left;
     text-align: center;
-    background-color: #E0E0E0;
+    background-color: #FAFAFA;
 }
 
 .sub_select_right {
     width: 50%;
     float: right;
     box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
-    background-color: #E0E0E0;
+    background-color: #FAFAFA;
     text-align: center;
 }
 
@@ -206,6 +216,7 @@ img {
     margin-top: 0%;
     top: 0%;
     left: 0%;
+    margin-left: 5%;
 }
 
 nav_menu {
@@ -369,10 +380,16 @@ svg *::-webkit-selection {
     border-color: #FAFAFA;
     margin: 0;
     width: 15%;
+    min-height: 50px;
     font-weight: normal;
     font-size: 7pt;
     font-style: normal;
+}
 
+.visual_desc {
+    float: left;
+    width: 65%;
+    height: 30px;
 }
 
 rect.selection {
