@@ -128,7 +128,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
 
 
     function sortbylabel(rORc,i,sortOrder){
-        var t = svg.transition().duration(3000);
+        var t = svg.transition().duration(1000);
         var count=[];
         var sorted; // sorted is zero-based index
         d3.selectAll(".k_c"+rORc+i)
@@ -157,7 +157,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
     });
 
     function order(val){
-        var t = svg.transition().duration(3000);
+        var t = svg.transition().duration(1000);
         t.selectAll(".cell")
             .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
             .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
@@ -305,7 +305,7 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
 
   function sortbylabel(rORc,i,sortOrder){
 
-       var t = svg.transition().duration(3000);
+       var t = svg.transition().duration(1000);
        var pearson=[];
        var sorted;
        d3.selectAll(".p_c"+rORc+i)
@@ -334,7 +334,7 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
   });
 
   function order(){
-    var t = svg.transition().duration(3000);
+    var t = svg.transition().duration(1000);
     t.selectAll(".cell")
       .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
       .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
