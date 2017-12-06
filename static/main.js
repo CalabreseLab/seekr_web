@@ -56,7 +56,7 @@ $(document).ready(function() {
             'user_set_id' : user_set_id
             }
 
-            runSEEKR(params)
+            runSEEKR(params);
         }
 
         else {
@@ -74,9 +74,22 @@ $(document).ready(function() {
 
         fileName = fileName.replace("C:\\fakepath\\", "");
 
-        uploadFile(0)
+        uploadFile(0);
 
         $('#user_file_text').text(fileName);
+    });
+
+    $('#comparison_set_reference').change(function(){
+        var comparison_set_input = $(this).val();
+        if (comparison_set_input == "gencode_mouse_set" || comparison_set_input == "gencode_human_set"){
+            console.log(comparison_set_input);
+            $("#comparison_set").append(
+                "<div id = 'warn3'> Human/Mouse gencode is too large ! Visualization will not be enabled !</div>"
+            );
+            $("#comparison_set").find("#warn3").css("color", "red");
+        } else {
+            $("#comparison_set").find("#warn3").remove();
+        }
     });
 
     $('#comparison_set').on('change', '#comparison_set_files', function (e) {
@@ -86,6 +99,7 @@ $(document).ready(function() {
         var fileName = $(this).val();
 
         fileName = fileName.replace("C:\\fakepath\\", "");
+
 
         uploadFile(1);
 
@@ -97,21 +111,26 @@ $(document).ready(function() {
     });
 
 	 $("input:radio[name=gencode_human_set]").on('click', function(){
+
 	 	if($('#buttonGroup2').is(':checked')) {
 	 		 $('#buttonGroup2').prop("checked", false);
 	 	}
 	 	if($('#buttonGroup3').is(':checked')) {
 	 		 $('#buttonGroup3').prop("checked", false);
 	 	}
+
+
 	 });
 
 	 $("input:radio[name = gencode_mouse_set]").on('click', function(){
+
 	 	if($('#buttonGroup1').is(':checked')) {
 	 		 $('#buttonGroup1').prop("checked", false);
 	 	}
 	 	if($('#buttonGroup3').is(':checked')) {
 	 		 $('#buttonGroup3').prop("checked", false);
 	 	}
+
 	 });
 
 	 $("input:radio[name = user_set]").on('click', function(){
@@ -140,7 +159,7 @@ var getCookie = function (cname) {
         }
     }
     return '';
-}
+};
 
 var uploadFile = function (x) {
 
@@ -156,7 +175,11 @@ var uploadFile = function (x) {
                     document.cookie = 'user_id=' + data['file_id'];
                     
                     if (data['file_more_than_200_sequences'] == true) {
-                        alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                        // alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                        console.log("sequence more than 200");
+                        $("#input_set").append("<div id = 'warn1' > Sequence is more than 200 ! Visualization will not be enabled !</div>");
+                        $("#input_set").find("#warn1").css("color", "red");
+
                     } else {
                         console.log("sequence less than 200");
                     }
@@ -175,14 +198,18 @@ var uploadFile = function (x) {
                     document.cookie = 'comparison_id=' + data['file_id'];
                     
                     if (data['file_more_than_200_sequences'] == true) {
-                        alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                        // alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                        console.log("sequence more than 200");
+                        $("#input_set").append("<div id = 'warn2'> Sequence is more than 200 ! Visualization will not be enabled !</div>");
+                        $("#input_set").find("#warn2").css("color", "red");
                     } else {
                         console.log("sequence less than 200");
+
                     }
             }
         });
     }
-}
+};
 
 
 var runSEEKR = function(params) {
@@ -242,12 +269,12 @@ var runSEEKR = function(params) {
                 kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
 
 
-            $('#main-tabs').tabs({ active: 1})
+            $('#main-tabs').tabs({ active: 1});
             $('#results_toggle').show();
             }
     }
 });
-}
+};
 
 
 var parseMatrix = function (matrix) {
@@ -265,5 +292,5 @@ var parseMatrix = function (matrix) {
     }
 
     return output;
-}
+};
 
