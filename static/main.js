@@ -1,14 +1,3 @@
-$.ajaxSetup({
-    beforeSend:function(){
-        // show gif here, eg:
-        $("#loading").show();
-    },
-    complete:function(){
-        // hide gif here, eg:
-        $("#loading").hide();
-    }
-});
-
 
 $(document).ready(function() {
 
@@ -32,15 +21,31 @@ $(document).ready(function() {
         runSEEKR(getParams());
     });
 
-//    $('pearson_save').on('click', function(e) {
-//        e.preventDefault;
-//        e.stopPropagation;
-//    });
-//
-//    $('#kmer_save').on('click', function(e) {
-//        e.preventDefault;
-//        e.stopPropagation;
-//    });
+    $('pearson_save').on('click', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        getKmerMatrix();
+    });
+
+    $('#kmer_save').on('click', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        getPearsonMatrix();
+    });
+
+    $('#kmer_png').on('click', function(){
+
+        var svg = d3.select('#kmer_chart');
+
+	    var svgString = getSVGString(svg.node());
+	    svgString2Image(svgString, 2*svg.style('width'), 2*svg.style('width'), 'png', save ); // passes Blob and filesize String to the callback
+
+	    function save( dataBlob, filesize ){
+		    saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+	    }
+    });
 
     $('#user_set_files').on('change', function (e) {
         e.preventDefault();
@@ -214,6 +219,8 @@ var parseMatrix = function (matrix) {
 
 var uploadFile = function (x) {
 
+    $('#loading').show();
+
     if (x == 0) {
         $.ajax({
             type: 'POST',
@@ -236,6 +243,8 @@ var uploadFile = function (x) {
                     } else {
                         console.log("sequence less than 200");
                     }
+
+                    $('#loading').hide();
             }
         });
     }
@@ -258,6 +267,8 @@ var uploadFile = function (x) {
                     } else {
                         console.log("sequence less than 200");
                     }
+
+                    $('#loading').hide();
             }
         });
     }
@@ -267,6 +278,8 @@ var uploadFile = function (x) {
 var runSEEKR = function(params) {
 
     last_params = params;
+
+     $('#loading').show();
 
     $.ajax({
         type: 'POST',
@@ -284,8 +297,10 @@ var runSEEKR = function(params) {
             }
 
             if(data.visual_flag) {
+                console.log('visual_flag');
 
-                alert('No Soup for you');
+                getKmerMatrix();
+                getPearsonMatrix();
             }
 
             else {
@@ -328,10 +343,63 @@ var runSEEKR = function(params) {
                 $('#empty_message').hide();
                 $('#results_toggle').show();
             }
+
+            $('#loading').hide();
         }
     });
 };
 
+
+var getPearsonMatrix = function() {
+
+    var params = last_params;
+
+    console.log('The kmer matrix was not visualized');
+
+//    $.ajax({
+//        type: 'POST',
+//        url: '/files/pearsons',
+//        data: JSON.stringify(params),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "html"
+//        success: function() {
+//            console.log('pearsons downloaded');
+//        }
+//    });
+};
+
+var getKmerMatrix = function() {
+
+    var params = last_params;
+
+    console.log('The kmer matrix was not visualized');
+
+//    $('#loading').show();
+//
+//    $.ajax({
+//        type: 'POST',
+//        url: '/files/kmer',
+//        data: JSON.stringify(params),
+//        contentType: "application/json; charset=utf-8"
+////        success: function(data) {
+////            console.log('kmer downloaded');
+////
+//////            var kmer_csv = data.kmer_csv;
+////
+//////            var csvContent = "data:text/csv;charset=utf-8,";
+//////
+//////            csvContent = csvContent + kmer_csv;
+//////
+//////            //console.log(csvContent);
+//////
+//////            var encodedUri = encodeURI(csvContent);
+//////            console.log(encodedUri);
+//////            window.open(encodedUri);
+////
+////            $('#loading').hide();
+////        }
+//    });
+};
 
 
 
