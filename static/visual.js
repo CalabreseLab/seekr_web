@@ -1,14 +1,14 @@
-//I keep the my test clean input in case anything not make sense
+
+
 function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
 
-var arr = clean.reduce(function (p, c) {
-    return p.concat(c);
-});
+    var arr = clean.reduce(function (p, c) {
+        return p.concat(c);
+    });
 
-var sample_max = Math.max.apply(null, arr);
-var sample_min = Math.min.apply(null, arr);
-
-var margin =  {top: 75, right: 10, bottom: 100, left: 150};
+    var sample_max = Math.max.apply(null, arr);
+    var sample_min = Math.min.apply(null, arr);
+    var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     var cellSize=35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
@@ -16,8 +16,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     var height = cellSize*row_number; // - margin.top - margin.bottom,
     var legendElementWidth = cellSize;
     var colorBuckets = 21;
-    var colors =['#3366cc','#0000cc', '#000066', '#000000', '#999900', '#cccc00', '#ffff00'];
-
+    var colors = ['#cce0ff','#99c2ff','#66a3ff','#3385ff','#0066ff','#0052cc','#003d99','#002966','#001433','#000000','#333300','#666600','#999900','#cccc00','#ffff00','#ffff33','#ffff66','#ffff99','#ffffcc']
     var data=[];
     for(var i=1; i<=col_number; i++){
         for(var j=1; j<=row_number;j++){
@@ -38,10 +37,9 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         .attr("class", "container canvas")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
     var rowSortOrder=false;
     var colSortOrder=false;
-
-
     var rowLabels = svg.append("g")
         .selectAll(".rowLabelg")
         .data(rowLabel)
@@ -108,6 +106,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
         })
     ;
     //setting the color sacle
+
   var legend = svg.selectAll(".legend")
       .data(colorScale.quantiles())
       .enter().append("g")
@@ -129,15 +128,15 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
 
 
     function sortbylabel(rORc,i,sortOrder){
-        var t = svg.transition().duration(3000);
-        var log2r=[];
+        var t = svg.transition().duration(1000);
+        var count=[];
         var sorted; // sorted is zero-based index
         d3.selectAll(".k_c"+rORc+i)
             .filter(function(ce){
-                log2r.push(ce.val);
+                count.push(ce.val);
             });
-        if(rORc=="r"){ // sort log2ratio of a gene
-            sorted=d3.range(col_number).sort(function(a,b){return log2r[b]-log2r[a];});
+        if(rORc=="r"){
+            sorted=d3.range(col_number).sort(function(a,b){return count[b]-count[a];});
 
             t.selectAll(".cell")
                 .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; });
@@ -145,8 +144,6 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
                 .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
         }else{ // sort log2ratio of a contrast
             sorted=d3.range(row_number).sort(function(a,b){return log2r[b]-log2r[a];});
-
-            console.log(sorted)
 
             t.selectAll(".cell")
                 .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; });
@@ -160,8 +157,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     });
 
     function order(val){
-
-        var t = svg.transition().duration(3000);
+        var t = svg.transition().duration(1000);
         t.selectAll(".cell")
             .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
             .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
@@ -176,8 +172,7 @@ var margin =  {top: 75, right: 10, bottom: 100, left: 150};
 
 function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
 
-//adjust
-var margin = { top: 150, right: 10, bottom: 100, left: 150 };
+    var margin = { top: 150, right: 10, bottom: 100, left: 150 };
     var cellSize=35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
@@ -187,14 +182,12 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
     var colorBuckets = 21;
     var colors =['#003300','#154415','#2b552b','#406640','#557755','#6a886a','#809980','#95aa95','#aabbaa','#bfccbf'];
 
-
     var domain = matrix.reduce(function (p, c) {
         return p.concat(c);
     });
 
     var max = Math.max.apply(null, domain);
     var min = Math.min.apply(null, domain);
-
     var colorScale = d3.scale.quantile()
             .domain([min, max])
             .range(colors);
@@ -212,14 +205,15 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
 
 
     var svg = d3.select("#pearson_chart").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .attr("class", "container canvas")
-          .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var rowSortOrder=false;
-    var colSortOrder=false;
-    var rowLabels = svg.append("g")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr("class", "container canvas")
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var rowSortOrder=false;
+  var colSortOrder=false;
+
+  var rowLabels = svg.append("g")
       .selectAll(".rowLabelg")
       .data(rowLabel)
       .enter()
@@ -313,22 +307,22 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
 
   function sortbylabel(rORc,i,sortOrder){
 
-       var t = svg.transition().duration(3000);
-       var log2r=[];
-       var sorted; // sorted is zero-based index
+       var t = svg.transition().duration(1000);
+       var pearson=[];
+       var sorted;
        d3.selectAll(".p_c"+rORc+i)
          .filter(function(ce){
-            log2r.push(ce.value);
+            pearson.push(ce.value);
           })
        ;
-       if(rORc=="r"){ // sort log2ratio of a gene
-         sorted=d3.range(col_number).sort(function(a,b){ return log2r[b]-log2r[a];});
+       if(rORc=="r"){
+         sorted=d3.range(col_number).sort(function(a,b){ return pearson[b]-pearson[a];});
          t.selectAll(".cell")
            .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; });
          t.selectAll(".p_colLabel")
           .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
-       }else{ // sort log2ratio of a contrast
-         sorted=d3.range(row_number).sort(function(a,b){return log2r[b]-log2r[a];});
+       }else{
+         sorted=d3.range(row_number).sort(function(a,b){return pearson[b]-pearson[a];});
 
          t.selectAll(".cell")
            .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; });
@@ -342,7 +336,7 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
   });
 
   function order(){
-    var t = svg.transition().duration(3000);
+    var t = svg.transition().duration(1000);
     t.selectAll(".cell")
       .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
       .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; });
@@ -356,5 +350,3 @@ var margin = { top: 150, right: 10, bottom: 100, left: 150 };
 
   }
 }
-
-//myMain(rowLabel,colLabel,hcrow,hccol,clean,original)
