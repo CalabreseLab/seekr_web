@@ -12,6 +12,8 @@ $.ajaxSetup({
 
 $(document).ready(function() {
 
+    var last_params;
+
     $("#main-tabs").tabs();
     $("#comparison_set").tabs();
     $("#visual").tabs();
@@ -19,16 +21,28 @@ $(document).ready(function() {
     $('#loading').hide();
     $('#results_toggle').hide();
 
-    var length_warning = 'Warning: This set contains too many sequences to visualize, and may take some time to compute.';
-    var kmer_warning = 'Warning: This kmer number is too large to visualize, and may take some time to compute.'
+    $("#kmer_warning").hide();
+    $('#user_warning').hide();
+    $('#comparison_warning').hide();
 
     $('#submit').on('click', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
 
         runSEEKR(getParams());
     });
 
+//    $('pearson_save').on('click', function(e) {
+//        e.preventDefault;
+//        e.stopPropagation;
+//    });
+//
+//    $('#kmer_save').on('click', function(e) {
+//        e.preventDefault;
+//        e.stopPropagation;
+//    });
 
-    $('#user_set_files').change(function (e) {
+    $('#user_set_files').on('change', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -41,17 +55,34 @@ $(document).ready(function() {
         $('#user_file_text').text(fileName);
     });
 
-    $('#comparison_set_reference').change(function(){
+    $('#comparison_set_reference').on('change', function(e){
+        e.preventDefault;
+        e.stopPropagation;
+
         var comparison_set_input = $(this).val();
+
+        $('#comparison_warning').hide();
+
         if (comparison_set_input == "gencode_mouse_set" || comparison_set_input == "gencode_human_set"){
-            console.log(comparison_set_input);
-            $("#comparison_set").append(
-                "<div id = 'warn3'> Human/Mouse gencode is too large ! Visualization will not be enabled !</div>"
-            );
-            $("#comparison_set").find("#warn3").css("color", "red");
-        } else {
-            $("#comparison_set").find("#warn3").remove();
+
+            $('#comparison_warning').show();
         }
+    });
+
+    $('#kmer_length').on('change', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        var kmer_length = $('#kmer_length').val();
+
+        $('#kmer_warning').hide();
+
+        if (kmer_length > 6) {
+            $('#kmer_warning').show();
+        }
+
+
+
     });
 
     $('#comparison_set').on('change', '#comparison_set_files', function (e) {
@@ -161,128 +192,7 @@ var getParams = function() {
 
         return;
     }
-
 }
-
-var uploadFile = function (x) {
-
-    if (x == 0) {
-        $.ajax({
-            type: 'POST',
-            url: '/files/fasta',
-            data: new FormData($('#user_set_form')[0]),
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                    document.cookie = 'user_id=' + data['file_id'];
-                    
-                    if (data['file_more_than_200_sequences'] == true) {
-                        // alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
-                        console.log("sequence more than 200");
-                        $("#input_set").append("<div id = 'warn1' > Sequence is more than 200 ! Visualization will not be enabled !</div>");
-                        $("#input_set").find("#warn1").css("color", "red");
-
-                    } else {
-                        console.log("sequence less than 200");
-                    }
-            }
-        });
-    }
-    else if (x == 1) {
-            $.ajax({
-            type: 'POST',
-            url: '/files/fasta',
-            data: new FormData($('#comparison_set_form')[0]),
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                    document.cookie = 'comparison_id=' + data['file_id'];
-                    
-                    if (data['file_more_than_200_sequences'] == true) {
-                        // alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
-                        console.log("sequence more than 200");
-                        $("#input_set").append("<div id = 'warn2'> Sequence is more than 200 ! Visualization will not be enabled !</div>");
-                        $("#input_set").find("#warn2").css("color", "red");
-                    } else {
-                        console.log("sequence less than 200");
-
-                    }
-            }
-        });
-    }
-};
-
-
-var runSEEKR = function(params) {
-    $.ajax({
-        type: 'POST',
-        url: '/jobs',
-        data: JSON.stringify(params),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function(input) {
-
-            var data = JSON.parse(input);
-
-            if (data.error) {
-                alert(data.error + '\n Please Exit this Dialogue and Reload the Page');
-                return;
-            }
-
-            //This needs to be an actual check
-            //This needs to be an actual check
-
-
-            var comparison_names = data.comparison_names;
-            var user_names = data.user_names;
-            var kmer_bins = data.kmer_bins;
-
-            var user_cluster = data.user_cluster;
-            var comparison_cluster = data.comparison_cluster;
-
-            for(var i = 0; i < user_cluster.length; i++) {
-                user_cluster[i] = user_cluster[i] + 1;
-            }
-
-            for(var i = 0; i < comparison_cluster.length; i++) {
-                comparison_cluster[i] = comparison_cluster[i]  + 1;
-            }
-
-            var kmer_cluster = [];
-
-            for (var i = 1; i <= kmer_bins.length; i++) {
-                kmer_cluster.push(i);
-            }
-
-            var pearson_matrix = data.pearson_matrix;
-            var kmer_matrix = data.kmer_matrix;
-            var kmer_matrix_clean = data.kmer_matrix_clean;
-
-            pearson_matrix = parseMatrix(pearson_matrix);
-            kmer_matrix = parseMatrix(kmer_matrix);
-            kmer_matrix_clean = parseMatrix(kmer_matrix_clean);
-
-            $('#kmer_chart').html('');
-            $('#pearson_chart').html('');
-
-            // if the sequence length is more than 200
-            // we will not run the visualization D3 function
-            if (data.length_flag == "T") {
-                alert("Error : Sequence is more than 200 -> Visualization will not be enabled");
-            } else {
-                pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
-                kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
-
-
-            $('#main-tabs').tabs({ active: 1})
-            $('#empty_message').hide();
-            $('#results_toggle').show();
-            }
-    }
-});
-};
 
 
 var parseMatrix = function (matrix) {
@@ -301,4 +211,128 @@ var parseMatrix = function (matrix) {
 
     return output;
 };
+
+var uploadFile = function (x) {
+
+    if (x == 0) {
+        $.ajax({
+            type: 'POST',
+            url: '/files/fasta',
+            data: new FormData($('#user_set_form')[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                    document.cookie = 'user_id=' + data['file_id'];
+
+                    $("#user_warning").hide();
+                    
+                    if (data['file_more_than_200_sequences'] == true) {
+                        // alert("Error : Sequence is more than 200 ; Visualization will not be enabled ");
+                        console.log("sequence more than 200");
+
+                        $("#user_warning").show();
+
+                    } else {
+                        console.log("sequence less than 200");
+                    }
+            }
+        });
+    }
+    else if (x == 1) {
+            $.ajax({
+            type: 'POST',
+            url: '/files/fasta',
+            data: new FormData($('#comparison_set_form')[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                    document.cookie = 'comparison_id=' + data['file_id'];
+
+                    $('#comparison_warning').hide();
+                    
+                    if (data['file_more_than_200_sequences'] == true) {
+                        console.log("sequence more than 200");
+                        $('#comparison_warning').show();
+                    } else {
+                        console.log("sequence less than 200");
+                    }
+            }
+        });
+    }
+};
+
+
+var runSEEKR = function(params) {
+
+    last_params = params;
+
+    $.ajax({
+        type: 'POST',
+        url: '/jobs',
+        data: JSON.stringify(params),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function(input) {
+
+            var data = JSON.parse(input);
+
+            if (data.error) {
+                alert(data.error + '\n Please Exit this Dialogue and Reload the Page');
+                return;
+            }
+
+            if(data.visual_flag) {
+
+                alert('No Soup for you');
+            }
+
+            else {
+                var comparison_names = data.comparison_names;
+                var user_names = data.user_names;
+                var kmer_bins = data.kmer_bins;
+
+                var user_cluster = data.user_cluster;
+                var comparison_cluster = data.comparison_cluster;
+
+                for(var i = 0; i < user_cluster.length; i++) {
+                    user_cluster[i] = user_cluster[i] + 1;
+                }
+
+                for(var i = 0; i < comparison_cluster.length; i++) {
+                    comparison_cluster[i] = comparison_cluster[i]  + 1;
+                }
+
+                var kmer_cluster = [];
+
+                for (var i = 1; i <= kmer_bins.length; i++) {
+                    kmer_cluster.push(i);
+                }
+
+                var pearson_matrix = data.pearson_matrix;
+                var kmer_matrix = data.kmer_matrix;
+                var kmer_matrix_clean = data.kmer_matrix_clean;
+
+                pearson_matrix = parseMatrix(pearson_matrix);
+                kmer_matrix = parseMatrix(kmer_matrix);
+                kmer_matrix_clean = parseMatrix(kmer_matrix_clean);
+
+                $('#kmer_chart').html('');
+                $('#pearson_chart').html('');
+
+                pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
+                kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
+
+                $('#main-tabs').tabs({ active: 1})
+                $('#empty_message').hide();
+                $('#results_toggle').show();
+            }
+        }
+    });
+};
+
+
+
+
 

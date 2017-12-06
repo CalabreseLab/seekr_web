@@ -162,7 +162,7 @@ def process_jobs():
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        if len(names) <= skr_config.MAX_VISUAL_SEQ_LENGTH:
+        if len(names) <= skr_config.MAX_VISUAL_SEQ_LENGTH and len(comparison_names) <= skr_config.MAX_VISUAL_SEQ_LENGTH and parameters['kmer_length'] <= skr_config.MAX_VISUAL_KMER_LENGTH:
 
             fixup_counts_warnings = fixup_counts(counts, counter)
             if comparison_counts is None:
@@ -185,7 +185,6 @@ def process_jobs():
             comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
 
             pearsons = pearson(counts, comparison_counts)
-
 
             x = ['A', 'G', 'T', 'C']
             kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
@@ -213,22 +212,20 @@ def process_jobs():
             counts = str(counts.tolist())
             clean_counts = str(clean_counts.tolist())
 
-        # flag for whether the sequence length is more than 200
-        # pass this information into JSON
-        length_flag = "F"
-        if len(names) > skr_config.MAX_VISUAL_SEQ_LENGTH:
-            length_flag = "T"
+            return jsonify({'user_names': names, 'comparison_names': comparison_names,
+                            'kmer_bins': kmer, 'pearson_matrix': pearsons, 'kmer_matrix': counts,
+                            'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
+                            'comparison_cluster': comparison_ordering_int_list
+                            })
 
-        return jsonify({'user_names': names, 'comparison_names': comparison_names,
-                        'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
-                        'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-                        'comparison_cluster': comparison_ordering_int_list,
-                        'length_flag' : length_flag
-        })
+        else:
+            return jsonify({'visual_flag': True})
+
+
 
     except Exception as e:
         application.logger.exception('Error in /jobs')
-        return jsonify({'error': "erorrrrrr"})
+        return jsonify({'error': "Server_Error: 500"})
 
 
 def check_sequence_length(file_str, upper_bound):

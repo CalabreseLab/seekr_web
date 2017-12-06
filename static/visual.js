@@ -6,17 +6,20 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         return p.concat(c);
     });
 
+    console.log(rowLabel.length);
+    console.log(colLabel.length);
+
     var sample_max = Math.max.apply(null, arr);
     var sample_min = Math.min.apply(null, arr);
     var margin =  {top: 75, right: 10, bottom: 100, left: 150};
-    var cellSize=35;
+    var cellSize=(colLabel.length > 16)? 15 : 35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
     var width = cellSize*col_number; // - margin.left - margin.right,
     var height = cellSize*row_number; // - margin.top - margin.bottom,
-    var legendElementWidth = cellSize;
+    var legendElementSize = 35;
     var colorBuckets = 21;
-    var colors = ['#cce0ff','#99c2ff','#66a3ff','#3385ff','#0066ff','#0052cc','#003d99','#002966','#001433','#000000','#333300','#666600','#999900','#cccc00','#ffff00','#ffff33','#ffff66','#ffff99','#ffffcc']
+    var colors = ['#cce0ff','#99c2ff','#66a3ff','#3385ff', '#0066ff','#0052cc','#003d99','#002966','#001433','#000000','#333300','#666600','#999900','#cccc00','#ffff00','#ffff33','#ffff66','#ffff99','#ffffcc']
     var data=[];
     for(var i=1; i<=col_number; i++){
         for(var j=1; j<=row_number;j++){
@@ -81,7 +84,6 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.val); })
-        .style("stroke", '#000000')
         .on("mouseover", function(d){
             //highlight text
             d3.select(this).classed("cell-hover",true);
@@ -113,18 +115,18 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
       .attr("class", "legend");
 
   legend.append("rect")
-    .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height+(cellSize*2) - margin.bottom/2)
-    .attr("width", legendElementWidth)
-    .attr("height", cellSize)
+    .attr("x", function(d, i) { return legendElementSize * i; })
+    .attr("y", height+margin.bottom/3)
+    .attr("width", legendElementSize)
+    .attr("height", legendElementSize)
     .style("fill", function(d, i) { return colors[i]; });
 
   legend.append("text")
     .attr("class", "mono")
     .text(function(d) { return Math.round(d * 100)/100; })
-    .attr("width", legendElementWidth)
-    .attr("x", function(d, i) { return legendElementWidth * i + 5; })
-    .attr("y", height+(cellSize*3.5) - margin.bottom/2);
+    .attr("width", legendElementSize)
+    .attr("x", function(d, i) { return legendElementSize * i + 2; })
+    .attr("y", height + margin.bottom/3 + legendElementSize*1.5);
 
 
     function sortbylabel(rORc,i,sortOrder){
@@ -143,7 +145,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
             t.selectAll(".k_colLabel")
                 .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; });
         }else{ // sort log2ratio of a contrast
-            sorted=d3.range(row_number).sort(function(a,b){return log2r[b]-log2r[a];});
+            sorted=d3.range(row_number).sort(function(a,b){return count[b]-count[a];});
 
             t.selectAll(".cell")
                 .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; });
@@ -173,12 +175,12 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
 function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
 
     var margin = { top: 150, right: 10, bottom: 100, left: 150 };
-    var cellSize=35;
+    var cellSize=(colLabel.length > 35)? 15 : 35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
     var width = cellSize*col_number; // - margin.left - margin.right,
     var height = cellSize*row_number; // - margin.top - margin.bottom,
-    var legendElementWidth = cellSize*0.9;
+    var legendElementSize = 35;
     var colorBuckets = 21;
     var colors =['#003300','#154415','#2b552b','#406640','#557755','#6a886a','#809980','#95aa95','#aabbaa','#bfccbf'];
 
@@ -290,18 +292,18 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
       .attr("class", "legend");
 
   legend.append("rect")
-    .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height+(cellSize*2) - margin.bottom/2)
-    .attr("width", legendElementWidth)
-    .attr("height", cellSize)
+    .attr("x", function(d, i) { return legendElementSize * i; })
+    .attr("y", height + margin.bottom/3)
+    .attr("width", legendElementSize)
+    .attr("height", legendElementSize)
     .style("fill", function(d, i) { return colors[i]; });
 
   legend.append("text")
     .attr("class", "mono")
     .text(function(d) { return Math.round(d * 100)/100; })
-    .attr("width", legendElementWidth)
-    .attr("x", function(d, i) { return legendElementWidth * i + 5; })
-    .attr("y", height+(cellSize*3.5) - margin.bottom/2);
+    .attr("width", legendElementSize)
+    .attr("x", function(d, i) { return legendElementSize * i + 2; })
+    .attr("y", height + margin.bottom/3 + legendElementSize * 1.5);
 
 // Change ordering of cells
 
