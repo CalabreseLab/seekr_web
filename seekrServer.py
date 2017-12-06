@@ -30,6 +30,8 @@ from precompute_sequence_sets import initialize_cache
 from seekrLauncher import run_seekr_algorithm
 from seekrLauncher import _run_seekr_algorithm
 from seekrLauncher import fixup_counts
+from seekrLauncher import get_kmers_csv
+from seekrLauncher import get_pearsons_csv
 from pearson import pearson
 import cluster_vis
 
@@ -129,34 +131,7 @@ def process_jobs():
         if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
 
-        # TODO provide reasonable defaults
-        json_parameters = request.get_json()
-
-
-        parameters = dict()
-
-        if ('user_set_id' in json_parameters):
-            parameters['user_set_files'] = json_parameters['user_set_id']
-
-        if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and json_parameters['comparison_set_id'] != ''):
-
-            parameters['comparison_set_files'] = json_parameters['comparison_set_id']
-
-        if 'comparison_set' in json_parameters:
-            parameters['comparison_set'] = str(json_parameters['comparison_set'])
-
-        if 'kmer_length' in json_parameters:
-             parameters['kmer_length'] = int(json_parameters['kmer_length'])
-
-        if 'normal_set' in json_parameters:
-            parameters['normal_set'] = str(json_parameters['normal_set'])
-
-        parameters['directory_id'] = session_helper.get_directory_id(session)
-
-        if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
-            raise SeekrServerError('User directory not found for this session')
-
-
+        parameters = build_seekr_parameters(request)
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
@@ -226,6 +201,102 @@ def process_jobs():
     except Exception as e:
         application.logger.exception('Error in /jobs')
         return jsonify({'error': "Server_Error: 500"})
+
+# routing function for generating kmers file
+@application.route('/files/kmers', methods=['POST'])
+def process_jobs():
+    try:
+        if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
+            return redirect('/login')
+
+        parameters = build_seekr_parameters(request)
+        t1 = time.perf_counter()
+        counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
+        t2 = time.perf_counter()
+        application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
+
+        fixup_counts_warnings = fixup_counts(counts, counter)
+        if comparison_counts is None:
+            comparison_counts = counts
+            comparison_names = names
+        else:
+            fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
+
+
+        x = ['A', 'G', 'T', 'C']
+        kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
+
+        csv_string = get_kmers_csv(counts, names, kmers=kmer)
+
+        last_modified = email.utils.formatdate(time.time(), usegmt=True)
+        headers = {'Content-Type': 'application/csv',
+                   'Content-Disposition': 'attachment;filename = seekr.csv',
+                   'Content-Length': str(len(csv_string)),
+                   'Last-Modified': last_modified
+                   }
+        return (csv_string, headers)
+
+    except Exception as e:
+        application.logger.exception('Error in /files/kmers')
+        #TODO change error from json
+        return jsonify({'error': "Server_Error: 500"})
+
+# routing function for generating pearsons file
+@application.route('/files/pearsons', methods=['POST'])
+def process_jobs():
+    try:
+        if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
+            return redirect('/login')
+
+        parameters = build_seekr_parameters(request)
+        t1 = time.perf_counter()
+        counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
+        t2 = time.perf_counter()
+        application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
+
+        fixup_counts_warnings = fixup_counts(counts, counter)
+        if comparison_counts is None:
+            comparison_counts = counts
+            comparison_names = names
+        else:
+            fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
+
+        pearsons = pearson(counts, comparison_counts)
+        csv_string = get_pearsons_csv(counts, names, pearsons, comparison_names)
+
+        last_modified = email.utils.formatdate(time.time(), usegmt=True)
+        headers = {'Content-Type': 'application/csv',
+                   'Content-Disposition': 'attachment;filename = pearsons.csv',
+                   'Content-Length': str(len(csv_string)),
+                   'Last-Modified': last_modified
+                   }
+        return (csv_string, headers)
+
+    except Exception as e:
+        application.logger.exception('Error in /files/kmers')
+        #TODO change error from json
+        return jsonify({'error': "Server_Error: 500"})
+
+def build_seekr_parameters(request):
+    # TODO provide reasonable defaults
+    json_parameters = request.get_json()
+    parameters = dict()
+    if ('user_set_id' in json_parameters):
+        parameters['user_set_files'] = json_parameters['user_set_id']
+    if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and json_parameters[
+        'comparison_set_id'] != ''):
+        parameters['comparison_set_files'] = json_parameters['comparison_set_id']
+    if 'comparison_set' in json_parameters:
+        parameters['comparison_set'] = str(json_parameters['comparison_set'])
+    if 'kmer_length' in json_parameters:
+        parameters['kmer_length'] = int(json_parameters['kmer_length'])
+    if 'normal_set' in json_parameters:
+        parameters['normal_set'] = str(json_parameters['normal_set'])
+    parameters['directory_id'] = session_helper.get_directory_id(session)
+    if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
+        raise SeekrServerError('User directory not found for this session')
+
+    return parameters
 
 
 def check_sequence_length(file_str, upper_bound):
