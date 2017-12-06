@@ -162,59 +162,61 @@ def process_jobs():
         t2 = time.perf_counter()
         application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
 
-        fixup_counts_warnings = fixup_counts(counts, counter)
-        if comparison_counts is None:
-            comparison_counts = counts
-            comparison_names = names
-        else:
-            fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
+        if len(names) <= skr_config.MAX_VISUAL_SEQ_LENGTH:
 
-        #reorder according to hierarchical cluster example
-        Z = cluster_vis.cluster_kmers(counts)
-        ordering = cluster_vis.get_ordering(Z)
-        ordered_counts = counts[ordering,:]
-        ordering_int_list = ordering.astype(int).tolist()
-        ordered_names = [names[i] for i in ordering_int_list]
+            fixup_counts_warnings = fixup_counts(counts, counter)
+            if comparison_counts is None:
+                comparison_counts = counts
+                comparison_names = names
+            else:
+                fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
 
-        comparison_Z = cluster_vis.cluster_kmers(comparison_counts)
-        comparison_ordering = cluster_vis.get_ordering(comparison_Z)
-        comparison_ordered_counts = comparison_counts[comparison_ordering, :]
-        comparison_ordering_int_list = comparison_ordering.astype(int).tolist()
-        comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
+            #reorder according to hierarchical cluster example
+            Z = cluster_vis.cluster_kmers(counts)
+            ordering = cluster_vis.get_ordering(Z)
+            ordered_counts = counts[ordering,:]
+            ordering_int_list = ordering.astype(int).tolist()
+            ordered_names = [names[i] for i in ordering_int_list]
 
-        pearsons = pearson(counts, comparison_counts)
+            comparison_Z = cluster_vis.cluster_kmers(comparison_counts)
+            comparison_ordering = cluster_vis.get_ordering(comparison_Z)
+            comparison_ordered_counts = comparison_counts[comparison_ordering, :]
+            comparison_ordering_int_list = comparison_ordering.astype(int).tolist()
+            comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
+
+            pearsons = pearson(counts, comparison_counts)
 
 
-        x = ['A', 'G', 'T', 'C']
-        kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
+            x = ['A', 'G', 'T', 'C']
+            kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
 
-        count = 0
-        for i in kmer:
-            kmer[count] = ''.join(i)
-            count = count + 1
+            count = 0
+            for i in kmer:
+                kmer[count] = ''.join(i)
+                count = count + 1
 
-        norm_npm = counts
-        flat_npm = norm_npm.flatten()
-        scale_npm = norm_npm.flatten()
-        mean = np.mean(scale_npm)
-        z_npm = stats.zscore(flat_npm)
-        count = 0
-        for i in z_npm:
-            if i >= 2:
-                scale_npm[count] = mean
-            elif i < -1:
-                scale_npm[count] = mean
-            count = count + 1
-        clean_counts = np.reshape(scale_npm, np.shape(norm_npm))
+            norm_npm = counts
+            flat_npm = norm_npm.flatten()
+            scale_npm = norm_npm.flatten()
+            mean = np.mean(scale_npm)
+            z_npm = stats.zscore(flat_npm)
+            count = 0
+            for i in z_npm:
+                if i >= 2:
+                    scale_npm[count] = mean
+                elif i < -1:
+                    scale_npm[count] = mean
+                count = count + 1
+            clean_counts = np.reshape(scale_npm, np.shape(norm_npm))
 
-        pearsons = str(pearsons.tolist())
-        counts = str(counts.tolist())
-        clean_counts = str(clean_counts.tolist())
+            pearsons = str(pearsons.tolist())
+            counts = str(counts.tolist())
+            clean_counts = str(clean_counts.tolist())
 
         # flag for whether the sequence length is more than 200
         # pass this information into JSON
         length_flag = "F"
-        if len(names) > 200:
+        if len(names) > skr_config.MAX_VISUAL_SEQ_LENGTH:
             length_flag = "T"
 
         return jsonify({'user_names': names, 'comparison_names': comparison_names,
@@ -257,7 +259,7 @@ def create_fasta():
     # get uploaded file from session
     get_file = session_helper.get_file(session, file_identifier, 'fasta')
 
-    file_more_than_200_sequences = check_sequence_length(get_file, 200)
+    file_more_than_200_sequences = check_sequence_length(get_file, skr_config.MAX_VISUAL_SEQ_LENGTH)
 
     json_dict = {
         'file_id': file_identifier,
