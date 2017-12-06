@@ -374,3 +374,11 @@ def fixup_counts(counts, counter):
         warnings.append('Warning: Normalization contains k-mers with NaN standard deviation')
 
     return warnings
+
+def get_kmers_csv(counts, names, kmers):
+    df = pandas.DataFrame(data=counts, index=names, columns=kmers)
+    return df.to_csv()
+
+def get_pearsons_csv(counts, names, pearsons, comparison_names):
+    df = pandas.DataFrame(data=counts, index=names, columns=comparison_names)
+    return df.to_csv()
