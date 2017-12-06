@@ -7,8 +7,11 @@
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
+    <!--<script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>-->
+    <!--<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>-->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='savePNG.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
     <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">-->
 
@@ -18,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="../static/main.css">
 
 </head>
-<body  >
+<body>
 
 <div id="main-tabs" class="row">
 
@@ -80,7 +83,7 @@
                     </div>
                 </div>
 
-                <p id="user_warning">Warning: This set contains too many sequences to visualize, and may take some time to compute.</p>
+                <p id="user_warning" class="warning">Warning: This set contains too many sequences to visualize.</p>
             </div>
 
 
@@ -128,7 +131,7 @@
                     </div>
                 </div>
 
-                <p id="comparison_warning">Warning: This set contains too many sequences to visualize, and may take some time to compute.</p>
+                <p id="comparison_warning" class="warning">Warning: This set contains too many sequences to visualize.</p>
             </div>
         </div>
 
@@ -175,11 +178,10 @@
                             <option>6</option>
                             <option>7</option>
                             <option>8</option>
-                            <option>9</option>
                         </select>
                     </div>
                 </div>
-                <p id="kmer_warning">Warning: This kmer length is too large to visualize, and may take some time to compute.</p>
+                <p id="kmer_warning" class="warning">Warning: This kmer length is too large to visualize.</p>
             </div>
         </div>
 
@@ -202,7 +204,7 @@
     <!--------------------------------------------------------->
     <div id="visual" class="row">
 
-        <div id="empty_message" class="single_column container"><p>Please run SEEKR to populate this tab</p></div>
+        <div id="empty_message" class="single_column"><p>Please run SEEKR to populate this tab</p></div>
 
         <div id="results_toggle">
 
@@ -210,7 +212,7 @@
                 <div class="single_column container">
 
                     <ul class="row">
-                        <li class="tab sub_select_left"><a href="#pearson"><h2>Sequence Similarity Matrix</h2></a></li>
+                        <li class="tab sub_select_left"><a href="#pearson"><h2>Sequence Pearson Correlation Matrix</h2></a></li>
                         <li class="tab tab2 sub_select_right"><a href="#kmer"><h2>Sequence Kmer Profile Matrix</h2></a></li>
                     </ul>
 
@@ -222,9 +224,15 @@
             <div id="pearson" class="row">
 
                 <div class="row">
+                    <div class="single_column">
+                        <h1>Pearson Correlations for User Set x Comparison Set</h1>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="single_column container">
                         <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
-                        <input id="pearson_save" class="tool" type="button" value="Save as .csv">
+                        <!--<input id="pearson_save" class="tool" type="button" value="Save as .csv">-->
                         <input id="pearson_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>
@@ -236,8 +244,16 @@
             <div id="kmer" class="row">
 
                 <div class="row">
+                    <div class="single_column">
+                        <h1>Normalized Kmer Counts for User Set</h1>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="single_column container">
-                        <input id="kmer_save" class="tool" type="button" value="Save as .csv">
+                        <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
+                        <!--<input id="kmer_png" class="tool" type="button" value="Save as .png">-->
+                        <!--<input id="kmer_save" class="tool" type="button" value="Save as .csv">-->
                         <input id="kmer_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>

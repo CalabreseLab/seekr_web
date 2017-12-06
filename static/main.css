@@ -451,6 +451,9 @@ text.text-hover {
     line-height: 20px;
 }
 
+.warning {
+    font-color: red;
+}
 
 
 
