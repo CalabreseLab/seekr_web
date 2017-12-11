@@ -13,6 +13,7 @@ $(document).ready(function() {
     $("#kmer_warning").hide();
     $('#user_warning').hide();
     $('#comparison_warning').hide();
+    //$('#no_visual_downloads').hide();
 
     $('#submit').on('click', function(e) {
         e.preventDefault;
@@ -21,31 +22,31 @@ $(document).ready(function() {
         runSEEKR(getParams());
     });
 
-    $('pearson_save').on('click', function(e) {
+    $('#pearson_save').on('click', function(e) {
         e.preventDefault;
         e.stopPropagation;
 
-        getKmerMatrix();
+        //getMatrix('/files/pearsons');
     });
 
     $('#kmer_save').on('click', function(e) {
         e.preventDefault;
         e.stopPropagation;
 
-        getPearsonMatrix();
+        getMatrix('/files/kmers');
     });
-
-    $('#kmer_png').on('click', function(){
-
-        var svg = d3.select('#kmer_chart');
-
-	    var svgString = getSVGString(svg.node());
-	    svgString2Image(svgString, 2*svg.style('width'), 2*svg.style('width'), 'png', save ); // passes Blob and filesize String to the callback
-
-	    function save( dataBlob, filesize ){
-		    saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
-	    }
-    });
+//
+//    $('#kmer_png').on('click', function(){
+//
+//        var svg = d3.select('#kmer_chart');
+//
+//	    var svgString = getSVGString(svg.node());
+//	    svgString2Image(svgString, 2*svg.style('width'), 2*svg.style('width'), 'png', save ); // passes Blob and filesize String to the callback
+//
+//	    function save( dataBlob, filesize ){
+//		    saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+//	    }
+//    });
 
     $('#user_set_files').on('change', function (e) {
         e.preventDefault();
@@ -299,8 +300,8 @@ var runSEEKR = function(params) {
             if(data.visual_flag) {
                 console.log('visual_flag');
 
-                getKmerMatrix();
-                getPearsonMatrix();
+                //code for adding just he download buttons
+                //$('#no_visual_downloads').show();
             }
 
             else {
@@ -349,56 +350,51 @@ var runSEEKR = function(params) {
     });
 };
 
-
-var getPearsonMatrix = function() {
-
-    var params = last_params;
-
-    console.log('The kmer matrix was not visualized');
-
-//    $.ajax({
-//        type: 'POST',
-//        url: '/files/pearsons',
-//        data: JSON.stringify(params),
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "html"
-//        success: function() {
-//            console.log('pearsons downloaded');
-//        }
-//    });
-};
-
-var getKmerMatrix = function() {
+var getMatrix = function(endpoint) {
 
     var params = last_params;
 
-    console.log('The kmer matrix was not visualized');
+    console.log(params);
 
-//    $('#loading').show();
-//
-//    $.ajax({
-//        type: 'POST',
-//        url: '/files/kmer',
-//        data: JSON.stringify(params),
-//        contentType: "application/json; charset=utf-8"
-////        success: function(data) {
-////            console.log('kmer downloaded');
-////
-//////            var kmer_csv = data.kmer_csv;
-////
-//////            var csvContent = "data:text/csv;charset=utf-8,";
-//////
-//////            csvContent = csvContent + kmer_csv;
-//////
-//////            //console.log(csvContent);
-//////
-//////            var encodedUri = encodeURI(csvContent);
-//////            console.log(encodedUri);
-//////            window.open(encodedUri);
-////
-////            $('#loading').hide();
-////        }
-//    });
+    $('#loading').show();
+
+    var form = document.createElement("form");
+    var element_normal_set = document.createElement("input");
+    var element_kmer_length = document.createElement("input");
+    var element_comparison_set = document.createElement("input");
+    var element_comparison_set_id = document.createElement("input");
+    var element_user_set_id = document.createElement("input");
+
+    form.method = "POST";
+    form.action = endpoint;
+
+    element_normal_set.name = "normal_set";
+    element_kmer_length.name = "kmer_length"
+    element_comparison_set.name = "comparison_set";
+    element_comparison_set_id.name = "comparison_set_id";
+    element_user_set_id.name = "user_set_id";
+
+    element_normal_set.value = params["normal_set"];
+    element_kmer_length.value= params["kmer_length"];
+    element_comparison_set.value = params["comparison_set"];
+    element_comparison_set_id.value = params["comparison_set_id"];
+    element_user_set_id.value = params["user_set_id"];
+
+    form.appendChild(element_normal_set);
+    form.appendChild(element_kmer_length);
+    form.appendChild(element_comparison_set);
+    form.appendChild(element_comparison_set_id);
+    form.appendChild(element_user_set_id);
+
+    document.body.appendChild(form);
+
+    console.log(form);
+
+    form.submit();
+
+    document.body.removeChild(form);
+
+    $('#loading').hide();
 };
 
 

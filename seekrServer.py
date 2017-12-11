@@ -4,39 +4,33 @@ Web Server for SEEKR Web Portal using Flask
 @author: Chris Horning, Shuo Wang, Qidi Chen
 
 """
-import csv
 import email.utils
+import itertools
 import os
 import time
 import zipfile
 from io import BytesIO
-from io import StringIO
 from logging.handlers import RotatingFileHandler
 
-import itertools
-
 import numpy as np
-import pandas as pd
-from flask import Flask, make_response
+from flask import Flask
+from flask import jsonify
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import session
-from flask import jsonify
 from scipy.stats import stats
 
+import cluster_vis
+import session_helper
 import skr_config
 from SeekrServerError import SeekrServerError
+from pearson import pearson
 from precompute_sequence_sets import initialize_cache
 from seekrLauncher import _run_seekr_algorithm
 from seekrLauncher import fixup_counts
 from seekrLauncher import get_kmers_csv
 from seekrLauncher import get_pearsons_csv
-from pearson import pearson
-import cluster_vis
-
-
-import session_helper
 
 """
 seekrServer.py contains the Web Services the application provides using the Flask framework.
@@ -204,12 +198,15 @@ def process_jobs():
 
 # routing function for generating kmers file
 @application.route('/files/kmers', methods=['POST'])
-def process_jobs():
+def process_kmer_job():
     try:
         if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
 
         parameters = build_seekr_parameters(request)
+
+        application.logger.debug(parameters)
+
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
@@ -226,7 +223,7 @@ def process_jobs():
         x = ['A', 'G', 'T', 'C']
         kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
 
-        csv_string = get_kmers_csv(counts, names, kmers=kmer)
+        csv_string = get_kmers_csv(counts=counts, names=names, kmers=kmer)
 
         last_modified = email.utils.formatdate(time.time(), usegmt=True)
         headers = {'Content-Type': 'application/csv',
@@ -243,7 +240,7 @@ def process_jobs():
 
 # routing function for generating pearsons file
 @application.route('/files/pearsons', methods=['POST'])
-def process_jobs():
+def process_pearsons_job():
     try:
         if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
             return redirect('/login')
@@ -279,22 +276,45 @@ def process_jobs():
 
 def build_seekr_parameters(request):
     # TODO provide reasonable defaults
-    json_parameters = request.get_json()
+
     parameters = dict()
-    if ('user_set_id' in json_parameters):
-        parameters['user_set_files'] = json_parameters['user_set_id']
-    if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and json_parameters[
-        'comparison_set_id'] != ''):
-        parameters['comparison_set_files'] = json_parameters['comparison_set_id']
-    if 'comparison_set' in json_parameters:
-        parameters['comparison_set'] = str(json_parameters['comparison_set'])
-    if 'kmer_length' in json_parameters:
-        parameters['kmer_length'] = int(json_parameters['kmer_length'])
-    if 'normal_set' in json_parameters:
-        parameters['normal_set'] = str(json_parameters['normal_set'])
-    parameters['directory_id'] = session_helper.get_directory_id(session)
-    if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
-        raise SeekrServerError('User directory not found for this session')
+
+    if(request.get_json()):
+        json_parameters = request.get_json()
+
+        if ('user_set_id' in json_parameters):
+            parameters['user_set_files'] = json_parameters['user_set_id']
+        if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and
+                    json_parameters[
+                        'comparison_set_id'] != ''):
+            parameters['comparison_set_files'] = json_parameters['comparison_set_id']
+        if 'comparison_set' in json_parameters:
+            parameters['comparison_set'] = str(json_parameters['comparison_set'])
+        if 'kmer_length' in json_parameters:
+            parameters['kmer_length'] = int(json_parameters['kmer_length'])
+        if 'normal_set' in json_parameters:
+            parameters['normal_set'] = str(json_parameters['normal_set'])
+        parameters['directory_id'] = session_helper.get_directory_id(session)
+        if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
+            raise SeekrServerError('User directory not found for this session')
+
+    else:
+
+        if ('user_set_id' in request.form):
+            parameters['user_set_files'] = request.form['user_set_id']
+        if ('comparison_set_id' in request.form and request.form['comparison_set_id'] is not None and
+                    request.form[
+                        'comparison_set_id'] != ''):
+            parameters['comparison_set_files'] = request.form['comparison_set_id']
+        if 'comparison_set' in request.form:
+            parameters['comparison_set'] = str(request.form['comparison_set'])
+        if 'kmer_length' in request.form:
+            parameters['kmer_length'] = int(request.form['kmer_length'])
+        if 'normal_set' in request.form:
+            parameters['normal_set'] = str(request.form['normal_set'])
+        parameters['directory_id'] = session_helper.get_directory_id(session)
+        if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
+            raise SeekrServerError('User directory not found for this session')
 
     return parameters
 
@@ -335,64 +355,6 @@ def create_fasta():
     }
 
     return jsonify(json_dict)
-
-
-@application.route('/files/kmer', methods=['POST'])
-def get_kmer_file():
-
-    if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
-        return redirect('/login')
-
-    # TODO provide reasonable defaults
-    json_parameters = request.get_json()
-
-    parameters = dict()
-
-    if ('user_set_id' in json_parameters):
-        parameters['user_set_files'] = json_parameters['user_set_id']
-
-    if ('comparison_set_id' in json_parameters and json_parameters['comparison_set_id'] is not None and json_parameters['comparison_set_id'] != ''):
-
-        parameters['comparison_set_files'] = json_parameters['comparison_set_id']
-
-    if 'comparison_set' in json_parameters:
-        parameters['comparison_set'] = str(json_parameters['comparison_set'])
-
-    if 'kmer_length' in json_parameters:
-         parameters['kmer_length'] = int(json_parameters['kmer_length'])
-
-    if 'normal_set' in json_parameters:
-        parameters['normal_set'] = str(json_parameters['normal_set'])
-
-    parameters['directory_id'] = session_helper.get_directory_id(session)
-
-    if parameters['directory_id'] is None or len(parameters['directory_id']) <= 0:
-        raise SeekrServerError('User directory not found for this session')
-
-
-    t1 = time.perf_counter()
-    counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
-    t2 = time.perf_counter()
-    application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
-
-    x = ['A', 'G', 'T', 'C']
-    kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
-
-    df = pd.DataFrame(counts, index=names, columns=kmer)
-    csvString = df.to_csv()
-
-    # si = StringIO()
-    # cw = csv.writer(si)
-    # cw.writerows(csvString)
-    # output = make_response(si.getvalue())
-    # output.headers["Content-Disposition"] = "attachment; filename=export.csv"
-    # output.headers["Content-type"] = "text/csv"
-    #return output
-
-    pearsons = pearson(counts, comparison_counts)
-    return return_file(csvString, pearsons)
-    #return jsonify({'kmer_csv': csvString})
-
 
 
 # routing function for returning files for download

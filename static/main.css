@@ -112,8 +112,16 @@ li:hover {
     background-color: rgb(225, 245, 255);
 }
 
+li:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
 .button:hover {
     background-color: rgb(225, 245, 255);
+}
+
+.button:active {
+    background-color: rgba(210, 235, 255, 0.2);
 }
 
 .button:hover > input {
@@ -384,6 +392,10 @@ svg *::-webkit-selection {
     font-weight: normal;
     font-size: 7pt;
     font-style: normal;
+}
+
+.tool:active {
+    background-color: rgba(210, 235, 255, 0.2);
 }
 
 .visual_desc {

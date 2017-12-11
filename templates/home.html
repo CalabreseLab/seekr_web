@@ -193,21 +193,20 @@
                 <input id="submit" type="submit" value="Submit">
 
             </div>
-
-            <div class="single_column_small">
-                <p id="loading">processing...</p>
-            </div>
         </div>
     </div>
 
     <!--------------------------------------------------------->
+    <!--Visualization Tab-->
     <!--------------------------------------------------------->
     <div id="visual" class="row">
 
         <div id="empty_message" class="single_column"><p>Please run SEEKR to populate this tab</p></div>
 
+        <!--div is hidden until algorithm is run-->
         <div id="results_toggle">
 
+            <!--contains the tab buttons for displaying each visual-->
             <div class="row">
                 <div class="single_column container">
 
@@ -221,6 +220,7 @@
 
             <div class="row break"></div>
 
+            <!--Pearson Correlation visual-->
             <div id="pearson" class="row">
 
                 <div class="row">
@@ -229,10 +229,11 @@
                     </div>
                 </div>
 
+                <!--Button tools for saving and re-ordering graph-->
                 <div class="row">
                     <div class="single_column container">
                         <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
-                        <!--<input id="pearson_save" class="tool" type="button" value="Save as .csv">-->
+                        <input id="pearson_save" class="tool" type="button" value="Save as .csv">
                         <input id="pearson_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>
@@ -241,6 +242,7 @@
                 <div id="pearson_chart" style='overflow:auto;'></div>
             </div>
 
+            <!--Kmer Profile visual-->
             <div id="kmer" class="row">
 
                 <div class="row">
@@ -249,11 +251,12 @@
                     </div>
                 </div>
 
+                <!--Button tools for saving and reordering visual-->
                 <div class="row">
                     <div class="single_column container">
                         <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
                         <!--<input id="kmer_png" class="tool" type="button" value="Save as .png">-->
-                        <!--<input id="kmer_save" class="tool" type="button" value="Save as .csv">-->
+                        <input id="kmer_save" class="tool" type="button" value="Save as .csv">
                         <input id="kmer_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>
@@ -262,6 +265,7 @@
 
             </div>
 
+            <!--Toolstips are show using d3 to display hover info-->
             <div id="pearson_tooltip" class="hidden tooltip">
                 <p><span id="p_value"></span></p>
             </div>
@@ -297,6 +301,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="single_column_small">
+    <p id="loading">processing...</p>
 </div>
 
 
