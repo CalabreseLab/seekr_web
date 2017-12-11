@@ -327,6 +327,10 @@ nav_menu {
     background-color: rgb(225, 245, 255);
 }
 
+.dropzone:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
 .dropzone {
     border-style: dashed;
     border-color: #000000;
@@ -395,6 +399,24 @@ svg *::-webkit-selection {
 }
 
 .tool:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
+.tool_download {
+    float: left;
+    background-color: #FFFFFF;
+    border-width: thick;
+    border-style: solid;
+    border-color: #FAFAFA;
+    margin: 0;
+    width: 50%;
+    min-height: 50px;
+    font-weight: normal;
+    font-size: 7pt;
+    font-style: normal;
+}
+
+.tool_download:active {
     background-color: rgba(210, 235, 255, 0.2);
 }
 

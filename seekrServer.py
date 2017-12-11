@@ -155,6 +155,25 @@ def process_jobs():
 
             pearsons = pearson(counts, comparison_counts)
 
+            # shorten length of names returned down to 20 characters
+            new_names = []
+            for s in names:
+                if len(s) > skr_config.SEQUENCE_NAME_DISPLAY_LENGTH:
+                    new_names.append(s[:skr_config.SEQUENCE_NAME_DISPLAY_LENGTH])
+                else:
+                    new_names.append(s)
+
+            names = new_names
+
+            new_names = []
+            for s in comparison_names:
+                if len(s) > skr_config.SEQUENCE_NAME_DISPLAY_LENGTH:
+                    new_names.append(s[:skr_config.SEQUENCE_NAME_DISPLAY_LENGTH])
+                else:
+                    new_names.append(s)
+
+            comparison_names = new_names
+
             x = ['A', 'G', 'T', 'C']
             kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
 
@@ -246,6 +265,9 @@ def process_pearsons_job():
             return redirect('/login')
 
         parameters = build_seekr_parameters(request)
+
+        application.logger.debug('CURRENT METHOD: process_pearsons_job')
+
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()
@@ -259,7 +281,7 @@ def process_pearsons_job():
             fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
 
         pearsons = pearson(counts, comparison_counts)
-        csv_string = get_pearsons_csv(counts, names, pearsons, comparison_names)
+        csv_string = get_pearsons_csv(names, pearsons, comparison_names)
 
         last_modified = email.utils.formatdate(time.time(), usegmt=True)
         headers = {'Content-Type': 'application/csv',
@@ -270,7 +292,7 @@ def process_pearsons_job():
         return (csv_string, headers)
 
     except Exception as e:
-        application.logger.exception('Error in /files/kmers')
+        application.logger.exception('Error in /files/pearsons')
         #TODO change error from json
         return jsonify({'error': "Server_Error: 500"})
 

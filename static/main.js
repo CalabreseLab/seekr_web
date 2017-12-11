@@ -13,7 +13,7 @@ $(document).ready(function() {
     $("#kmer_warning").hide();
     $('#user_warning').hide();
     $('#comparison_warning').hide();
-    //$('#no_visual_downloads').hide();
+    $('#nv_downloads').hide();
 
     $('#submit').on('click', function(e) {
         e.preventDefault;
@@ -26,10 +26,24 @@ $(document).ready(function() {
         e.preventDefault;
         e.stopPropagation;
 
-        //getMatrix('/files/pearsons');
+        getMatrix('/files/pearsons');
     });
 
     $('#kmer_save').on('click', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        getMatrix('/files/kmers');
+    });
+
+    $('#nv_pearson_save').on('click', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        getMatrix('/files/pearsons');
+    });
+
+    $('#nv_kmer_save').on('click', function(e) {
         e.preventDefault;
         e.stopPropagation;
 
@@ -300,11 +314,13 @@ var runSEEKR = function(params) {
             if(data.visual_flag) {
                 console.log('visual_flag');
 
-                //code for adding just he download buttons
-                //$('#no_visual_downloads').show();
+                $('#main-tabs').tabs({ active: 1})
+                $('#empty_message').hide();
+                $('#nv_downloads').show();
             }
 
             else {
+
                 var comparison_names = data.comparison_names;
                 var user_names = data.user_names;
                 var kmer_bins = data.kmer_bins;
@@ -342,6 +358,7 @@ var runSEEKR = function(params) {
 
                 $('#main-tabs').tabs({ active: 1})
                 $('#empty_message').hide();
+                $('#nv_downloads').hide();
                 $('#results_toggle').show();
             }
 
@@ -367,6 +384,7 @@ var getMatrix = function(endpoint) {
 
     form.method = "POST";
     form.action = endpoint;
+    //form.target = "_blank";
 
     element_normal_set.name = "normal_set";
     element_kmer_length.name = "kmer_length"

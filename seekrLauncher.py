@@ -275,25 +275,6 @@ def _run_seekr_algorithm(parameters):
 
         names = get_names_from_counter(counter)
 
-    #shorten length of names returned down to 20 characters
-    new_names = []
-    for s in names:
-        if len(s) > skr_config.SEQUENCE_NAME_DISPLAY_LENGTH:
-            new_names.append(s[:skr_config.SEQUENCE_NAME_DISPLAY_LENGTH])
-        else:
-            new_names.append(s)
-
-    names = new_names
-
-    new_names = []
-    for s in comparison_names:
-        if len(s) > skr_config.SEQUENCE_NAME_DISPLAY_LENGTH:
-            new_names.append(s[:skr_config.SEQUENCE_NAME_DISPLAY_LENGTH])
-        else:
-            new_names.append(s)
-
-    comparison_names = new_names
-
     return counts, names, comparison_counts, comparison_names, counter
 
 def get_precomputed_normalization_path(parameters):
@@ -379,6 +360,6 @@ def get_kmers_csv(counts, names, kmers):
     df = pandas.DataFrame(data=counts, index=names, columns=kmers)
     return df.to_csv()
 
-def get_pearsons_csv(counts, names, pearsons, comparison_names):
-    df = pandas.DataFrame(data=counts, index=names, columns=comparison_names)
+def get_pearsons_csv(names, pearsons, comparison_names):
+    df = pandas.DataFrame(data=pearsons, index=names, columns=comparison_names)
     return df.to_csv()
