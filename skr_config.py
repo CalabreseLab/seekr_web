@@ -2,7 +2,7 @@ LOGIN_ENABLED = False
 CURR_GENCODE_HUMAN_FTP = 'ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_27/gencode.v27.lncRNA_transcripts.fa.gz'
 CURR_GENCODE_MOUSE_FTP = 'ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_mouse/release_M15/gencode.vM15.lncRNA_transcripts.fa.gz'
 
-MAX_KMER_LENGTH_PRECOMPUTE = 7
+MAX_KMER_LENGTH_PRECOMPUTE = 6
 LOGGER_LEVEL = 'DEBUG'  #'DEBUG', 'WARN', 'ERROR'
 
 from collections import namedtuple
