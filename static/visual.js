@@ -6,9 +6,6 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         return p.concat(c);
     });
 
-    console.log(rowLabel.length);
-    console.log(colLabel.length);
-
     var sample_max = Math.max.apply(null, arr);
     var sample_min = Math.min.apply(null, arr);
     var margin =  {top: 75, right: 10, bottom: 100, left: 150};
@@ -52,6 +49,8 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         .attr("x", 0)
         .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
         .style("text-anchor", "end")
+        .style("font-family", "Verdana, Arial, sans-serif")
+        .style("font-size", "7pt")
         .attr("transform", "translate(-6," + cellSize / 2 + ")")
         .attr("class", function (d,i) { return "k_rowLabel mono r"+i;} )
         .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
@@ -67,6 +66,8 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         .attr("x", 0)
         .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
         .style("text-anchor", "left")
+        .style("font-family", "Verdana, Arial, sans-serif")
+        .style("font-size", "7pt")
         .attr("transform", "translate("+cellSize/2 + ",-6) rotate (-90)")
         .attr("class",  function (d,i) { return "k_colLabel mono c"+i;} )
         .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
@@ -95,7 +96,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
                 .style("left", (d3.event.pageX+10) + "px")
                 .style("top", (d3.event.pageY-10) + "px")
                 .select("#k_value")
-                .text("sequence_name: "+rowLabel[d.row-1]+" kmer: "+colLabel[d.col-1]+"\ncount:"+d.origin+"  idx:"+d.col+","+d.row);
+                .text("sequence_name: "+rowLabel[d.row-1]+" kmer: "+colLabel[d.col-1]+"\ncount:"+d.origin);
 
             //Show the tooltip
             d3.select("#kmer_tooltip").classed("hidden", false);
@@ -212,6 +213,7 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
       .attr("class", "container canvas")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
   var rowSortOrder=false;
   var colSortOrder=false;
 
@@ -224,6 +226,8 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
       .attr("x", 0)
       .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
       .style("text-anchor", "end")
+      .style("font-family", "Verdana, Arial, sans-serif")
+      .style("font-size", "7pt")
       .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
       .attr("class", function (d,i) { return "p_rowLabel mono r"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
@@ -239,6 +243,8 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
       .attr("x", 0)
       .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
       .style("text-anchor", "left")
+      .style("font-family", "Verdana, Arial, sans-serif")
+      .style("font-size", "7pt")
       .attr("transform", "translate("+cellSize/2 + ",-6) rotate (-90)")
       .attr("class",  function (d,i) { return "p_colLabel mono c"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
@@ -275,7 +281,7 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
                  .style("left", (d3.event.pageX+10) + "px")
                  .style("top", (d3.event.pageY-10) + "px")
                  .select("#p_value")
-                 .text("sequences:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\npearson value:"+d.value+"\nrow, col:"+d.col+","+d.row);
+                 .text("sequences:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\npearson value:"+d.value);
                //Show the tooltip
                d3.select("#pearson_tooltip").classed("hidden", false);
         })

@@ -7,8 +7,8 @@
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='external/jquery/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
-    <!--<script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>-->
-    <!--<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>-->
+    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='savePNG.js') }}"></script>
@@ -53,11 +53,11 @@
         <div class="row">
 
             <div class="column">
-                <h1>User Set</h1>
+                <h1>Upload User Set</h1>
             </div>
 
             <div class="column">
-                <h1>Comparison Set</h1>
+                <h1>Select or Upload Comparison Set</h1>
             </div>
         </div>
 
@@ -103,12 +103,12 @@
                 <div id="select_file"class="row">
                     <div class="workzone_tabbed">
                         <div class="row">
-                            <h2>Select Comparison Set</h2>
+                            <h2>Choose from Standard Sets</h2>
                         </div>
 
                         <select name="comparison_set_reference" id="comparison_set_reference">
-                            <option value="gencode_human_set">All Human (Gencode)</option>
-                            <option value="gencode_mouse_set">All Mouse (Gencode)</option>
+                            <option value="gencode_human_set">All Human lncRNA (Gencode)</option>
+                            <option value="gencode_mouse_set">All Mouse lncRNA (Gencode)</option>
                             <option value="user_set" selected="selected">User Set</option>
                         </select>
                     </div>
@@ -155,8 +155,8 @@
 
                     <div class="column">
                         <select name="normal_set" id="normal_set">
-                            <option value="gencode_human_set" selected="selected">All Human (Gencode)</option>
-                            <option value="gencode_mouse_set">All Mouse (Gencode)</option>
+                            <option value="gencode_human_set" selected="selected">All Human lncRNA (Gencode)</option>
+                            <option value="gencode_mouse_set">All Mouse lncRNA (Gencode)</option>
                             <option value="user_set">User Set</option>
                         </select>
                     </div>
@@ -177,7 +177,8 @@
                             <option>5</option>
                             <option>6</option>
                             <option>7</option>
-                            <option>8</option>
+                            <option class="no_precompute">8</option>
+                            <option class="no_precompute">9</option>
                         </select>
                     </div>
                 </div>
@@ -203,6 +204,8 @@
 
         <div id="empty_message" class="single_column"><p>Please run SEEKR to populate this tab</p></div>
 
+        <div class="break"></div>
+
         <!--div is hidden until algorithm is run-->
         <div id="results_toggle">
 
@@ -211,8 +214,8 @@
                 <div class="single_column container">
 
                     <ul class="row">
-                        <li class="tab sub_select_left"><a href="#pearson"><h2>Sequence Pearson Correlation Matrix</h2></a></li>
-                        <li class="tab tab2 sub_select_right"><a href="#kmer"><h2>Sequence Kmer Profiles Matrix</h2></a></li>
+                        <li class="tab sub_select_left"><a href="#pearson"><h2>Pearson Correlation Matrix</h2></a></li>
+                        <li class="tab tab2 sub_select_right"><a href="#kmer"><h2>Kmer Profiles Matrix</h2></a></li>
                     </ul>
 
                 </div>
@@ -234,12 +237,13 @@
                     <div class="single_column container">
                         <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
                         <input id="pearson_save" class="tool" type="button" value="Save as .csv">
+                        <input id="pearson_png" class="tool" type ="button" value="Save as .png">
                         <input id="pearson_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>
 
 
-                <div id="pearson_chart" style='overflow:auto;'></div>
+                <div id="pearson_chart" class='canvas_container'></div>
             </div>
 
             <!--Kmer Profile visual-->
@@ -255,13 +259,13 @@
                 <div class="row">
                     <div class="single_column container">
                         <h3 class="visual_desc">Click on the axis labels to re-order the graph</h3>
-                        <!--<input id="kmer_png" class="tool" type="button" value="Save as .png">-->
                         <input id="kmer_save" class="tool" type="button" value="Save as .csv">
+                        <input id="kmer_png" class="tool" type ="button" value="Save as .png">
                         <input id="kmer_reset" class="tool" type="button" value="Reset Ordering">
                     </div>
                 </div>
 
-                <div id="kmer_chart" style="overflow: auto;"></div>
+                <div id="kmer_chart" class="canvas_container"></div>
 
             </div>
 

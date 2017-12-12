@@ -72,7 +72,7 @@ function getSVGString( svgNode ) {
 }
 
 
-function svgString2Image( svgString, width, height, format, callback ) {
+function svgString2Image(svgString, width, height, format, callback ) {
 	var format = format ? format : 'png';
 
 	var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
@@ -85,8 +85,11 @@ function svgString2Image( svgString, width, height, format, callback ) {
 
 	var image = new Image();
 	image.onload = function() {
-		context.clearRect ( 0, 0, width, height );
+		context.clearRect (0, 0, width, height);
 		context.drawImage(image, 0, 0, width, height);
+
+        //displays converted canvas on page to check validity without downloading
+		//document.body.appendChild(canvas)
 
 		canvas.toBlob( function(blob) {
 			var filesize = Math.round( blob.length/1024 ) + ' KB';

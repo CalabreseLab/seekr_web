@@ -14,6 +14,7 @@ $(document).ready(function() {
     $('#user_warning').hide();
     $('#comparison_warning').hide();
     $('#nv_downloads').hide();
+    $('.no_precompute').hide();
 
     $('#submit').on('click', function(e) {
         e.preventDefault;
@@ -49,18 +50,38 @@ $(document).ready(function() {
 
         getMatrix('/files/kmers');
     });
-//
-//    $('#kmer_png').on('click', function(){
-//
-//        var svg = d3.select('#kmer_chart');
-//
-//	    var svgString = getSVGString(svg.node());
-//	    svgString2Image(svgString, 2*svg.style('width'), 2*svg.style('width'), 'png', save ); // passes Blob and filesize String to the callback
-//
-//	    function save( dataBlob, filesize ){
-//		    saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
-//	    }
-//    });
+
+    $('#pearson_png').on('click', function(){
+
+        var svg = d3.select('#pearson_chart').select('svg');
+
+	    var svgString = getSVGString(svg.node());
+
+	    var width = +svg.style('width').replace('px', '');
+	    var height = +svg.style('height').replace('px', '');
+
+	    svgString2Image(svgString, width, height, 'png', save ); // passes Blob and filesize String to the callback
+
+	    function save( dataBlob, filesize ){
+		    saveAs( dataBlob, 'pearsons.png' ); // FileSaver.js function
+	    }
+    });
+
+    $('#kmer_png').on('click', function(){
+
+        var svg = d3.select('#kmer_chart').select('svg');
+
+	    var svgString = getSVGString(svg.node());
+
+	    var width = +svg.style('width').replace('px', '');
+	    var height = +svg.style('height').replace('px', '');
+
+	    svgString2Image(svgString, width, height, 'png', save ); // passes Blob and filesize String to the callback
+
+	    function save( dataBlob, filesize ){
+		    saveAs( dataBlob, 'seekr.png' ); // FileSaver.js function
+	    }
+    });
 
     $('#user_set_files').on('change', function (e) {
         e.preventDefault();
@@ -87,6 +108,22 @@ $(document).ready(function() {
 
             $('#comparison_warning').show();
         }
+
+    });
+
+    $('#normal_set').on('change', function(e) {
+        e.preventDefault;
+        e.stopPropagation;
+
+        var normal_set = $(this).val();
+
+        $('.no_precompute').show();
+        $('.no_precompute').prop('selected', false)
+
+
+        if(normal_set == "gencode_mouse_set" || normal_set == "gencode_human_set"){
+            $('.no_precompute').hide();
+        }
     });
 
     $('#kmer_length').on('change', function(e) {
@@ -100,9 +137,6 @@ $(document).ready(function() {
         if (kmer_length > 6) {
             $('#kmer_warning').show();
         }
-
-
-
     });
 
     $('#comparison_set').on('change', '#comparison_set_files', function (e) {
