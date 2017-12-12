@@ -24,7 +24,7 @@ def cluster_kmers(kmers):
     #one call to linkage
 
     #compute the pairwise distance between sequences.
-    y = pdist(kmers)
+    y = pdist(kmers, metric='correlation')
     Z = linkage(y, method='ward', optimal_ordering=False)
     Z_ordered = optimal_leaf_ordering(Z, y)
 

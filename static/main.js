@@ -362,6 +362,9 @@ var runSEEKR = function(params) {
                 var user_cluster = data.user_cluster;
                 var comparison_cluster = data.comparison_cluster;
 
+                var user_warnings = data.user_warnings
+                var comparison_warnings = data.comparison_warnings
+
                 for(var i = 0; i < user_cluster.length; i++) {
                     user_cluster[i] = user_cluster[i] + 1;
                 }
@@ -386,14 +389,35 @@ var runSEEKR = function(params) {
 
                 $('#kmer_chart').html('');
                 $('#pearson_chart').html('');
+                $('#warning_messages').html('');
 
                 pearsonHeatmap(user_names, comparison_names, user_cluster, comparison_cluster, pearson_matrix);
                 kmerHeatmap(user_names, kmer_bins , user_cluster, kmer_cluster , kmer_matrix_clean, kmer_matrix);
 
+
                 $('#main-tabs').tabs({ active: 1})
+                $('#results_toggle').show();
+
+                if (user_warnings.length > 0) {
+                    if (comparison_warnings.length > 0) {
+                        $('#warning_messages').append('<h2>' + user_warnings + ' for both Sets</h2>');
+                    }
+
+                    else {
+                        $('#warning_messages').append('<h2>' + user_warnings + ' for the User Set</h2>');
+                    }
+                }
+
+                else if (comparison_warnings.length > 0) {
+                    $('#warning_messages').append('<h2>' + comparison_warnings + ' for the Comparison Set</h2>');
+                }
+
+                else {
+                    //$('#warning_messages').append('<h2 class="link">The algorithm ran without any warnings</h2>')
+                }
+
                 $('#empty_message').hide();
                 $('#nv_downloads').hide();
-                $('#results_toggle').show();
             }
 
             $('#loading').hide();

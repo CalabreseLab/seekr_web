@@ -53,11 +53,11 @@
         <div class="row">
 
             <div class="column">
-                <h1>Upload User Set</h1>
+                <h1>Upload User RNA Set</h1>
             </div>
 
             <div class="column">
-                <h1>Select or Upload Comparison Set</h1>
+                <h1>Select or Upload Comparison RNA Set</h1>
             </div>
         </div>
 
@@ -206,6 +206,8 @@
 
         <div class="break"></div>
 
+        <div id="warning_messages" class="single_column container"></div>
+
         <!--div is hidden until algorithm is run-->
         <div id="results_toggle">
 
@@ -214,8 +216,8 @@
                 <div class="single_column container">
 
                     <ul class="row">
-                        <li class="tab sub_select_left"><a href="#pearson"><h2>Pearson Correlation Matrix</h2></a></li>
-                        <li class="tab tab2 sub_select_right"><a href="#kmer"><h2>Kmer Profiles Matrix</h2></a></li>
+                        <li class="tab sub_select_left"><a href="#pearson"><h2>Pearson Correlation Matrix (user set x comparison set)</h2></a></li>
+                        <li class="tab tab2 sub_select_right"><a href="#kmer"><h2>Kmer Profiles Matrix (user set x kmer bin counts)</h2></a></li>
                     </ul>
 
                 </div>
@@ -226,11 +228,11 @@
             <!--Pearson Correlation visual-->
             <div id="pearson" class="row">
 
-                <div class="row">
-                    <div class="single_column">
-                        <h1>Pearson Correlations for User Set x Comparison Set</h1>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="single_column">-->
+                        <!--<h1>Pearson Correlations for User Set x Comparison Set</h1>-->
+                    <!--</div>-->
+                <!--</div>-->
 
                 <!--Button tools for saving and re-ordering graph-->
                 <div class="row">
@@ -249,11 +251,11 @@
             <!--Kmer Profile visual-->
             <div id="kmer" class="row">
 
-                <div class="row">
-                    <div class="single_column">
-                        <h1>Normalized Kmer Counts for User Set</h1>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="single_column">-->
+                        <!--<h1>Normalized Kmer Counts for User Set</h1>-->
+                    <!--</div>-->
+                <!--</div>-->
 
                 <!--Button tools for saving and reordering visual-->
                 <div class="row">
@@ -321,8 +323,17 @@
                 <a class="link" href="/static/sample_fasta_15.fa">Click here to download a sample Fasta file of 15 sequences to run SEEKR with</a><br>
                 <h2 class="link">Step 2: </h2><p>Choose the set of sequences to compare your file to by either selecting on of the saved options or choosing to upload another file</p><br>
                 <h2 class="link">Step 3: </h2><p>Choose your normalization set</p><br>
-                <h2 class="link">Step 4: </h2><p>Choose your Kmer count (warning Kmers larger than 5 may not run when using the saved Gencode sets, due to resource limitations on the server)</p><br>
-                <h2 class="link">Step 5: </h2><p>Press the submit button and select where you would like the result files to be saved</p><br>
+                <h2 class="link">Step 4: </h2><p>Choose your Kmer count (warning Kmers larger than 7 may not run when using the saved Gencode sets, due to resource limitations on the server)</p><br>
+                <h2 class="link">Step 5: </h2><p>Press the submit button and the algorithms output will be visualized in the ‘Results’ tab (files container over 200 RNA sequences and Kmers above 6 will not produce visuals)</p><br>
+                <br>
+                <h2 class="link">Visualizations:</h2><br>
+                <h2 class="link">    Sequence Kmer Profiles:</h2><br>
+                <p>         Displays the Kmer counts for sequences on the User Set (sequences on the y axis, kmers on the x).</p><br>
+                <p>         The sequences are automatically arranged according to a k means clustering on the kmer contents of each sequence.</p><br>
+                <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
+                <h2 class="link">    Sequence Pearson Correlation Matrix:</h2>
+                <p>         The sequences are automatically arranged according to the same k means clustering as the other visual.</p><br>
+                <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
             </div>
         </div>
     </div>

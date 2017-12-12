@@ -203,7 +203,8 @@ def process_jobs():
             return jsonify({'user_names': names, 'comparison_names': comparison_names,
                             'kmer_bins': kmer, 'pearson_matrix': pearsons, 'kmer_matrix': counts,
                             'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-                            'comparison_cluster': comparison_ordering_int_list
+                            'comparison_cluster': comparison_ordering_int_list, 'user_warnings': fixup_counts_warnings,
+                            'comparison_warnings': fixup_comparision_warnings
                             })
 
         else:
