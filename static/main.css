@@ -30,7 +30,7 @@ input, select {
 select {
   -webkit-border-radius: 0px;
 
-  border-color: #FAFAFA;
+  border-color: #F0F0F0;
   border-style: solid;
   border-width: thick;
 }
@@ -388,13 +388,14 @@ svg *::-webkit-selection {
     background-color: #FFFFFF;
     border-width: thick;
     border-style: solid;
-    border-color: #FAFAFA;
+    border-color: #F0F0F0;
     margin: 0;
     width: 15%;
     min-height: 50px;
     font-weight: normal;
     font-size: 7pt;
     font-style: normal;
+
 }
 
 .tool:active {
@@ -406,7 +407,8 @@ svg *::-webkit-selection {
     background-color: #FFFFFF;
     border-width: thick;
     border-style: solid;
-    border-color: #FAFAFA;
+    border-color: #F0F0F0;
+    border-radius: 0;
     margin: 0;
     width: 50%;
     min-height: 50px;
@@ -417,6 +419,7 @@ svg *::-webkit-selection {
 
 .tool_download:active {
     background-color: rgba(210, 235, 255, 0.2);
+
 }
 
 .visual_desc {
@@ -481,6 +484,11 @@ text.text-hover {
     margin: 0;
     font-size: 12px;
     line-height: 20px;
+}
+
+p {
+    line-height: 2;
+    font-size: 7pt;
 }
 
 

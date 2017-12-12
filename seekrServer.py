@@ -89,15 +89,6 @@ def home():
 
         return render_template('home.html')
 
-# forgot password page
-@application.route('/pass')
-def password():
-    return render_template('pass.html')
-
-@application.route('/faq')
-def returnFAQ():
-    return render_template('faq.html')
-
 def return_file(file_contents, pearsons):
     t1 = time.perf_counter()
     #Create an in-memory zip file with GZIP to return
@@ -378,46 +369,6 @@ def create_fasta():
     }
 
     return jsonify(json_dict)
-
-
-# routing function for returning files for download
-@application.route('/files', methods=['GET'])
-def get_file():
-
-    # try:
-    #     if skr_config.LOGIN_ENABLED and session.get('logged_in') != True:
-    #         return redirect('/login')
-    #
-    #     # TODO provide reasonable defaults
-    #     json_parameters = request.get_json()
-    #
-    #     t1 = time.perf_counter()
-    #
-    #     t2 = time.perf_counter()
-    #     application.logger.debug('Running the algorithm took %.3f seconds' % (t2 - t1))
-    #
-    #
-    #
-    #     return jsonify({'user_names': names, 'comparison_names': comparison_names,
-    #                     'kmer_bins': kmer,'pearson_matrix': pearsons, 'kmer_matrix': counts,
-    #                     'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
-    #                     'comparison_cluster': comparison_ordering_int_list,
-    #                     'length_flag' : length_flag
-    #     })
-    #
-    # except Exception as e:
-    #     application.logger.exception('Error in /jobs')
-    #     return jsonify({'error': "erorrrrrr"})
-    return jsonify({'error': "Server Error: 500"})
-
-# home page
-@application.route('/init_gencode',methods=['GET'])
-def init_gencode():
-    t1 = time.perf_counter()
-    initialize_cache()
-    t2 = time.perf_counter()
-    application.logger.debug('Initializing the cache took %.3f seconds' % (t2-t1))
-    return redirect('/home')
 
 
 if __name__ == '__main__':

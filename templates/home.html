@@ -206,7 +206,7 @@
 
         <div class="break"></div>
 
-        <div id="warning_messages" class="single_column container"></div>
+        <div id="warning_messages" class="single_column"></div>
 
         <!--div is hidden until algorithm is run-->
         <div id="results_toggle">
@@ -222,8 +222,6 @@
 
                 </div>
             </div>
-
-            <div class="row break"></div>
 
             <!--Pearson Correlation visual-->
             <div id="pearson" class="row">
@@ -286,12 +284,6 @@
             <div class="break"></div>
 
             <div class="row">
-                <div class="single_column">
-                    <h1>Download Result Matrixes</h1>
-                </div>
-            </div>
-
-            <div class="row">
                 <div class="single_column container">
                     <input id="nv_pearson_save" class="tool_download" type="button" value="Save Pearson Correlation Matrix as .csv">
                     <input id="nv_kmer_save" class="tool_download" type="button" value="Save Kmer Profiles Matrix as .csv">
@@ -308,17 +300,30 @@
     <div id="help" class="main">
 
         <div class="row">
+            <div class="single_column container">
 
-            <div class="single_column">
-                <h1>User Manual</h1>
+                <ul class="row">
+                    <li class="tab sub_select_left"><a href="#about"><h2>About SEEKR</h2></a></li>
+                    <li class="tab tab2 sub_select_right"><a href="#manual"><h2>User Manual</h2></a></li>
+                </ul>
+
             </div>
         </div>
 
-        <div class="row">
+
+
+        <div id="about" class="row">
+            <div class="single_column container">
+                <p>Welcome to the web-interface for the SEEKR (SEquence Evaluation through Kmer Representation) algorithm. SEEKR is a novel algorithm used to identify similarities in the functions of non-protein coding RNAs. Commonly called the “dark-matter” of the genome, these RNAs do not contain linear sequence homology, making alignment tools used for protein coding RNA ineffective. Overcoming the limitations of older generation methodologies, SEEKR enables the detection of recurrent functions in previously mysterious noncoding RNA sequences.</p>
+            </div>
+        </div>
+
+
+        <div id="manual" class="row">
 
             <div class="single_column container">
                 <h2 class="link">Step 1: </h2>
-                <p>Upload the fasta file you are interesting in analyzing using SEEKR</p><br>
+                <p>Upload the fasta file you are interesting in analyzing using SEEKR (for more information on Fasta format for genetic sequences see https://www.ncbi.nlm.nih.gov/WebSub/html/help/fasta.html</p><br>
                 <a class="link" href="/static/sample_fasta_2.fa">Click here to download a sample Fasta file of 2 sequences to run SEEKR with</a><br>
                 <a class="link" href="/static/sample_fasta_15.fa">Click here to download a sample Fasta file of 15 sequences to run SEEKR with</a><br>
                 <h2 class="link">Step 2: </h2><p>Choose the set of sequences to compare your file to by either selecting on of the saved options or choosing to upload another file</p><br>
@@ -326,12 +331,11 @@
                 <h2 class="link">Step 4: </h2><p>Choose your Kmer count (warning Kmers larger than 7 may not run when using the saved Gencode sets, due to resource limitations on the server)</p><br>
                 <h2 class="link">Step 5: </h2><p>Press the submit button and the algorithms output will be visualized in the ‘Results’ tab (files container over 200 RNA sequences and Kmers above 6 will not produce visuals)</p><br>
                 <br>
-                <h2 class="link">Visualizations:</h2><br>
-                <h2 class="link">    Sequence Kmer Profiles:</h2><br>
+                <h2 class="link">Sequence Kmer Profiles:</h2><br>
                 <p>         Displays the Kmer counts for sequences on the User Set (sequences on the y axis, kmers on the x).</p><br>
                 <p>         The sequences are automatically arranged according to a k means clustering on the kmer contents of each sequence.</p><br>
                 <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
-                <h2 class="link">    Sequence Pearson Correlation Matrix:</h2>
+                <h2 class="link">Sequence Pearson Correlation Matrix:</h2>
                 <p>         The sequences are automatically arranged according to the same k means clustering as the other visual.</p><br>
                 <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
             </div>

@@ -6,6 +6,7 @@ $(document).ready(function() {
     $("#main-tabs").tabs();
     $("#comparison_set").tabs();
     $("#visual").tabs();
+    $("#help").tabs();
 
     $('#loading').hide();
     $('#results_toggle').hide();
@@ -341,7 +342,7 @@ var runSEEKR = function(params) {
             var data = JSON.parse(input);
 
             if (data.error) {
-                alert(data.error + '\n Please Exit this Dialogue and Reload the Page');
+                alert(data.error + '\n Please Exit this Dialogue and Reload the Page. If the problem persists, there may be an issue with your .fa files');
                 return;
             }
 
