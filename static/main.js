@@ -103,14 +103,19 @@ $(document).ready(function() {
 
         var comparison_set_input = $(this).val();
 
+        $('.no_precompute').show();
+        $('.no_precompute').prop('selected', false)
+
         $('#comparison_warning').hide();
 
         if (comparison_set_input == "gencode_mouse_set" || comparison_set_input == "gencode_human_set"){
 
             $('#comparison_warning').show();
+            $('.no_precompute').hide();
         }
 
     });
+
 
     $('#normal_set').on('change', function(e) {
         e.preventDefault;
@@ -329,6 +334,8 @@ var runSEEKR = function(params) {
 
     last_params = params;
 
+    console.log(params);
+
      $('#loading').show();
 
     $.ajax({
@@ -342,16 +349,38 @@ var runSEEKR = function(params) {
             var data = JSON.parse(input);
 
             if (data.error) {
-                alert(data.error + '\n Please Exit this Dialogue and Reload the Page. If the problem persists, there may be an issue with your .fa files');
+                alert(data.error + '\n Please Exit this Dialogue and Reload the Page. \nIf the problem persists, there may be an issue with your .fa files');
                 return;
             }
+
+
+            var user_warnings = data.user_warnings
+            var comparison_warnings = data.comparison_warnings
+
+            console.log(user_warnings);
+            console.log(comparison_warnings);
 
             if(data.visual_flag) {
                 console.log('visual_flag');
 
                 $('#main-tabs').tabs({ active: 1})
                 $('#empty_message').hide();
+                $('#results_toggle').hide();
                 $('#nv_downloads').show();
+
+                if (user_warnings && user_warnings.length > 0) {
+                    if (comparison_warnings && comparison_warnings.length > 0) {
+                        $('#warning_messages').append('<h2>' + user_warnings + ' for both Sets</h2>');
+                    }
+
+                    else {
+                        $('#warning_messages').append('<h2>' + user_warnings + ' for the User Set</h2>');
+                    }
+                }
+
+                else if (comparison_warnings && comparison_warnings.length > 0) {
+                    $('#warning_messages').append('<h2>' + comparison_warnings + ' for the Comparison Set</h2>');
+                }
             }
 
             else {
@@ -362,9 +391,6 @@ var runSEEKR = function(params) {
 
                 var user_cluster = data.user_cluster;
                 var comparison_cluster = data.comparison_cluster;
-
-                var user_warnings = data.user_warnings
-                var comparison_warnings = data.comparison_warnings
 
                 for(var i = 0; i < user_cluster.length; i++) {
                     user_cluster[i] = user_cluster[i] + 1;
@@ -413,10 +439,6 @@ var runSEEKR = function(params) {
                     $('#warning_messages').append('<h2>' + comparison_warnings + ' for the Comparison Set</h2>');
                 }
 
-                else {
-                    //$('#warning_messages').append('<h2 class="link">The algorithm ran without any warnings</h2>')
-                }
-
                 $('#empty_message').hide();
                 $('#nv_downloads').hide();
             }
@@ -430,7 +452,6 @@ var getMatrix = function(endpoint) {
 
     var params = last_params;
 
-    console.log(params);
 
     $('#loading').show();
 
@@ -465,9 +486,9 @@ var getMatrix = function(endpoint) {
 
     document.body.appendChild(form);
 
-    console.log(form);
-
     form.submit();
+
+    console.log("csv downloaded");
 
     document.body.removeChild(form);
 

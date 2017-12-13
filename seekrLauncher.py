@@ -101,6 +101,7 @@ def run_seekr_algorithm(parameters):
 
         similarity = pearson(counts, comparison_counts)
     elif comparison_set is not None and len(comparison_set) > 0 and comparison_set != 'user_set':
+
         unnormalized_frequency_path, names_path = get_precomputed_frequency_path(comparison_set, parameters['kmer_length'])
         assert unnormalized_frequency_path is not None and names_path is not None
 
@@ -239,6 +240,7 @@ def _run_seekr_algorithm(parameters):
         if normal_set == skr_config.SETTING_USER_SET:
             (mean, std, counts, names) = compute_normalization_and_frequency(
                 infasta=_load_user_set_file(parameters), kmer_length=parameters['kmer_length'], outfile=outfile)
+
             counter = kmer_counts.BasicCounter(infasta=_load_comparison_set_file(parameters), outfile=None,
                                                k=parameters['kmer_length'],
                                                label=True, silent=True, binary=False, mean=mean, std=std)
@@ -333,8 +335,21 @@ def _load_user_set_file(parameters):
     return StringIO(file)
 
 def _load_comparison_set_file(parameters):
-    file = get_file_for_directory_id(parameters['directory_id'], parameters['comparison_set_files'], extension='fasta')
-    return StringIO(file)
+
+    if('comparison_set_files' in parameters):
+        file = get_file_for_directory_id(parameters['directory_id'], parameters['comparison_set_files'], extension='fasta')
+        return StringIO(file)
+
+    if(parameters['comparison_set'] == 'gencode_human_set'):
+        file_path = os.path.join('cache', 'gencode.v27.lncRNA_transcripts.fa')
+
+    elif (parameters['comparison_set'] == 'gencode_mouse_set'):
+        file_path = os.path.join('cache', 'gencode.vM15.lncRNA_transcripts.fa')
+
+    with open(file_path) as file:
+        contents = file.read()
+
+    return StringIO(contents)
 
 
 def fixup_counts(counts, counter):

@@ -117,6 +117,9 @@ def process_jobs():
             return redirect('/login')
 
         parameters = build_seekr_parameters(request)
+
+        application.logger.debug(parameters)
+
         t1 = time.perf_counter()
         counts, names, comparison_counts, comparison_names, counter = _run_seekr_algorithm(parameters=parameters)
         t2 = time.perf_counter()

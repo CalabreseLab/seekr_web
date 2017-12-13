@@ -318,7 +318,8 @@ nav_menu {
     margin-bottom: 5%;
     margin-right: 5%;
     margin-left: 5%;
-    min-height: 190px;
+    min-height: 185px;
+    max-height: 185px;
 }
 
 .dropzone:hover {

@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <p id="user_warning" class="warning">Warning: This set contains too many sequences to visualize.</p>
+                <p id="user_warning" class="warning">Warning: This set contains too many sequences to visualize. <br>Files must contain < 200 sequences for visualization.</p>
             </div>
 
 
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <p id="comparison_warning" class="warning">Warning: This set contains too many sequences to visualize.</p>
+                <p id="comparison_warning" class="warning">Warning: This set contains too many sequences to visualize. <br>Files must contain < 200 sequences for visualization.</p>
             </div>
         </div>
 
@@ -176,13 +176,13 @@
                             <option>4</option>
                             <option>5</option>
                             <option>6</option>
-                            <option class="no_procompute">7</option>
+                            <option class="no_precompute">7</option>
                             <option class="no_precompute">8</option>
                             <option class="no_precompute">9</option>
                         </select>
                     </div>
                 </div>
-                <p id="kmer_warning" class="warning">Warning: This kmer length is too large to visualize.</p>
+                <p id="kmer_warning" class="warning">Warning: This kmer length is too large to visualize. <br> K < 7 for visualization.</p>
             </div>
         </div>
 
@@ -333,10 +333,10 @@
                 <br>
                 <h2 class="link">Sequence Kmer Profiles:</h2><br>
                 <p>         Displays the Kmer counts for sequences on the User Set (sequences on the y axis, kmers on the x).</p><br>
-                <p>         The sequences are automatically arranged according to a k means clustering on the kmer contents of each sequence.</p><br>
+                <p>         The sequences are automatically arranged according to a hierarchical clustering on the kmer contents of each sequence.</p><br>
                 <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
                 <h2 class="link">Sequence Pearson Correlation Matrix:</h2>
-                <p>         The sequences are automatically arranged according to the same k means clustering as the other visual.</p><br>
+                <p>         The sequences are automatically arranged according to the same hierarchical clustering as the other visual.</p><br>
                 <p>         Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
             </div>
         </div>

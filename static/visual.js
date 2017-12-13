@@ -6,8 +6,10 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         return p.concat(c);
     });
 
-    var sample_max = Math.max.apply(null, arr);
-    var sample_min = Math.min.apply(null, arr);
+    arr.sort();
+
+    var sample_max = arr[arr.length-1];
+    var sample_min = arr[0];
     var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     var cellSize=(colLabel.length > 16)? 15 : 35;
     var col_number=colLabel.length;
@@ -189,8 +191,10 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
         return p.concat(c);
     });
 
-    var max = Math.max.apply(null, domain);
-    var min = Math.min.apply(null, domain);
+    domain.sort();
+
+    var max = domain[domain.length-1];
+    var min = domain[0];
     var colorScale = d3.scale.quantile()
             .domain([min, max])
             .range(colors);
