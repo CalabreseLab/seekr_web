@@ -1,0 +1,496 @@
+body {
+    font-family: Verdana, Arial, sans-serif;
+    font-style: normal;
+    font-variant: normal;
+    font-size: 12px;
+    box-sizing: border-box;
+    background-color: rgba(210, 235, 255, 0.2);
+    background-size: cover;
+}
+
+input {
+    min-height: 30px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 15px;
+    line-height: 15px;
+    border: none;
+    outline: none;
+}
+
+input, select {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+select {
+  -webkit-border-radius: 0px;
+
+  border-color: #F0F0F0;
+  border-style: solid;
+  border-width: thick;
+}
+
+input:hover, select:hover {
+    background-color: rgb(225, 245, 255);
+}
+
+
+h1 {
+    font-family: Georgia, ‘Times New Roman’, serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #4b9bd2;
+    width: 80%;
+    margin-top: 0;
+    margin-bottom: 2%;
+}
+
+.nav_right h1 {
+    text-align: center;
+    margin: 5%;
+    margin-top: 25%;
+}
+
+h2 {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+    line-height: 15px;
+    color: #000000;
+}
+
+h2.link {
+    margin-left: 10px;
+}
+
+h3 {
+    font-size: 7pt;
+    font-weight: normal;
+    font-style: normal;
+    color: #000000;
+    top-margin: 10px;
+    bottom-margin: 10px;
+    margin-left: 3%
+}
+
+p {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 12px;
+    line-height: 12px;
+    color: #000000;
+    margin-left: 20px;
+}
+
+
+ul {
+    margin: 0%;
+    display: block;
+    width: 100%;
+    padding: 0%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px -5px 5px -5px rgba(0,0,0,0.25);
+
+}
+
+li {
+    width: 15%;
+    float: left;
+    outline: none;
+    list-style-type: none;
+}
+
+li:hover {
+    background-color: rgb(225, 245, 255);
+}
+
+li:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
+.button:hover {
+    background-color: rgb(225, 245, 255);
+}
+
+.button:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
+.button:hover > input {
+    background-color: rgb(225, 245, 255);
+    border-color: rgb(225, 245, 255);
+}
+
+
+a {
+    outline: none;
+    text-decoration: none
+}
+
+a.link {
+    text-color: #4b9bd2;
+    margin-left: 20px;
+}
+
+img {
+    height: 100px;
+}
+
+.dropzone img {
+    margin-bottom: -40px;
+}
+
+.select_left {
+    width: 50%;
+    float: left;
+    text-align: center;
+    background-color: #FAFAFA;
+}
+
+.select_right {
+    width: 50%;
+    float: right;
+    box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+    background-color: #FAFAFA;
+    text-align: center;
+}
+
+.sub_select_left {
+    width: 50%;
+    float: left;
+    text-align: center;
+    background-color: #FAFAFA;
+}
+
+.sub_select_right {
+    width: 50%;
+    float: right;
+    box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+    background-color: #FAFAFA;
+    text-align: center;
+}
+
+
+.main, .menu {
+    margin-top: 1%;
+    display: block;
+    width: 100%;
+    padding: 0%;
+    padding-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.row {
+    width: 100%;
+    padding: 0%;
+    overflow: hidden;
+}
+
+.nav_left {
+    float: left;
+    width: 33%;
+    text-align: center;
+    background-color: #FAFAFA;
+}
+
+.nav_center {
+    float: left;
+    width: 34%;
+    text-align: center;
+    box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+    background-color: #FAFAFA;
+}
+
+.nav_right {
+    float: right;
+    width: 33%;
+    text-align: center;
+    box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.25);
+    background-color: #FAFAFA;
+}
+
+.nav_img {
+    max-width: 100%;
+    max-height: 50px;
+    margin-top: 0%;
+    top: 0%;
+    left: 0%;
+    margin-left: 5%;
+}
+
+nav_menu {
+    float: left;
+    width: 33%;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+
+.single_column {
+    width: 86%;
+    margin-right: 5%;
+    margin-left: 5%;
+    float: left;
+    position: relative;
+
+}
+
+.single_column_small {
+    width: 57%;
+    margin-right: 20%;
+    margin-left: 20%;
+    float: left;
+    position: relative;
+
+}
+
+.break {
+    margin-top: 2%;
+}
+
+
+.column {
+    width: 38%;
+    margin-right: 5%;
+    margin-left: 5%;
+    float: left;
+}
+
+.column_wide_left {
+    width: 41%;
+    margin-right: 1%;
+    margin-left: 5%;
+    float: left;
+}
+
+.column_wide_right {
+
+    width: 41%;
+    margin-right: 5%;
+    margin-left: 1%;
+    float: left;
+}
+
+.container {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    background-color: #FFFFFF;
+    margin-bottom: 1px;
+}
+
+.info {
+    width: 20px;
+    float: right;
+    background-color: #FAFAFA;
+    font-weight: bold;
+    border-style: none;
+    font-size: 13px;
+    margin: 5px;
+    margin-left: 90%;
+}
+
+.workzone_tabbed {
+    border-style: solid;
+    border-width: thin;
+    border-color: #FFFFFF;
+    background-color: #FFFFFF;
+    width: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: 5%;
+    margin-left: 5%;
+    min-height: 148px;
+    max-height: 148px;
+    overflow: auto;
+}
+
+.workzone {
+    border-style: solid;
+    border-width: thin;
+    width: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: 5%;
+    margin-left: 5%;
+    min-height: 185px;
+    max-height: 185px;
+}
+
+.dropzone:hover {
+    background-color: rgb(225, 245, 255);
+}
+
+.dropzone:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
+.dropzone {
+    border-style: dashed;
+    border-color: #000000;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    background-color: #FAFAFA;
+}
+
+.dropzone [type=file] {
+    cursor: inherit;
+    display: block;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#comparison_set_files {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    margin: 0%;
+    padding: 0;
+    top: 0;
+    left: 0;
+}
+
+.ui-tabs-active {
+    background-color: #FFFFFF;
+}
+
+svg *::selection {
+    background : transparent;
+}
+
+svg *::-moz-selection {
+    background:transparent;
+}
+
+svg *::-webkit-selection {
+    background:transparent;
+}
+
+.canvas_container {
+    margin-left: 5%;
+    margin-top 1%;
+    min-width: 86%;
+    overflow:auto;
+}
+
+.tool {
+    float: right;
+    background-color: #FFFFFF;
+    border-width: thick;
+    border-style: solid;
+    border-color: #F0F0F0;
+    margin: 0;
+    width: 15%;
+    min-height: 50px;
+    font-weight: normal;
+    font-size: 7pt;
+    font-style: normal;
+
+}
+
+.tool:active {
+    background-color: rgba(210, 235, 255, 0.2);
+}
+
+.tool_download {
+    float: left;
+    background-color: #FFFFFF;
+    border-width: thick;
+    border-style: solid;
+    border-color: #F0F0F0;
+    border-radius: 0;
+    margin: 0;
+    width: 50%;
+    min-height: 50px;
+    font-weight: normal;
+    font-size: 7pt;
+    font-style: normal;
+}
+
+.tool_download:active {
+    background-color: rgba(210, 235, 255, 0.2);
+
+}
+
+.visual_desc {
+    float: left;
+    height: 30px;
+}
+
+rect.selection {
+    stroke          : #333;
+    stroke-dasharray: 4px;
+    stroke-opacity  : 0.5;
+    fill            : transparent;
+}
+
+rect.cell-border {
+    stroke: #eee;
+    stroke-width:0.3px;
+}
+
+rect.cell-selected {
+    stroke: rgb(51,102,153);
+    stroke-width:0.5px;
+}
+
+rect.cell-hover {
+    stroke: #F00;
+    stroke-width:0.3px;
+}
+
+text.mono {
+    fill: #000000;
+}
+
+text.text-highlight {
+    fill: #4b9bd2;
+}
+
+text.text-hover {
+    fill: #c00;
+}
+
+.tooltip {
+    position: absolute;
+    min-width: 300px;
+    height: auto;
+    padding: 10px;
+    background-color: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.tooltip.hidden {
+    display: none;
+}
+
+.tooltip p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+p {
+    line-height: 2;
+    font-size: 7pt;
+}
+
+
+
