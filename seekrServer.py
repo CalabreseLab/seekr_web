@@ -190,6 +190,10 @@ def process_jobs():
                 count = count + 1
             clean_counts = np.reshape(scale_npm, np.shape(norm_npm))
 
+            pearsons = pearsons.round(3);
+            counts = counts.round(3);
+            clean_counts = clean_counts.round(3);
+
             pearsons = str(pearsons.tolist())
             counts = str(counts.tolist())
             clean_counts = str(clean_counts.tolist())
@@ -206,9 +210,13 @@ def process_jobs():
 
 
 
+    except SeekrServerError as e:
+        application.logger.exception(e)
+        return jsonify({'error': str(e)})
+
     except Exception as e:
-        application.logger.exception('Error in /jobs')
-        return jsonify({'error': "Server_Error: 500"})
+        application.logger.exception(e)
+        return jsonify({'error': '500'})
 
 # routing function for generating kmers file
 @application.route('/files/kmers', methods=['POST'])

@@ -349,7 +349,15 @@ var runSEEKR = function(params) {
             var data = JSON.parse(input);
 
             if (data.error) {
-                alert(data.error + '\n Please Exit this Dialogue and Reload the Page. \nIf the problem persists, there may be an issue with your .fa files');
+                console.log(data.error);
+
+                $('#main-tabs').tabs({ active: 1})
+                $('#empty_message').hide();
+                $('#results_toggle').hide();
+                $('#loading').hide();
+
+                $('#warning_messages').html('<h2>ERROR: an unexpected problem was encountered [' + data.error + ']</h2>')
+
                 return;
             }
 
@@ -370,16 +378,16 @@ var runSEEKR = function(params) {
 
                 if (user_warnings && user_warnings.length > 0) {
                     if (comparison_warnings && comparison_warnings.length > 0) {
-                        $('#warning_messages').append('<h2>' + user_warnings + ' for both Sets</h2>');
+                        $('#warning_messages').html('<h2>WARNING: ' + user_warnings + ' for both Sets</h2>');
                     }
 
                     else {
-                        $('#warning_messages').append('<h2>' + user_warnings + ' for the User Set</h2>');
+                        $('#warning_messages').html('<h2>WARNING: ' + user_warnings + ' for the User Set</h2>');
                     }
                 }
 
                 else if (comparison_warnings && comparison_warnings.length > 0) {
-                    $('#warning_messages').append('<h2>' + comparison_warnings + ' for the Comparison Set</h2>');
+                    $('#warning_messages').html('<h2>WARNING: ' + comparison_warnings + ' for the Comparison Set</h2>');
                 }
             }
 

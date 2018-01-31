@@ -3,13 +3,20 @@
 function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
 
     var arr = clean.reduce(function (p, c) {
+
         return p.concat(c);
     });
+
+    for (var i = 0; i < arr.size; i++) {
+
+        arr[i] = parseFloat(arr[i]);
+    }
 
     arr.sort();
 
     var sample_max = arr[arr.length-1];
     var sample_min = arr[0];
+
     var margin =  {top: 75, right: 10, bottom: 100, left: 150};
     var cellSize=(colLabel.length > 16)? 15 : 35;
     var col_number=colLabel.length;
@@ -188,16 +195,23 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
     var colors =['#003300','#154415','#2b552b','#406640','#557755','#6a886a','#809980','#95aa95','#aabbaa','#bfccbf'];
 
     var domain = matrix.reduce(function (p, c) {
+
         return p.concat(c);
     });
 
-    domain.sort();
+    var s = [];
+
+    for (var i = 0; i < domain.length; i++) {
+        domain [i] = parseFloat(domain[i])
+    }
+    domain.sort()
 
     var max = domain[domain.length-1];
     var min = domain[0];
     var colorScale = d3.scale.quantile()
             .domain([min, max])
             .range(colors);
+
 
     var data=[];
 
