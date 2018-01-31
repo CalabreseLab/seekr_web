@@ -1,4 +1,4 @@
-SEEKR Web Portal
+# SEEKR Web Portal
 
 Administrator Manual
 General Information:
@@ -13,12 +13,12 @@ numpy==1.13.1
 
 Which are specified in the requirements.txt document
 
-The application’s environment variables are set and initialized by app.py, including --entry-point, which points the server to the main program to execute. 
+The application’s environment variables are set and initialized by app.py, including --entry-point, which points the server to the main program to execute.
 
 Other configuration options are specified in skr_config.py, including constants
 
 File Size Requirements:
-Files run with and produced by the algorithm can be quite large. The following file size details should give an idea of minimum system requirements that should be met to run SEEKR effectively. 
+Files run with and produced by the algorithm can be quite large. The following file size details should give an idea of minimum system requirements that should be met to run SEEKR effectively.
 Gencode human
 27908 sequences
 519,703 lines
@@ -71,12 +71,12 @@ Executing either app.py or seekrServer.py will boot the application locally.
 
 
 Deployment:
-This application is built to run on UNC Cloud Apps’ OpenShift system. 
+This application is built to run on UNC Cloud Apps’ OpenShift system.
 
-The first step to deployment is installing Openshift command line tool, instructions for which can be found here: https://help.unc.edu/help/carolina-cloudapps-installing-the-command-line-cli-tools/ 
+The first step to deployment is installing Openshift command line tool, instructions for which can be found here: https://help.unc.edu/help/carolina-cloudapps-installing-the-command-line-cli-tools/
 
-Once the command line tool is installed, use it to establish an ssh pipeline between the server and the project’s git repository by following the instructions here: https://help.unc.edu/help/carolina-cloudapps-ssh-keys/ 
+Once the command line tool is installed, use it to establish an ssh pipeline between the server and the project’s git repository by following the instructions here: https://help.unc.edu/help/carolina-cloudapps-ssh-keys/
 
-Once the ssh keys are created and saved, the OpenShift console allows you to build at will and will automatically deploy successful builds to the server. 
+Once the ssh keys are created and saved, the OpenShift console allows you to build at will and will automatically deploy successful builds to the server.
 
-Important: precompute_sequence_sets.py must be executed on the server before the application can be run correctly. This can be done from your local machine using the command line tool, ‘os python3 precompute_sequence_sets.py’ or from the web console’s built in terminal. 
+Important: precompute_sequence_sets.py must be executed on the server before the application can be run correctly. This can be done from your local machine using the command line tool, ‘os python3 precompute_sequence_sets.py’ or from the web console’s built in terminal.
