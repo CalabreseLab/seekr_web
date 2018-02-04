@@ -36,7 +36,7 @@
                 </div>
 
                 <ul class="row">
-                    <li class="tab nav_left"><a href="#main"><h2>Run Seekr</h2></a></li>
+                    <li class="tab nav_left"><a href="#main"><h2>Run SEEKR</h2></a></li>
                     <li class="tab tab2 nav_center"><a href="#visual"><h2>Results</h2></a></li>
                     <li class="tab tab3 nav_right"><a href="#help"><h2>Help</h2></a></li>
                 </ul>
@@ -53,11 +53,11 @@
         <div class="row">
 
             <div class="column">
-                <h1>Upload User RNA Set</h1>
+                <h1>Upload user RNA set</h1>
             </div>
 
             <div class="column">
-                <h1>Select or Upload Comparison RNA Set</h1>
+                <h1>Select or upload comparison RNA set</h1>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
 
                             <input type="file" name="file" id="user_set_files">
 
-                            <h2>Drag and Drop .fa File Here or Click to Upload</h2>
+                            <h2>Drag and drop .fa file here or click to upload</h2>
 
                             <!--<img src="../static/dragndrop.svg">-->
                             <img src="{{ url_for('static', filename='dragndrop.svg') }}">
@@ -91,9 +91,9 @@
 
                 <div class="row">
                     <ul>
-                        <li class="tab select_left"><a href="#select_file"><h2>Select Set</h2></a></li>
+                        <li class="tab select_left"><a href="#select_file"><h2>Select set</h2></a></li>
 
-                        <li class="tab tab2 select_right"><a href="#upload_file"><h2>Upload Set</h2></a></li>
+                        <li class="tab tab2 select_right"><a href="#upload_file"><h2>Upload set</h2></a></li>
 
                     </ul>
                 </div>
@@ -103,7 +103,7 @@
                 <div id="select_file"class="row">
                     <div class="workzone_tabbed">
                         <div class="row">
-                            <h2>Choose from Standard Sets</h2>
+                            <h2>Choose from standard sets</h2>
                         </div>
 
                         <select name="comparison_set_reference" id="comparison_set_reference">
@@ -120,7 +120,7 @@
 
                             <input type="file" name="file" id="comparison_set_files">
 
-                            <h2>Drag and Drop .fa File Here or Click to Upload</h2>
+                            <h2>Drag and drop .fa file here or click to upload</h2>
 
                             <!--<img src="../static/dragndrop.svg">-->
                             <img src="{{ url_for('static', filename='dragndrop.svg') }}">
@@ -139,7 +139,7 @@
         <div class="row break">
 
             <div class="single_column_small">
-                <h1>SEEKR Settings</h1>
+                <h1>SEEKR settings</h1>
             </div>
         </div>
 
@@ -150,7 +150,7 @@
                 <div class="row">
 
                     <div class="column">
-                        <h2>Select Normalization Set</h2>
+                        <h2>Select normalization set</h2>
                     </div>
 
                     <div class="column">
@@ -165,7 +165,7 @@
                 <div class="row">
 
                     <div class="column">
-                        <h2>Select Kmer Length</h2>
+                        <h2>Select kmer length</h2>
                     </div>
 
                     <div class="column">
@@ -202,7 +202,7 @@
     <!--------------------------------------------------------->
     <div id="visual" class="row">
 
-        <div id="empty_message" class="single_column"><p>Please run SEEKR to populate this tab</p></div>
+        <div id="empty_message" class="single_column"><p>Please run SEEKR to populate this tab.</p></div>
 
         <div class="break"></div>
 
@@ -314,7 +314,20 @@
 
         <div id="about" class="row">
             <div class="single_column container">
-                <p>Welcome to the web-interface for the SEEKR (SEquence Evaluation through Kmer Representation) algorithm. SEEKR is a novel algorithm used to identify similarities in the functions of non-protein coding RNAs. Commonly called the “dark-matter” of the genome, these RNAs do not contain linear sequence homology, making alignment tools used for protein coding RNA ineffective. Overcoming the limitations of older generation methodologies, SEEKR enables the detection of recurrent functions in previously mysterious noncoding RNA sequences.</p>
+                <p>
+                    Welcome to the webapp interface for the SEEKR (SEquence Evaluation through Kmer Representation) algorithm.
+                    SEEKR is a novel algorithm used to quantify similarities and differences in genomic sequences, particularly those of long non-coding RNAs (lncRNAs).
+                    <br><br>
+                    A longer description is coming soon!
+                      <!--
+                    The functions of most long non-coding RNAs (lncRNAs) are unknown.
+                    In contrast to proteins, lncRNAs with similar function often lack linear sequence homology; thus, identification of function in one lncRNA rarely informs identification of function in others.
+                    Reasoning that most lncRNAs act by recruiting protein intermediaries via short binding motifs, we hypothesized that similarity in motif content could identify lncRNAs of related function that lack linear similarity.
+                    We developed a method, SEquence Evaluation through Kmer Representation (SEEKR), which deconstructs linear sequence relationships in lncRNAs to evaluate similarity based on abundance of short motifs called kmers.
+                    -->
+                    <br><br>
+                    If you use SEEKR, please site <a>link</a>.
+                </p>
             </div>
         </div>
 
@@ -322,33 +335,42 @@
         <div id="manual" class="row">
 
             <div class="single_column container">
+                <p><br></p>
                 <h1>Input</h1>
-                    <p>The SEEKR web portal requires four options be set in order to run:</p>
+                    <p>SEEKR requires several inputs and options be set before running.</p>
+                    <br>
                     <h2 class="link">1) User fasta file </h2>
-                        <p>This file should contain the transcripts the user is interested in studying via SEEKR. The file must be in fasta format. See <a class="link" href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp">https://blast.ncbi.nlm.nih.gov</a> for a definition of the fasta format. Additionally, we provide two sample fasta files for testing.</p>
+                        <p>This file should contain the transcripts the user is interested in studying via SEEKR. The file must be in fasta format. See <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp">https://blast.ncbi.nlm.nih.gov</a> for a definition of the fasta format. Additionally, we provide two sample fasta files for testing:
                         <br>
-                        <a class="link" href="/static/sample_fasta_2.fa">Click here to download a sample Fasta file of 2 sequences to run SEEKR with</a><br>
-                        <a class="link" href="/static/sample_fasta_15.fa">Click here to download a sample Fasta file of 15 sequences to run SEEKR with</a><br>
+                        <br>
+                        <a href="/static/sample_fasta_2.fa">example2.fa</a><br>
+                        <a href="/static/sample_fasta_15.fa">example15.fa</a><br>
+
+                        </p>
                     <h2 class="link">2) Comparison fasta file (default = User Set)</h2>
                         <p>A second fasta file must be declared to compare against the transcripts of the user fasta file. There are three types of options for this file:</p>
-                        <ul>
+                        <ol>
                             <li>User Set – This will compare the User fasta file to itself.</li>
                             <li>Preloaded GENCODE fasta files – We provide the latest human and mouse lncRNA annotations from GENCODE.</li>
                             <li>Upload Set – The user can choose to upload a second fasta file for comparison. An example use case for uploading a second fasta file would be using a zebrafish lncRNA annotation if the transcripts in the `User fasta file` are all from the zebrafish genome.</li>
-                        </ul>
+                        </ol>
                     <h2 class="link">3) Normalization Set (default = All Human lncRNAs (GENCODE)) </h2>
                         <p>After counting kmers for each sequence, SEEKR normalizes each kmer by subtracting by the mean and dividing by the standard deviation of each kmer. In many cases, it is reasonable to substitute these mean and standard deviation arrays with other, related values.</p>
-                        <ul>
+                        <ol>
                             <li>All Human lncRNAs (GENCODE) – A common use case is when comparing a relatively small (< 100) lncRNAs of interest to each other. Because the set is small, extreme values are more likely to arise. It is often of interest to measure how a small set of lncRNAs compares to themselves, but when normalized to a full annotation of lncRNAs.</li>
                             <li>All Mouse lncRNAs (GENCODE) – This option is the same as above, but using mouse lncRNAs.</li>
-                            <li>User set – If studying a larger set of lncRNAs, such as a zebrafish annotation, select the user set for normalization.</li>
-                        </ul>
+                            <li>User Set – If studying a larger set of lncRNAs, such as a zebrafish annotation, select the user set for normalization.</li>
+                        </ol>
                     <h2 class="link">4) Kmer length (default = 1)</h2>
                         <p>The size of the kmer to count in the fasta files. We recommend k=6 for most applications, though smaller kmers will process exponentially faster.</p>
+                <p><br></p>
+            </div>
+            <div class="single_column container">
+                <p><br></p>
                 <h1>Output</h1>
-                    <p>Press the submit button and the algorithms output will be visualized in the ‘Results’ tab (files container over 200 RNA sequences and Kmers above 6 will not produce visuals)</p>
+                    <p>Press the <b>Submit</b> button and the algorithms output will be visualized in the ‘Results’ tab (files container over 200 RNA sequences and Kmers above 6 will not produce visuals)</p>
                     <br>
-                    <h2 class="link">1) Sequence Kmer Profiles:</h2><br>
+                    <h2 class="link">1) Sequence Kmer Profiles:</h2>
                         <p>Displays the kmer count profiles for sequences in the User Set. Each sequence is a row on the y axis, and each kmer is a column on the x axis. The sequences are automatically arranged according to a hierarchical clustering on the kmer contents of each sequence. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p>
                     <h2 class="link">2) Sequence Pearson Correlation Matrix</h2>
                         <p>Both the x axis and the y axis represent sequences from the User fasta file. Each element in the matrix indicates the Pearson Correlation R value between the two sequences in the given row and column. The sequences are automatically arranged according to the same hierarchical clustering as the Sequence Kmer Profiles visual. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
