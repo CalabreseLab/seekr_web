@@ -337,29 +337,29 @@
             <div class="single_column container">
                 <p><br></p>
                 <h1>Input</h1>
-                    <p>SEEKR requires several inputs and options be set before running.</p>
+                    <p>The SEEKR web portal requires four options be set in order to run:</p>
                     <br>
                     <h2 class="link">1) User fasta file </h2>
-                        <p>This file should contain the transcripts the user is interested in studying via SEEKR. The file must be in fasta format. See <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp">https://blast.ncbi.nlm.nih.gov</a> for a definition of the fasta format. Additionally, we provide two sample fasta files for testing:
+                        <p>This file should contain the transcripts the user is interested in studying via SEEKR. The file must be in fasta format. Two sample fasta files are provided.
                         <br>
                         <br>
-                        <a href="/static/sample_fasta_2.fa">example2.fa</a><br>
-                        <a href="/static/sample_fasta_15.fa">example15.fa</a><br>
+                        <a href="/static/sample_fasta_2.fa">sample2.fa</a><br>
+                        <a href="/static/sample_fasta_15.fa">sample15.fa</a><br>
 
                         </p>
                     <h2 class="link">2) Comparison fasta file (default = User Set)</h2>
                         <p>A second fasta file must be declared to compare against the transcripts of the user fasta file. There are three types of options for this file:</p>
                         <ol>
                             <li>User Set – This will compare the User fasta file to itself.</li>
-                            <li>Preloaded GENCODE fasta files – We provide the latest human and mouse lncRNA annotations from GENCODE.</li>
-                            <li>Upload Set – The user can choose to upload a second fasta file for comparison. An example use case for uploading a second fasta file would be using a zebrafish lncRNA annotation if the transcripts in the `User fasta file` are all from the zebrafish genome.</li>
+                            <li>Preloaded GENCODE fasta files – The latest human and mouse lncRNA annotations from GENCODE.</li>
+                            <li>Upload Set – The user can choose to upload a second fasta file for comparison. These lncRNAs will occupy the y-axis in the Pearson’s comparison matrix. A use case for uploading a second fasta file would be if the user is interested in comparing a group of lncRNAs to a set of lncRNAs of known function, such as Xist, Kcnq1ot1, and Airn. Another example would be if the user is interested in comparing lncRNAs in the User set to lncRNAs from another genome.</li>
                         </ol>
                     <h2 class="link">3) Normalization Set (default = All Human lncRNAs (GENCODE)) </h2>
-                        <p>After counting kmers for each sequence, SEEKR normalizes each kmer by subtracting by the mean and dividing by the standard deviation of each kmer. In many cases, it is reasonable to substitute these mean and standard deviation arrays with other, related values.</p>
+                        <p>After calculating the abundance of each kmer in each lncRNA and normalizing for lncRNA length, SEEKR then calculates a z-score for each kmer in each lncRNA by subtracting by the mean, length-normalized abundance of each kmer in the normalization set and dividing by the standard deviation. For small User sets, it can be useful to use a large normalization set, such as all GENCODE mouse or human lncRNAs, to determine how similar the lncRNAs in the User set are to each other relative to the kmer frequency of lncRNAs from a complete genome annotation. In other cases, it may be useful to determine how similar the lncRNAs in the User set are to each other relative to their own distribution of kmer frequencies.</p>
                         <ol>
-                            <li>All Human lncRNAs (GENCODE) – A common use case is when comparing a relatively small (< 100) lncRNAs of interest to each other. Because the set is small, extreme values are more likely to arise. It is often of interest to measure how a small set of lncRNAs compares to themselves, but when normalized to a full annotation of lncRNAs.</li>
-                            <li>All Mouse lncRNAs (GENCODE) – This option is the same as above, but using mouse lncRNAs.</li>
-                            <li>User Set – If studying a larger set of lncRNAs, such as a zebrafish annotation, select the user set for normalization.</li>
+                            <li>All Human lncRNAs (GENCODE) – The most recent human GENCODE annotations.</li>
+                            <li>All Mouse lncRNAs (GENCODE) – The most recent mouse GENCODE annotations.</li>
+                            <li>User Set – The transcripts provided in the User fasta file.</li>
                         </ol>
                     <h2 class="link">4) Kmer length (default = 1)</h2>
                         <p>The size of the kmer to count in the fasta files. We recommend k=6 for most applications, though smaller kmers will process exponentially faster.</p>
@@ -371,16 +371,16 @@
                     <p>Press the <b>Submit</b> button and the algorithms output will be visualized in the ‘Results’ tab (files container over 200 RNA sequences and Kmers above 6 will not produce visuals)</p>
                     <br>
                     <h2 class="link">1) Sequence Kmer Profiles:</h2>
-                        <p>Displays the kmer count profiles for sequences in the User Set. Each sequence is a row on the y axis, and each kmer is a column on the x axis. The sequences are automatically arranged according to a hierarchical clustering on the kmer contents of each sequence. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p>
+                        <p>The kmer count profiles for lncRNAs in the User Set. Each lncRNA is a row on the y axis, and each kmer is a column on the x axis. The lncRNAs are arranged according to a hierarchical clustering on the kmer contents of each sequence. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked. For User sets with >200 lncRNAs, the .csv is available for download (no visualization).</p>
                     <h2 class="link">2) Sequence Pearson Correlation Matrix</h2>
-                        <p>Both the x axis and the y axis represent sequences from the User fasta file. Each element in the matrix indicates the Pearson Correlation R value between the two sequences in the given row and column. The sequences are automatically arranged according to the same hierarchical clustering as the Sequence Kmer Profiles visual. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
+                        <p>The x axis represents sequences from the User fasta file, and the y-axis represents sequences from the comparison set. Each element in the matrix indicates the Pearson Correlation R value between the two sequences in the given row and column. The sequences are automatically arranged according to the same hierarchical clustering as the Sequence Kmer Profiles visual. Clicking on either the row or column labels will re-order the graph based on the values in the row or column clicked.</p><br>
             </div>
         </div>
     </div>
 </div>
 
 <div class="single_column_small">
-    <p id="loading">processing...</p>
+    <p id="loading"><b>Processing, please wait...</b></p>
 </div>
 
 
