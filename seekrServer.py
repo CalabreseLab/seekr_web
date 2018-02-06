@@ -135,17 +135,27 @@ def process_jobs():
                 fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
 
             #reorder according to hierarchical cluster example
-            Z = cluster_vis.cluster_kmers(counts)
-            ordering = cluster_vis.get_ordering(Z)
-            ordered_counts = counts[ordering,:]
-            ordering_int_list = ordering.astype(int).tolist()
-            ordered_names = [names[i] for i in ordering_int_list]
+            if len(counts) > 1:
+                Z = cluster_vis.cluster_kmers(counts)
+                ordering = cluster_vis.get_ordering(Z)
+                ordered_counts = counts[ordering,:]
+                ordering_int_list = ordering.astype(int).tolist()
+                ordered_names = [names[i] for i in ordering_int_list]
+            else:
+                ordered_counts = counts
+                ordering_int_list = [0]
+                ordered_names = names
 
-            comparison_Z = cluster_vis.cluster_kmers(comparison_counts)
-            comparison_ordering = cluster_vis.get_ordering(comparison_Z)
-            comparison_ordered_counts = comparison_counts[comparison_ordering, :]
-            comparison_ordering_int_list = comparison_ordering.astype(int).tolist()
-            comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
+            if len(comparison_counts) > 1:
+                comparison_Z = cluster_vis.cluster_kmers(comparison_counts)
+                comparison_ordering = cluster_vis.get_ordering(comparison_Z)
+                comparison_ordered_counts = comparison_counts[comparison_ordering, :]
+                comparison_ordering_int_list = comparison_ordering.astype(int).tolist()
+                comparison_ordered_names = [comparison_names[i] for i in comparison_ordering_int_list]
+            else:
+                comparison_ordered_counts = comparison_counts
+                comparison_ordering_int_list = [0]
+                comparison_ordered_names = comparison_names
 
             pearsons = pearson(counts, comparison_counts)
 
@@ -384,4 +394,3 @@ def create_fasta():
 
 if __name__ == '__main__':
     application.run()
-

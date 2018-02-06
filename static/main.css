@@ -70,7 +70,7 @@ h2.link {
 }
 
 h3 {
-    font-size: 7pt;
+    font-size: 12pt;
     font-weight: normal;
     font-style: normal;
     color: #000000;
@@ -309,8 +309,8 @@ nav_menu {
     margin-bottom: 5%;
     margin-right: 5%;
     margin-left: 5%;
-    min-height: 148px;
-    max-height: 148px;
+    min-height: 185px;
+    max-height: 185px;
     overflow: auto;
 }
 
@@ -398,7 +398,6 @@ svg *::-webkit-selection {
     width: 15%;
     min-height: 50px;
     font-weight: normal;
-    font-size: 7pt;
     font-style: normal;
 
 }
@@ -418,7 +417,6 @@ svg *::-webkit-selection {
     width: 50%;
     min-height: 50px;
     font-weight: normal;
-    font-size: 7pt;
     font-style: normal;
 }
 

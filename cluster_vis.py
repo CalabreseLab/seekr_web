@@ -34,4 +34,3 @@ def get_ordering(Z):
 
     leaves = leaves_list(Z)
     return leaves
-

@@ -21,11 +21,11 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
     var cellSize=(colLabel.length > 16)? 15 : 35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
-    var width = cellSize*col_number; // - margin.left - margin.right,
-    var height = cellSize*row_number; // - margin.top - margin.bottom,
     var legendElementSize = 35;
     var colorBuckets = 21;
     var colors = ['#cce0ff','#99c2ff','#66a3ff','#3385ff', '#0066ff','#0052cc','#003d99','#002966','#001433','#000000','#333300','#666600','#999900','#cccc00','#ffff00','#ffff33','#ffff66','#ffff99','#ffffcc']
+    var width = Math.max(colors.length*legendElementSize, cellSize*col_number); // - margin.left - margin.right,
+    var height = cellSize*row_number; // - margin.top - margin.bottom,
     var data=[];
     for(var i=1; i<=col_number; i++){
         for(var j=1; j<=row_number;j++){
@@ -188,11 +188,11 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
     var cellSize=(colLabel.length > 35)? 15 : 35;
     var col_number=colLabel.length;
     var row_number=rowLabel.length;
-    var width = cellSize*col_number; // - margin.left - margin.right,
-    var height = cellSize*row_number; // - margin.top - margin.bottom,
     var legendElementSize = 35;
     var colorBuckets = 21;
     var colors =['#003300','#154415','#2b552b','#406640','#557755','#6a886a','#809980','#95aa95','#aabbaa','#bfccbf'];
+    var width = Math.max(colors.length*legendElementSize, cellSize*col_number); // - margin.left - margin.right,
+    var height = cellSize*row_number; // - margin.top - margin.bottom,
 
     var domain = matrix.reduce(function (p, c) {
 
