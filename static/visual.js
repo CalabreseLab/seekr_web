@@ -12,7 +12,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
         arr[i] = parseFloat(arr[i]);
     }
 
-    arr.sort();
+    arr.sort(function (a, b) {  return a - b;  });
 
     var sample_max = arr[arr.length-1];
     var sample_min = arr[0];
@@ -199,15 +199,18 @@ function pearsonHeatmap(rowLabel,colLabel,hcrow,hccol, matrix){
         return p.concat(c);
     });
 
-    var s = [];
-
+    //Calculate the color scale ignoring 1s
+    var max = 0;
+    var min = 0;
     for (var i = 0; i < domain.length; i++) {
-        domain [i] = parseFloat(domain[i])
+        var float = parseFloat(domain[i]);
+        domain[i] = float;
+        min = Math.min(min, float)
+        if (float != 1.0){
+            max = Math.max(max, float);
+        }
     }
-    domain.sort()
-
-    var max = domain[domain.length-1];
-    var min = domain[0];
+    console.log(min, max);
     var colorScale = d3.scale.quantile()
             .domain([min, max])
             .range(colors);
