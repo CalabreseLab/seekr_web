@@ -372,6 +372,7 @@ def fixup_counts(counts, counter):
     return warnings
 
 def get_kmers_csv(counts, names, kmers):
+    kmers = [''.join(k) for k in kmers]
     df = pandas.DataFrame(data=counts, index=names, columns=kmers)
     return df.to_csv()
 
