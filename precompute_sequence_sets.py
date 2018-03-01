@@ -22,7 +22,7 @@ CACHE_FILE_TYPES = {'mean':'mean', 'std':'std', 'unnormalized_frequency':'unnorm
 NUMPY_EXTENSION = '.npy'
 NAMES_EXTENSION = '.bin'
 
-verbose = False
+VERBOSE = False
 
 def initialize_cache():
 
@@ -55,6 +55,8 @@ def build_cache_files():
     fasta_sets = get_precomputed_fasta_sets()
 
     for fasta_set in fasta_sets:
+        if VERBOSE:
+            print('Getting ', fasta_set)
         fasta_file = getGenCode.get_unzipped_file_name(fasta_set)
         dir_name = pathlib.PurePath(fasta_file).stem
         path_to_dir = os.path.join(CACHE_DIR, dir_name)
@@ -63,7 +65,7 @@ def build_cache_files():
 
         names_written = False
         tsave = 0
-        if verbose:
+        if VERBOSE:
             print(dir_name + ' computing normalization took\t', end='')
         for kmer_length in range(1, skr_config.MAX_KMER_LENGTH_PRECOMPUTE + 1):
             fasta_path = os.path.join(CACHE_DIR, fasta_file)
@@ -71,7 +73,7 @@ def build_cache_files():
                 t1 = time.perf_counter()
                 (mean, std, unnormalized_frequency, names) = compute_normalization_and_frequency(infasta, kmer_length, return_normalized=False)
                 t2 = time.perf_counter()
-                if verbose:
+                if VERBOSE:
                     print('k=' + str(kmer_length) + ',%.3fs;\t' % (t2 - t1), end='')
 
                 t1 = time.perf_counter()
@@ -86,7 +88,7 @@ def build_cache_files():
 
                 t2 = time.perf_counter()
                 tsave += (t2 - t1)
-        if verbose:
+        if VERBOSE:
             print('\nAggregate save time for ' + dir_name + ' was %.3fs' % tsave)
 
 if __name__ == '__main__':
@@ -94,9 +96,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         for arg in sys.argv[1:]:
             if arg == '-v':
-                verbose = True
+                VERBOSE = True
     t1 = time.perf_counter()
     initialize_cache()
     t2 = time.perf_counter()
     print('Initializing the cache took %.3f seconds' % (t2 - t1))
-
