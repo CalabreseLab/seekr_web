@@ -37,6 +37,9 @@ seekrServer.py contains the Web Services the application provides using the Flas
 
 """
 
+#sequences
+timed_build()
+
 # create app instance
 application = Flask(__name__)
 application.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
@@ -393,5 +396,4 @@ def create_fasta():
 
 
 if __name__ == '__main__':
-    timed_build()
     application.run()

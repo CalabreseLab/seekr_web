@@ -92,6 +92,7 @@ def build_cache_files():
             print('\nAggregate save time for ' + dir_name + ' was %.3fs' % tsave)
 
 def timed_build():
+    print('Starting to build precomputes')
     t1 = time.perf_counter()
     initialize_cache()
     t2 = time.perf_counter()
