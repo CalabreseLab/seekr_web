@@ -91,13 +91,16 @@ def build_cache_files():
         if VERBOSE:
             print('\nAggregate save time for ' + dir_name + ' was %.3fs' % tsave)
 
+def timed_build():
+    t1 = time.perf_counter()
+    initialize_cache()
+    t2 = time.perf_counter()
+    print('Initializing the cache took %.3f seconds' % (t2 - t1))
+
 if __name__ == '__main__':
     import sys
     if len(sys.argv) > 1:
         for arg in sys.argv[1:]:
             if arg == '-v':
                 VERBOSE = True
-    t1 = time.perf_counter()
-    initialize_cache()
-    t2 = time.perf_counter()
-    print('Initializing the cache took %.3f seconds' % (t2 - t1))
+    timed_build()

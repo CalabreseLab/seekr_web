@@ -26,7 +26,7 @@ import session_helper
 import skr_config
 from SeekrServerError import SeekrServerError
 from pearson import pearson
-from precompute_sequence_sets import initialize_cache
+from precompute_sequence_sets import timed_build
 from seekrLauncher import _run_seekr_algorithm
 from seekrLauncher import fixup_counts
 from seekrLauncher import get_kmers_csv
@@ -393,4 +393,5 @@ def create_fasta():
 
 
 if __name__ == '__main__':
+    timed_build()
     application.run()
