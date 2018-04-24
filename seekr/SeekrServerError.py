@@ -1,2 +1,0 @@
-class SeekrServerError(RuntimeError):
-    pass
