@@ -10,6 +10,7 @@ import os
 import time
 import zipfile
 import logging
+from logging.handlers import RotatingFileHandler
 from io import BytesIO
 
 import numpy as np
@@ -46,7 +47,7 @@ except KeyError:
     raise KeyError('Missing FLASK_SECRET from environment. Please set it to run SEEKR.')
 
 if not application.debug:
-    file_handler = logging.handlers.RotatingFileHandler('seekr_server.log')
+    file_handler = RotatingFileHandler('seekr_server.log')
     formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
                                   datefmt='%Y-%m-%d %H:%M:%S')
     file_handler.setFormatter(formatter)
