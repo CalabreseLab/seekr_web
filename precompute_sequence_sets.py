@@ -22,7 +22,7 @@ CACHE_FILE_TYPES = {'mean':'mean', 'std':'std', 'unnormalized_frequency':'unnorm
 NUMPY_EXTENSION = '.npy'
 NAMES_EXTENSION = '.bin'
 
-VERBOSE = False
+VERBOSE = True
 
 def initialize_cache():
 
@@ -102,6 +102,6 @@ if __name__ == '__main__':
     import sys
     if len(sys.argv) > 1:
         for arg in sys.argv[1:]:
-            if arg == '-v':
-                VERBOSE = True
+            if arg == '-s':
+                VERBOSE = False
     timed_build()

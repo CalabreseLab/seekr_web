@@ -9,8 +9,8 @@ import itertools
 import os
 import time
 import zipfile
+import logging
 from io import BytesIO
-from logging.handlers import RotatingFileHandler
 
 import numpy as np
 from flask import Flask
@@ -46,13 +46,19 @@ except KeyError:
     raise KeyError('Missing FLASK_SECRET from environment. Please set it to run SEEKR.')
 
 if not application.debug:
-    file_handler = RotatingFileHandler('seekr_server.log')
+    file_handler = logging.handlers.RotatingFileHandler('seekr_server.log')
+    formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                                  datefmt='%Y-%m-%d %H:%M:%S')
+    file_handler.setFormatter(formatter)
     file_handler.setLevel(skr_config.LOGGER_LEVEL)
     application.logger.addHandler(file_handler)
 application.logger.setLevel(skr_config.LOGGER_LEVEL)
 
-#sequences
-timed_build()
+#precompute sequences
+if not os.listdir('cache'):
+    timed_build()
+else:
+    application.logger.debug('The cache is not being built because the cache directory is not empty.')
 
 # route handling
 @application.route('/')
