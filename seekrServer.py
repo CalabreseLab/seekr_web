@@ -43,7 +43,11 @@ timed_build()
 # create app instance
 application = Flask(__name__)
 application.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
-application.config['SECRET_KEY'] = os.urandom(12)
+try:
+    application.config['SECRET_KEY'] = os.environ['FLASK_SECRET']
+except KeyError:
+    raise KeyError('Missing FLASK_SECRET from environment. Please set it to run SEEKR.')
+    
 if not application.debug:
     file_handler = RotatingFileHandler('seekr_server.log')
     file_handler.setLevel(skr_config.LOGGER_LEVEL)
