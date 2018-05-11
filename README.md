@@ -3,16 +3,17 @@
 Administrator Manual
 General Information:
 Python 3.5:
-Git Repo: sc.unc.edu/chrisrh/skr
 
-This application is dependant upon several libraries for Python 3.5:
+This application is dependent upon several libraries for Python 3.5:
 
+```
 * pip==9.0.1
 * Flask==0.12.2
 * tqdm==4.17.1
 * numpy==1.13.1
+```
 
-Which are specified in the requirements.txt document
+Which are specified in the requirements.txt document.
 
 The application’s environment variables are set and initialized by app.py, including `--entry-point`, which points the server to the main program to execute.
 
@@ -77,7 +78,7 @@ Executing either `app.py` or `seekrServer.py` will boot the application locally.
 
 ## Deployment
 
-This application is built to run on UNC Cloud Apps’ OpenShift system.
+This application is built to run on a VM instance of the Google Cloud Platform.
 
 The first step to deployment is installing Openshift command line tool, instructions for which can be found here: https://help.unc.edu/help/carolina-cloudapps-installing-the-command-line-cli-tools/
 
