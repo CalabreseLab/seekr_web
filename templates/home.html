@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <p id="comparison_warning" class="warning">Warning: This set contains too many sequences to visualize. <br>Files must contain < 200 sequences for visualization.</p>
+                <p id="comparison_warning" class="warning">Note: This set contains too many sequences to visualize. <br>Files must contain < 200 sequences for visualization.</p>
             </div>
         </div>
 
@@ -319,22 +319,51 @@
                     Welcome to the webapp interface for the SEEKR (SEquence Evaluation through Kmer Representation) algorithm.
                     SEEKR is a novel algorithm used to quantify similarities and differences in genomic sequences, particularly those of long non-coding RNAs (lncRNAs).
                     <br><br>
-                    A longer description is coming soon!
-                      <!--
-                    The functions of most long non-coding RNAs (lncRNAs) are unknown.
-                    In contrast to proteins, lncRNAs with similar function often lack linear sequence homology; thus, identification of function in one lncRNA rarely informs identification of function in others.
-                    Reasoning that most lncRNAs act by recruiting protein intermediaries via short binding motifs, we hypothesized that similarity in motif content could identify lncRNAs of related function that lack linear similarity.
-                    We developed a method, SEquence Evaluation through Kmer Representation (SEEKR), which deconstructs linear sequence relationships in lncRNAs to evaluate similarity based on abundance of short motifs called kmers.
-                    -->
+                      SEEKR can be used to:
+                      <ol>
+                        <li>
+                          Count kmers in a set of transcripts
+                        </li>
+                        <li>
+                          Make all pairwise similarity comparisons between transcripts in a fasta file of interest
+                        </li>
+                        <li>
+                          Find new transcripts similar to current transcripts of interest
+                        </li>
+                        <li>
+                          Compare potentially functionally-homologous transcripts between species
+                        </li>
+                        <li>
+                          Build communities of similar transcripts
+                        </li>
+                        <li>
+                          Perform many other transcript similarity calculations
+                        </li>
+                      </ol>
+                </p>
+                <p>
+                    If you use SEEKR, please cite the
+                    <a href="https://www.nature.com/articles/s41588-018-0207-8">
+                      SEEKR paper
+                    </a>:
                     <br><br>
-                    If you use SEEKR, please cite <a>link</a>.
+                    <div style="width:50%;background-color:#e4e4e4;margin-left:40px">
+                      <code style="margin:4px">
+                        <p>
+                          Kirk, J. M., Kim, S. O., Inoue, K., Smola, M. J., Lee, D. M., Schertzer, M. D., … Calabrese, J. M. (2018). Functional classification of long non-coding RNAs by k -mer content. Nature Genetics, 50(10), 1474–1482. https://doi.org/10.1038/s41588-018-0207-8
+                        </p>
+                      </code>
+                    </div>
                     <br><br>
-                    To run larger fasta files or kmer sizes, download SEEKR from our <a>GitHub repository</a>.
+                </p>
+                <p>
+                    To run larger fasta files or kmer sizes, download SEEKR from our
+                    <a href="https://github.com/CalabreseLab/seekr">
+                      GitHub repository
+                    </a>.
                 </p>
             </div>
         </div>
-
-
         <div id="manual" class="row">
 
             <div class="single_column container">
