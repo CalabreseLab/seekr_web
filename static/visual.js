@@ -3,17 +3,14 @@
 function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
 
     var arr = clean.reduce(function (p, c) {
-
         return p.concat(c);
     });
 
     for (var i = 0; i < arr.size; i++) {
-
         arr[i] = parseFloat(arr[i]);
     }
 
     arr.sort(function (a, b) {  return a - b;  });
-
     var sample_max = arr[arr.length-1];
     var sample_min = arr[0];
 
@@ -23,7 +20,25 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
     var row_number=rowLabel.length;
     var legendElementSize = 35;
     var colorBuckets = 21;
-    var colors = ['#cce0ff','#99c2ff','#66a3ff','#3385ff', '#0066ff','#0052cc','#003d99','#002966','#001433','#000000','#333300','#666600','#999900','#cccc00','#ffff00','#ffff33','#ffff66','#ffff99','#ffffcc']
+    var colors = ['#4961d2',
+                  '#5977e3',
+                  '#6a8bef',
+                  '#7b9ff9',
+                  '#8db0fe',
+                  '#9ebeff',
+                  '#afcafc',
+                  '#c0d4f5',
+                  '#cfdaea',
+                  '#dddcdc',
+                  '#e9d5cb',
+                  '#f2cbb7',
+                  '#f6bda2',
+                  '#f7ac8e',
+                  '#f4987a',
+                  '#ee8468',
+                  '#e36c55',
+                  '#d65244',
+                  '#c53334']
     var width = Math.max(colors.length*legendElementSize, cellSize*col_number); // - margin.left - margin.right,
     var height = cellSize*row_number; // - margin.top - margin.bottom,
     var data=[];
@@ -105,7 +120,7 @@ function kmerHeatmap(rowLabel,colLabel,hcrow,hccol,clean,original){
                 .style("left", (d3.event.pageX+10) + "px")
                 .style("top", (d3.event.pageY-10) + "px")
                 .select("#k_value")
-                .text("sequence_name: "+rowLabel[d.row-1]+" kmer: "+colLabel[d.col-1]+"\ncount:"+d.origin);
+                .text("sequence_name: "+rowLabel[d.row-1]+" kmer: "+colLabel[d.col-1]+"\nz-score:"+d.origin);
 
             //Show the tooltip
             d3.select("#kmer_tooltip").classed("hidden", false);

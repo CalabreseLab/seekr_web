@@ -5,13 +5,13 @@ Web Server for SEEKR Web Portal using Flask
 
 """
 import email.utils
-import itertools
 import os
 import time
 import zipfile
 import logging
 from logging.handlers import RotatingFileHandler
 from io import BytesIO
+from itertools import product
 
 import numpy as np
 from flask import Flask
@@ -192,25 +192,18 @@ def process_jobs():
 
             comparison_names = new_names
 
-            x = ['A', 'G', 'T', 'C']
-            kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
-
-            count = 0
-            for i in kmer:
-                kmer[count] = ''.join(i)
-                count = count + 1
+            kmers = [''.join(i) for i in product('AGTC', repeat=parameters['kmer_length'])]
 
             norm_npm = counts
-            flat_npm = norm_npm.flatten()
             scale_npm = norm_npm.flatten()
             mean = np.mean(scale_npm)
-            z_npm = stats.zscore(flat_npm)
+            z_npm = stats.zscore(scale_npm)
             count = 0
             for i in z_npm:
                 if i >= 2:
-                    scale_npm[count] = mean
+                    scale_npm[count] = 2
                 elif i < -1:
-                    scale_npm[count] = mean
+                    scale_npm[count] = -1
                 count = count + 1
             clean_counts = np.reshape(scale_npm, np.shape(norm_npm))
 
@@ -223,7 +216,7 @@ def process_jobs():
             clean_counts = str(clean_counts.tolist())
 
             return jsonify({'user_names': names, 'comparison_names': comparison_names,
-                            'kmer_bins': kmer, 'pearson_matrix': pearsons, 'kmer_matrix': counts,
+                            'kmer_bins': kmers, 'pearson_matrix': pearsons, 'kmer_matrix': counts,
                             'kmer_matrix_clean': clean_counts, 'user_cluster': ordering_int_list,
                             'comparison_cluster': comparison_ordering_int_list, 'user_warnings': fixup_counts_warnings,
                             'comparison_warnings': fixup_comparision_warnings
@@ -266,10 +259,9 @@ def process_kmer_job():
             fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
 
 
-        x = ['A', 'G', 'T', 'C']
-        kmer = [p for p in itertools.product(x, repeat=parameters['kmer_length'])]
+        kmers = [''.join(i) for i in product('AGTC', repeat=parameters['kmer_length'])]
 
-        csv_string = get_kmers_csv(counts=counts, names=names, kmers=kmer)
+        csv_string = get_kmers_csv(counts=counts, names=names, kmers=kmers)
 
         last_modified = email.utils.formatdate(time.time(), usegmt=True)
         headers = {'Content-Type': 'application/csv',
@@ -308,6 +300,7 @@ def process_pearsons_job():
             fixup_comparision_warnings = fixup_counts(comparison_counts, counter)
 
         pearsons = pearson(counts, comparison_counts)
+        application.logger.debug("Finished Pearson's. Converting to .csv.")
         csv_string = get_pearsons_csv(names, pearsons, comparison_names)
 
         last_modified = email.utils.formatdate(time.time(), usegmt=True)
